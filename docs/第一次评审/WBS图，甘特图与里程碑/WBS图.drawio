@@ -1,0 +1,103 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.2.8 Chrome/140.0.7339.240 Electron/38.4.0 Safari/537.36" version="28.2.8">
+  <diagram name="第 1 页" id="N_pUQsKtj1H6Y41CvXou">
+    <mxGraphModel dx="2560" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-1" value="1.0 校务问答机器人系统开发项目" style="ellipse" vertex="1" parent="1">
+          <mxGeometry x="577.5543628308105" y="180" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-2" value=" 1.1 项目启动与需求阶段" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="-337.8481371691896" y="310" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-3" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;" edge="1" source="a6HMDF6iqAUXjGLBecWC-1" target="a6HMDF6iqAUXjGLBecWC-2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-4" value=" 1.2 系统设计阶段" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="667.3718628308104" y="310" width="147.16" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-5" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;" edge="1" source="a6HMDF6iqAUXjGLBecWC-1" target="a6HMDF6iqAUXjGLBecWC-4" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-6" value=" 1.3 原型开发阶段" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1568.3568628308103" y="310" width="144.6" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-7" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;" edge="1" source="a6HMDF6iqAUXjGLBecWC-1" target="a6HMDF6iqAUXjGLBecWC-6" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-8" value=" 1.1.1 项目启动与团队分工" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="-775.2581371691897" y="420" width="158" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-9" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;" edge="1" source="a6HMDF6iqAUXjGLBecWC-2" target="a6HMDF6iqAUXjGLBecWC-8" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-10" value="1.1.2 需求调研与需求规格说明书编写" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="-577.2581371691897" y="420" width="213.34" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-11" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;" edge="1" source="a6HMDF6iqAUXjGLBecWC-2" target="a6HMDF6iqAUXjGLBecWC-10" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-12" value="1.1.3 选题确认与任课教师评审" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="-323.91813716918966" y="420" width="195.63" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-13" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;" edge="1" source="a6HMDF6iqAUXjGLBecWC-2" target="a6HMDF6iqAUXjGLBecWC-12" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-14" value="1.1.4 项目启动与需求确认完成（里程碑）" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="-88.28813716918967" y="420" width="227.85" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-15" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;" edge="1" source="a6HMDF6iqAUXjGLBecWC-2" target="a6HMDF6iqAUXjGLBecWC-14" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-18" value=" 1.2.1 用户端界面原型设计" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="299.56186283081047" y="420" width="179.89" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-19" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;" edge="1" source="a6HMDF6iqAUXjGLBecWC-4" target="a6HMDF6iqAUXjGLBecWC-18" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-20" value="1.2.2 交互逻辑与技术方案设计" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="519.4518628308106" y="420" width="189.58" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-21" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;" edge="1" source="a6HMDF6iqAUXjGLBecWC-4" target="a6HMDF6iqAUXjGLBecWC-20" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-22" value="1.2.3 原型评审与修改" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="749.0318628308105" y="420" width="182.07" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-23" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;" edge="1" source="a6HMDF6iqAUXjGLBecWC-4" target="a6HMDF6iqAUXjGLBecWC-22" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-24" value="1.2.4 概念原型设计完成（里程碑）" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="971.1018628308104" y="420" width="211.24" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-25" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;" edge="1" source="a6HMDF6iqAUXjGLBecWC-4" target="a6HMDF6iqAUXjGLBecWC-24" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-26" value="1.3.1 前端界面原型开发" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1222.3418628308104" y="420" width="166.29" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-27" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;" edge="1" source="a6HMDF6iqAUXjGLBecWC-6" target="a6HMDF6iqAUXjGLBecWC-26" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-28" value="1.3.2 核心交互功能原型实现" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1428.6318628308104" y="420" width="174.1" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-29" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;" edge="1" source="a6HMDF6iqAUXjGLBecWC-6" target="a6HMDF6iqAUXjGLBecWC-28" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-30" value=" 1.3.3 原型调试与演示验证" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1642.7318628308103" y="420" width="183.93" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-31" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;" edge="1" source="a6HMDF6iqAUXjGLBecWC-6" target="a6HMDF6iqAUXjGLBecWC-30" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-32" value=" 1.3.4 原型开发完成（里程碑）" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1866.6618628308102" y="420" width="192.31" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a6HMDF6iqAUXjGLBecWC-33" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;" edge="1" source="a6HMDF6iqAUXjGLBecWC-6" target="a6HMDF6iqAUXjGLBecWC-32" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
