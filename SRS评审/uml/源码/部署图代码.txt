@@ -1,0 +1,92 @@
+@startuml
+title 校务问答机器人系统 - 部署图
+
+' 1. 外部用户角色
+actor 学生
+actor 教师
+actor 管理员
+
+' 2. 客户端节点
+node "客户端" {
+    artifact "浏览器 (Chrome/Edge)"
+}
+
+' 3. 中间网络与服务器节点
+cloud "互联网" as internet
+
+node "Web服务器 (Windows + Nginx)" {
+    artifact "静态资源 (HTML/CSS/JS)"
+    artifact "反向代理"
+}
+
+node "应用服务器 (Windows)" {
+    artifact "用户管理服务"
+    artifact "通知推送服务"
+    artifact "论坛管理服务"
+    artifact "数据统计服务"
+    artifact "反馈管理服务"
+    artifact "知识库管理服务"
+    artifact "问答引擎服务"
+}
+
+' 4. 数据库节点（修正：内部存储直接关联到主数据库）
+database "MySQL 5.7+" as db {
+    storage "用户库"
+    storage "知识库"
+    storage "问答历史库"
+    storage "论坛库"
+    storage "反馈库"
+    storage "配置库"
+}
+
+' 5. 外部依赖服务
+cloud "AI大模型服务\n(NLP/LLM API)" as ai
+cloud "学校教务管理系统" as edu
+
+' ========== 连接关系 ==========
+' 用户通过浏览器访问系统
+学生 --> internet : HTTPS
+教师 --> internet : HTTPS
+管理员 --> internet : HTTPS
+internet --> "浏览器 (Chrome/Edge)" : 访问
+
+' 客户端请求到Web服务器
+"浏览器 (Chrome/Edge)" --> "静态资源 (HTML/CSS/JS)" : 页面请求
+"浏览器 (Chrome/Edge)" --> "反向代理" : API请求
+
+' 反向代理分发请求到各服务
+"反向代理" --> "用户管理服务" : /api/user/*
+"反向代理" --> "通知推送服务" : /api/notify/*
+"反向代理" --> "论坛管理服务" : /api/forum/*
+"反向代理" --> "数据统计服务" : /api/analytics/*
+"反向代理" --> "反馈管理服务" : /api/feedback/*
+"反向代理" --> "知识库管理服务" : /api/kb/*
+"反向代理" --> "问答引擎服务" : /api/qa/*
+
+' 服务之间的交互
+"问答引擎服务" --> ai : 语义分析/文本生成
+"问答引擎服务" --> edu : 查询教务数据
+edu --> "问答引擎服务" : 返回结构化数据
+
+' 服务与数据库的交互（修正为指向数据库内部存储）
+"用户管理服务" --> "用户库"
+"通知推送服务" --> "用户库"
+"通知推送服务" --> "配置库"
+"论坛管理服务" --> "论坛库"
+"反馈管理服务" --> "反馈库"
+"数据统计服务" --> "问答历史库"
+"数据统计服务" --> "论坛库"
+"知识库管理服务" --> "知识库"
+"问答引擎服务" --> "知识库"
+"问答引擎服务" --> "问答历史库"
+
+' 容量指标说明
+note right of db
+  容量指标:
+  · 并发 ≤1000人
+  · 日问答 ≤10000次
+  · 数据量 ≤10万条
+  · 响应 ≤3秒
+end note
+
+@enduml

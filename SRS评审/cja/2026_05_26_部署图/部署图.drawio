@@ -1,0 +1,55 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.2.8 Chrome/140.0.7339.240 Electron/38.4.0 Safari/537.36" version="28.2.8">
+  <diagram name="第 1 页" id="Bz0rWiSYog3tYEtHniHS">
+    <mxGraphModel dx="1213" dy="828" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="7Gc6Yk__cJNM945ISn2z-1" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;学生端设备&lt;/font&gt;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="120" y="180" width="240" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="7Gc6Yk__cJNM945ISn2z-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="7Gc6Yk__cJNM945ISn2z-2" target="7Gc6Yk__cJNM945ISn2z-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7Gc6Yk__cJNM945ISn2z-2" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;应用服务器&lt;/font&gt;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="520" y="180" width="250" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="7Gc6Yk__cJNM945ISn2z-3" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;数据库服务器&lt;/font&gt;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="520" y="470" width="250" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="7Gc6Yk__cJNM945ISn2z-5" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;SQL&lt;/font&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="640" y="390" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="7Gc6Yk__cJNM945ISn2z-7" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;HTTPS&lt;/font&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="414" y="240" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="7Gc6Yk__cJNM945ISn2z-9" value="&lt;p style=&quot;white-space-collapse: preserve;&quot; dir=&quot;auto&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Web前端&lt;/font&gt;&lt;/p&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="140" y="240" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="7Gc6Yk__cJNM945ISn2z-10" value="&lt;p style=&quot;white-space-collapse: preserve;&quot; dir=&quot;auto&quot;&gt;RobotController&lt;/p&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="530" y="230" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="7Gc6Yk__cJNM945ISn2z-11" value="&lt;p style=&quot;white-space-collapse: preserve;&quot; dir=&quot;auto&quot;&gt;NLUProcessor&lt;/p&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="530" y="290" width="95" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="7Gc6Yk__cJNM945ISn2z-12" value="&lt;p style=&quot;white-space-collapse: preserve;&quot; dir=&quot;auto&quot;&gt;AnswerGenerator&lt;/p&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="640" y="230" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="7Gc6Yk__cJNM945ISn2z-13" value="&lt;p style=&quot;white-space-collapse: preserve;&quot; dir=&quot;auto&quot;&gt;AuthService&lt;/p&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="640" y="290" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="7Gc6Yk__cJNM945ISn2z-14" value="KnowledgeBase" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="525" y="510" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="7Gc6Yk__cJNM945ISn2z-15" value="&lt;p style=&quot;white-space-collapse: preserve;&quot; dir=&quot;auto&quot;&gt;User Database&lt;/p&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="530" y="585" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="7Gc6Yk__cJNM945ISn2z-16" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=0.578;entryY=1.009;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.563;exitY=-0.012;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="7Gc6Yk__cJNM945ISn2z-1" target="7Gc6Yk__cJNM945ISn2z-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="360" y="290" as="sourcePoint" />
+            <mxPoint x="410" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

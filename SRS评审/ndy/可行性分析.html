@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>需求可行性分析表</title>
+    <style>
+        :root {
+            --bg: #eef3f7;
+            --panel: #ffffff;
+            --text: #1f2937;
+            --muted: #667085;
+            --border: #111111;
+            --header: #d9d9d9;
+            --feasible: #d9ead3;
+            --feasible-dark: #2f6b2f;
+            --adjusted: #fff2cc;
+            --adjusted-dark: #8a5b00;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 28px;
+            font-family: "Segoe UI", Arial, "Microsoft YaHei", sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(255, 255, 255, 0.8), transparent 32%),
+                linear-gradient(180deg, #f7fafc 0%, var(--bg) 100%);
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--panel);
+            border-radius: 14px;
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.09);
+            border: 1px solid rgba(17, 17, 17, 0.06);
+            overflow: hidden;
+        }
+
+        .hero {
+            padding: 28px 28px 18px;
+            border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+            background: linear-gradient(135deg, #ffffff 0%, #f5f8fb 100%);
+        }
+
+        h2 {
+            margin: 0;
+            text-align: center;
+            font-size: 30px;
+            letter-spacing: 1px;
+            color: #111827;
+        }
+
+        .subtitle {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin: 22px 28px 0;
+        }
+
+        .stat-card {
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px;
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 26px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .stat-value.feasible {
+            color: var(--feasible-dark);
+        }
+
+        .stat-value.adjusted {
+            color: var(--adjusted-dark);
+        }
+
+        .summary-note {
+            margin: 18px 28px 0;
+            padding: 14px 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            background: linear-gradient(180deg, #fbfdff 0%, #f8fbf6 100%);
+            color: #1f2937;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin: 18px 28px 24px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 13px;
+            border: 2px solid var(--border);
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .legend-item.feasible {
+            background: var(--feasible);
+            color: #111111;
+        }
+
+        .legend-item.adjusted {
+            background: var(--adjusted);
+            color: #111111;
+        }
+
+        .table-wrap {
+            padding: 0 28px 28px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 3px solid var(--border);
+            table-layout: fixed;
+            background: #fff;
+        }
+
+        th, td {
+            border: 2px solid var(--border);
+            padding: 10px 10px;
+            vertical-align: middle;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        th {
+            background: var(--header);
+            font-size: 14px;
+            font-weight: 800;
+            text-align: center;
+            color: #111111;
+        }
+
+        td {
+            text-align: center;
+            font-weight: 700;
+        }
+
+        td.req-name, td.analysis {
+            text-align: left;
+        }
+
+        td.req-id {
+            font-family: "Consolas", "Courier New", monospace;
+        }
+
+        .status-badge {
+            display: inline-block;
+            min-width: 70px;
+            padding: 5px 10px;
+            border: 2px solid var(--border);
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .status-feasible {
+            background: var(--feasible);
+            color: #111111;
+        }
+
+        .status-adjusted {
+            background: #ffe5b4;
+            color: #111111;
+        }
+
+        tr.feasible-row {
+            background: rgba(217, 234, 211, 0.25);
+        }
+
+        tr.adjusted-row {
+            background: rgba(255, 242, 204, 0.48);
+        }
+
+        tr:hover {
+            filter: brightness(0.97);
+        }
+
+        @media (max-width: 960px) {
+            body {
+                padding: 14px;
+            }
+
+            .hero, .table-wrap {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                margin-left: 14px;
+                margin-right: 14px;
+            }
+
+            .summary-note, .legend {
+                margin-left: 14px;
+                margin-right: 14px;
+            }
+
+            th, td {
+                padding: 8px 8px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="hero">
+        <h2>需求可行性分析表</h2>
+        <div class="subtitle">保留原始全部需求，仅将 QFD 评分视图改写为可行性分析视图；共 83 项需求，其中 82 项可直接落地，1 项建议调整实现方式。</div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-label">需求总数</div>
+                <div class="stat-value">83</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">可行需求</div>
+                <div class="stat-value feasible">82</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">需调整需求</div>
+                <div class="stat-value adjusted">1</div>
+            </div>
+        </div>
+
+        <div class="summary-note">
+            说明：除“办事入口自动跳转”类需求外，其余需求都可行；该项因为系统无权限直接跳转并登录到指定页面，因此建议改为“仅告知办事流程并提供跳转网站，不做自动跳转登录”。
+        </div>
+
+        <div class="legend">
+            <div class="legend-item feasible">可行</div>
+            <div class="legend-item adjusted">需调整</div>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 7%;">序号</th>
+                    <th style="width: 13%;">需求编号</th>
+                    <th style="width: 28%;">需求名称</th>
+                    <th style="width: 12%;">可行性结论</th>
+                    <th style="width: 40%;">可行性分析</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="feasible-row"><td>1</td><td class="req-id">UR-004</td><td class="req-name">进入问答首页</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于标准页面入口，按常规路由与首页加载逻辑即可实现。</td></tr>
+                <tr class="feasible-row"><td>2</td><td class="req-id">UR-002</td><td class="req-name">用户登录</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于常规认证功能，可按账号校验、会话管理与登录态维护实现。</td></tr>
+                <tr class="feasible-row"><td>3</td><td class="req-id">UR-016</td><td class="req-name">查看个人资料</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于基础用户信息展示功能，读取并渲染个人资料即可。</td></tr>
+                <tr class="feasible-row"><td>4</td><td class="req-id">UR-013</td><td class="req-name">查看单条对话详情</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于详情页展示能力，可按对话 ID 查询并展示明细。</td></tr>
+                <tr class="feasible-row"><td>5</td><td class="req-id">UR-003</td><td class="req-name">用户退出登录</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于标准会话清理操作，清除登录态后跳转至入口页即可。</td></tr>
+                <tr class="feasible-row"><td>6</td><td class="req-id">UR-001</td><td class="req-name">用户注册</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于常规账号创建流程，可按表单校验与账号存储实现。</td></tr>
+                <tr class="feasible-row"><td>7</td><td class="req-id">NFR-001</td><td class="req-name">分类点击即时界面反馈（无肉眼可见加载）</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于前端交互性能要求，可通过状态切换、局部刷新与缓存优化满足。</td></tr>
+                <tr class="feasible-row"><td>8</td><td class="req-id">UR-033</td><td class="req-name">查看帮助文档</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于静态内容或知识页面展示，维护文档入口即可。</td></tr>
+                <tr class="feasible-row"><td>9</td><td class="req-id">UR-018</td><td class="req-name">查看个性化设置</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于个人设置页展示与读取偏好配置的常规实现。</td></tr>
+                <tr class="feasible-row"><td>10</td><td class="req-id">UR-021</td><td class="req-name">查看我的帖子列表</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于按用户维度筛选列表的常规查询功能。</td></tr>
+                <tr class="feasible-row"><td>11</td><td class="req-id">UR-008</td><td class="req-name">查看结构化分点答案</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于问答结果的结构化渲染，可通过模板化输出实现。</td></tr>
+                <tr class="feasible-row"><td>12</td><td class="req-id">UR-012</td><td class="req-name">查看历史对话列表</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于常规历史记录查询与分页展示功能。</td></tr>
+                <tr class="feasible-row"><td>13</td><td class="req-id">UR-006</td><td class="req-name">热门问题一键提问</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于快捷入口功能，配置热门问题并触发提问流程即可。</td></tr>
+                <tr class="feasible-row"><td>14</td><td class="req-id">UR-026</td><td class="req-name">点赞帖子</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于基础互动能力，可通过点赞状态记录实现。</td></tr>
+                <tr class="feasible-row"><td>15</td><td class="req-id">UR-005</td><td class="req-name">分类导航快速提问</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于分类入口与提问表单联动，按常规页面跳转即可实现。</td></tr>
+
+                <tr class="feasible-row"><td>16</td><td class="req-id">NFR-013</td><td class="req-name">顶部导航直观跳转论坛（无需学习）</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于导航可用性要求，可通过明确的菜单结构与跳转路径满足。</td></tr>
+                <tr class="feasible-row"><td>17</td><td class="req-id">NFR-007</td><td class="req-name">PC 端大屏核心内容完整展示（无横向滚动条）</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于响应式布局要求，可通过栅格和宽度约束控制展示区域。</td></tr>
+                <tr class="feasible-row"><td>18</td><td class="req-id">NFR-008</td><td class="req-name">移动端小屏核心内容完整展示（无横向滚动条）</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于移动端适配要求，可通过媒体查询与弹性布局实现。</td></tr>
+                <tr class="feasible-row"><td>19</td><td class="req-id">UR-024</td><td class="req-name">查看帖子详情</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于详情页查询与展示功能，按帖子 ID 即可实现。</td></tr>
+                <tr class="feasible-row"><td>20</td><td class="req-id">AD-004</td><td class="req-name">查看热门问题 TOP10</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于后台统计与排序展示功能，按热度指标取前 10 即可。</td></tr>
+                <tr class="feasible-row"><td>21</td><td class="req-id">AD-016</td><td class="req-name">查看用户反馈列表</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于后台列表查询能力，可按反馈表分页展示。</td></tr>
+                <tr class="feasible-row"><td>22</td><td class="req-id">UR-007</td><td class="req-name">自定义问题输入提问</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于标准表单输入与提交流程，可直接实现。</td></tr>
+                <tr class="feasible-row"><td>23</td><td class="req-id">UR-009</td><td class="req-name">点赞 / 收藏回答内容</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于常规互动与收藏标记功能，可通过用户行为记录实现。</td></tr>
+                <tr class="feasible-row"><td>24</td><td class="req-id">UR-022</td><td class="req-name">按分类筛选论坛帖子</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于列表筛选功能，可通过分类条件查询实现。</td></tr>
+                <tr class="feasible-row"><td>25</td><td class="req-id">NFR-006</td><td class="req-name">所有操作无网络请求停顿感</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于前端性能体验要求，可通过预加载、缓存与异步反馈控制感知延迟。</td></tr>
+                <tr class="feasible-row"><td>26</td><td class="req-id">UR-029</td><td class="req-name">查看热门话题榜单</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于榜单展示功能，按统计指标排序即可。</td></tr>
+                <tr class="feasible-row"><td>27</td><td class="req-id">NFR-014</td><td class="req-name">顶部导航直观跳转个人中心（无需学习）</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于导航可用性要求，配置清晰入口即可满足。</td></tr>
+                <tr class="feasible-row"><td>28</td><td class="req-id">UR-015</td><td class="req-name">获取无法回答兜底指引</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于兜底提示与引导信息展示，可直接配置规则实现。</td></tr>
+                <tr class="feasible-row"><td>29</td><td class="req-id">UR-027</td><td class="req-name">评论帖子</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于标准评论发布流程，可通过表单提交与列表刷新实现。</td></tr>
+                <tr class="feasible-row"><td>30</td><td class="req-id">NFR-005</td><td class="req-name">登录操作立即弹出完成提示</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于状态反馈要求，可在操作完成后即时展示成功提示。</td></tr>
+                <tr class="feasible-row"><td>31</td><td class="req-id">AD-006</td><td class="req-name">查询知识库条目</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于后台检索与列表查询功能，按关键字和分类即可实现。</td></tr>
+                <tr class="feasible-row"><td>32</td><td class="req-id">NFR-015</td><td class="req-name">问答结果结构化呈现</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于界面表达与信息组织要求，可通过模板化组件实现。</td></tr>
+                <tr class="feasible-row"><td>33</td><td class="req-id">NFR-016</td><td class="req-name">无法回答时提供具体联系电话渠道</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于固定信息展示需求，可将联系方式配置到兜底提示中。</td></tr>
+                <tr class="feasible-row"><td>34</td><td class="req-id">NFR-004</td><td class="req-name">发帖操作立即弹出完成提示</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于操作反馈要求，可在提交成功后立即提示用户。</td></tr>
+                <tr class="feasible-row"><td>35</td><td class="req-id">NFR-012</td><td class="req-name">顶部导航直观跳转首页（无需学习）</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于导航可用性要求，可通过固定首页入口实现。</td></tr>
+                <tr class="feasible-row"><td>36</td><td class="req-id">NFR-003</td><td class="req-name">消息发送即时界面反馈（无肉眼可见加载）</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于前端交互体验要求，可通过乐观更新与局部刷新实现。</td></tr>
+                <tr class="feasible-row"><td>37</td><td class="req-id">UR-020</td><td class="req-name">查看我的反馈列表</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于按用户查询反馈记录的常规列表能力。</td></tr>
+                <tr class="feasible-row"><td>38</td><td class="req-id">AD-005</td><td class="req-name">查看用户趋势图表</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于统计图表展示功能，按汇总数据绘制即可。</td></tr>
+                <tr class="feasible-row"><td>39</td><td class="req-id">NFR-027</td><td class="req-name">数据仅存当前设备告知用户</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于隐私告知要求，可通过说明页与提示文案满足。</td></tr>
+                <tr class="feasible-row"><td>40</td><td class="req-id">UR-011</td><td class="req-name">提交详细文字反馈</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于标准文本提交功能，可按反馈表单实现。</td></tr>
+                <tr class="feasible-row"><td>41</td><td class="req-id">UR-032</td><td class="req-name">切换深浅色主题</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于主题切换能力，可通过样式变量与偏好存储实现。</td></tr>
+
+                <tr class="feasible-row"><td>42</td><td class="req-id">UR-023</td><td class="req-name">搜索论坛帖子</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于常规搜索功能，可按关键字检索帖子列表。</td></tr>
+                <tr class="feasible-row"><td>43</td><td class="req-id">UR-028</td><td class="req-name">回复他人评论</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于嵌套评论或回复功能，可通过评论层级结构实现。</td></tr>
+                <tr class="feasible-row"><td>44</td><td class="req-id">NFR-017</td><td class="req-name">无法回答时提供具体办公地点渠道</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于固定兜底信息展示，可直接配置办公地点说明。</td></tr>
+                <tr class="feasible-row"><td>45</td><td class="req-id">UR-030</td><td class="req-name">查看校务消息推送</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于消息列表展示与通知中心能力，可按推送数据实现。</td></tr>
+                <tr class="feasible-row"><td>46</td><td class="req-id">UR-017</td><td class="req-name">修改个人资料</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于个人信息编辑功能，可按表单更新流程实现。</td></tr>
+                <tr class="feasible-row"><td>47</td><td class="req-id">AD-020</td><td class="req-name">设置问答响应超时时间</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于后台参数配置功能，可通过系统设置项实现。</td></tr>
+                <tr class="adjusted-row"><td>48</td><td class="req-id">UR-031</td><td class="req-name">办事入口自动跳转</td><td><span class="status-badge status-adjusted">需调整</span></td><td class="analysis">需调整，系统无权限直接跳转并登录到指定页面，建议仅告知办事流程并提供跳转网站，不做自动跳转登录。</td></tr>
+                <tr class="feasible-row"><td>49</td><td class="req-id">AD-010</td><td class="req-name">查看用户列表</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于后台管理列表功能，可按用户表分页展示。</td></tr>
+                <tr class="feasible-row"><td>50</td><td class="req-id">AD-013</td><td class="req-name">查看论坛帖子列表</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于后台内容管理列表功能，可按帖子数据展示。</td></tr>
+                <tr class="feasible-row"><td>51</td><td class="req-id">UR-025</td><td class="req-name">发布新帖子</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于标准发帖流程，可通过表单发布与内容存储实现。</td></tr>
+                <tr class="feasible-row"><td>52</td><td class="req-id">NFR-025</td><td class="req-name">帖子内容本地浏览器存储（无网络传输）</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于本地存储约束要求，可通过浏览器存储方案实现。</td></tr>
+                <tr class="feasible-row"><td>53</td><td class="req-id">NFR-021</td><td class="req-name">跨页面跳转登录状态保持一致</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于会话一致性要求，可通过统一登录态管理实现。</td></tr>
+                <tr class="feasible-row"><td>54</td><td class="req-id">UR-010</td><td class="req-name">提交回答好坏反馈</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于答案评价功能，可通过正负反馈标记实现。</td></tr>
+                <tr class="feasible-row"><td>55</td><td class="req-id">UR-014</td><td class="req-name">导出历史对话记录</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于记录导出能力，可按时间范围生成导出文件。</td></tr>
+                <tr class="feasible-row"><td>56</td><td class="req-id">UR-019</td><td class="req-name">修改 AI 模型 / 响应风格</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于配置项切换功能，可将模型与风格参数做成可配置项。</td></tr>
+                <tr class="feasible-row"><td>57</td><td class="req-id">NFR-022</td><td class="req-name">跨页面跳转不出现意外退出登录</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于登录态稳定性要求，可通过统一会话保持实现。</td></tr>
+                <tr class="feasible-row"><td>58</td><td class="req-id">AD-012</td><td class="req-name">查看用户账号状态</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于后台账号管理信息展示，可直接读取状态字段。</td></tr>
+                <tr class="feasible-row"><td>59</td><td class="req-id">AD-001</td><td class="req-name">管理员登录</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于后台认证入口功能，可按普通登录流程实现。</td></tr>
+                <tr class="feasible-row"><td>60</td><td class="req-id">NFR-009</td><td class="req-name">深色模式首页文字背景清晰无白色遗漏</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于主题样式校验要求，可通过颜色变量统一管理实现。</td></tr>
+                <tr class="feasible-row"><td>61</td><td class="req-id">NFR-010</td><td class="req-name">深色模式论坛文字背景清晰无白色遗漏</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于深色模式适配要求，可通过组件样式统一处理。</td></tr>
+                <tr class="feasible-row"><td>62</td><td class="req-id">NFR-011</td><td class="req-name">深色模式后台文字背景清晰无白色遗漏</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于后台主题适配要求，可通过同一主题体系覆盖实现。</td></tr>
+                <tr class="feasible-row"><td>63</td><td class="req-id">NFR-026</td><td class="req-name">原型无真实后端身份核验</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于原型阶段约束说明，可按模拟数据或演示模式实现。</td></tr>
+                <tr class="feasible-row"><td>64</td><td class="req-id">AD-007</td><td class="req-name">新增知识库条目</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于后台新增内容功能，可通过表单与数据写入实现。</td></tr>
+                <tr class="feasible-row"><td>65</td><td class="req-id">AD-008</td><td class="req-name">编辑知识库条目</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于后台编辑内容功能，可按条目详情更新实现。</td></tr>
+                <tr class="feasible-row"><td>66</td><td class="req-id">AD-022</td><td class="req-name">设置发帖审核规则</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于审核策略配置功能，可通过规则参数化实现。</td></tr>
+                <tr class="feasible-row"><td>67</td><td class="req-id">NFR-023</td><td class="req-name">用户信息本地浏览器存储（无网络传输）</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于本地存储约束要求，可使用浏览器本地存储实现。</td></tr>
+                <tr class="feasible-row"><td>68</td><td class="req-id">AD-018</td><td class="req-name">回复用户反馈</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于后台工单回复功能，可在反馈详情中追加回复内容。</td></tr>
+                <tr class="feasible-row"><td>69</td><td class="req-id">UR-034</td><td class="req-name">提交内容举报</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于内容举报流程，可通过举报表单与后台处理实现。</td></tr>
+
+                <tr class="feasible-row"><td>70</td><td class="req-id">AD-002</td><td class="req-name">查看今日访问量统计</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于统计报表功能，可按日汇总访问数据展示。</td></tr>
+                <tr class="feasible-row"><td>71</td><td class="req-id">AD-017</td><td class="req-name">处理用户反馈</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于后台工单处理流程，可通过状态流转实现。</td></tr>
+                <tr class="feasible-row"><td>72</td><td class="req-id">NFR-024</td><td class="req-name">模拟密码本地浏览器存储（无网络传输）</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于本地模拟数据或离线存储约束，可通过浏览器端保存实现。</td></tr>
+                <tr class="feasible-row"><td>73</td><td class="req-id">AD-015</td><td class="req-name">删除违规帖子</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于后台内容治理功能，可通过删除操作实现。</td></tr>
+                <tr class="feasible-row"><td>74</td><td class="req-id">NFR-002</td><td class="req-name">主题切换即时界面反馈（无肉眼可见加载）</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于主题切换体验要求，可通过样式切换与缓存减少闪烁。</td></tr>
+                <tr class="feasible-row"><td>75</td><td class="req-id">NFR-019</td><td class="req-name">历史对话记录关闭浏览器后完整恢复</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于持久化恢复需求，可将历史数据保存到持久存储中。</td></tr>
+                <tr class="feasible-row"><td>76</td><td class="req-id">AD-003</td><td class="req-name">查看今日问答数统计</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于统计报表功能，可按时间窗口汇总问答数量。</td></tr>
+                <tr class="feasible-row"><td>77</td><td class="req-id">AD-019</td><td class="req-name">发布 / 编辑系统公告</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于后台公告管理功能，可按内容增删改实现。</td></tr>
+                <tr class="feasible-row"><td>78</td><td class="req-id">AD-011</td><td class="req-name">封禁 / 解封用户账号</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于后台账号状态控制功能，可通过状态字段切换实现。</td></tr>
+                <tr class="feasible-row"><td>79</td><td class="req-id">NFR-020</td><td class="req-name">论坛帖子关闭浏览器后完整恢复</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于持久化与恢复能力，可将草稿或内容持久保存实现。</td></tr>
+                <tr class="feasible-row"><td>80</td><td class="req-id">AD-009</td><td class="req-name">删除知识库条目</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于后台知识库维护功能，可按记录删除实现。</td></tr>
+                <tr class="feasible-row"><td>81</td><td class="req-id">AD-014</td><td class="req-name">帖子置顶 / 加精</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于内容排序与标记功能，可通过属性字段控制展示顺序。</td></tr>
+                <tr class="feasible-row"><td>82</td><td class="req-id">NFR-018</td><td class="req-name">深色模式偏好关闭浏览器后完整恢复</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于主题偏好持久化要求，可通过本地存储或配置保存实现。</td></tr>
+                <tr class="feasible-row"><td>83</td><td class="req-id">AD-021</td><td class="req-name">修改系统名称</td><td><span class="status-badge status-feasible">可行</span></td><td class="analysis">可行，属于基础系统配置功能，可通过后台设置项修改并保存。</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

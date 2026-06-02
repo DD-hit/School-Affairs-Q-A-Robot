@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>热门问题调试</title>
+    <style>
+        .hot-tag {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 5px;
+            background: #f0f9ff;
+            border: 1px solid #1677ff;
+            border-radius: 20px;
+            cursor: pointer;
+            color: #1677ff;
+            transition: all 0.2s;
+        }
+        .hot-tag:hover {
+            background: #1677ff;
+            color: white;
+            transform: translateY(-2px);
+        }
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            margin: 20px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        #log {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            margin-top: 20px;
+            min-height: 100px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>热门问题点击调试</h1>
+    
+    <input type="text" class="search-input" id="question-input" placeholder="点击热门问题会自动填充到这里">
+    
+    <div id="hot-questions-list">
+        <div class="hot-tag">如何申请奖学金？</div>
+        <div class="hot-tag">选课系统什么时候开放？</div>
+        <div class="hot-tag">宿舍报修流程是什么？</div>
+        <div class="hot-tag">校园卡丢失怎么办？</div>
+    </div>
+    
+    <h3>调试日志：</h3>
+    <div id="log"></div>
+    
+    <script>
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            logDiv.innerHTML += message + '\n';
+            console.log(message);
+        }
+        
+        function setupHotQuestionClicks() {
+            try {
+                log('正在设置热门问题点击事件...');
+                
+                const hotTags = document.querySelectorAll('.hot-tag');
+                log(`找到 ${hotTags.length} 个热门问题标签`);
+                
+                if (hotTags.length === 0) {
+                    log('错误: 没有找到.hot-tag元素');
+                    log('检查HTML结构: ' + document.getElementById('hot-questions-list').innerHTML);
+                    return;
+                }
+                
+                hotTags.forEach((tag, index) => {
+                    // 移除可能存在的旧事件
+                    tag.onclick = null;
+                    
+                    // 添加新事件
+                    tag.onclick = function() {
+                        const question = this.textContent;
+                        log(`点击热门问题[${index}]: ${question}`);
+                        
+                        // 填充到搜索框
+                        const searchInput = document.getElementById('question-input');
+                        
+                        if (searchInput) {
+                            searchInput.value = question;
+                            searchInput.focus(); // 聚焦到搜索框
+                            log(`✅ 已填充到搜索框: ${question}`);
+                        } else {
+                            log('❌ 错误: 未找到#question-input元素');
+                        }
+                        
+                        // 视觉反馈
+                        this.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            this.style.transform = '';
+                        }, 200);
+                    };
+                    
+                    log(`  为"${tag.textContent}"添加了点击事件`);
+                });
+                
+                log(`✅ 成功为 ${hotTags.length} 个热门问题标签添加了点击事件`);
+                
+            } catch (error) {
+                log('设置热门问题点击事件时出错: ' + error.message);
+                log('错误堆栈: ' + error.stack);
+            }
+        }
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            log('DOMContentLoaded事件触发');
+            setupHotQuestionClicks();
+            log('测试准备完成，请点击上面的热门问题标签');
+            
+            // 添加测试按钮
+            const testBtn = document.createElement('button');
+            testBtn.textContent = '测试手动点击';
+            testBtn.style.marginTop = '20px';
+            testBtn.style.padding = '10px 20px';
+            testBtn.onclick = function() {
+                const firstHotTag = document.querySelector('.hot-tag');
+                if (firstHotTag) {
+                    log('手动触发第一个热门问题的点击事件...');
+                    firstHotTag.click();
+                }
+            };
+            document.body.appendChild(testBtn);
+        });
+    </script>
+</body>
+</html>

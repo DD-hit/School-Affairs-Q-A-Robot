@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简单测试</title>
+</head>
+<body>
+    <h1>简单点击测试</h1>
+    
+    <input type="text" id="question-input" placeholder="测试输入框" style="width: 300px; padding: 10px; margin: 20px 0;">
+    
+    <div>
+        <div class="hot-tag" style="padding: 10px 20px; background: #f0f0f0; margin: 10px; display: inline-block; cursor: pointer;">
+            测试热门问题1
+        </div>
+        <div class="hot-tag" style="padding: 10px 20px; background: #f0f0f0; margin: 10px; display: inline-block; cursor: pointer;">
+            测试热门问题2
+        </div>
+    </div>
+    
+    <div id="result" style="margin-top: 20px; padding: 10px; background: #e0e0e0;"></div>
+    
+    <script>
+        // 最简单的点击事件绑定
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('页面加载完成');
+            
+            const hotTags = document.querySelectorAll('.hot-tag');
+            console.log('找到热门标签:', hotTags.length);
+            
+            hotTags.forEach((tag, index) => {
+                tag.addEventListener('click', function() {
+                    const question = this.textContent;
+                    console.log('点击了:', question);
+                    
+                    const input = document.getElementById('question-input');
+                    if (input) {
+                        input.value = question;
+                        input.focus();
+                        console.log('已填充到输入框');
+                        
+                        // 显示结果
+                        document.getElementById('result').textContent = 
+                            `成功: "${question}" 已填充到搜索框`;
+                    }
+                });
+            });
+            
+            console.log('事件绑定完成');
+        });
+    </script>
+</body>
+</html>

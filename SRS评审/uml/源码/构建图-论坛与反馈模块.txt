@@ -1,0 +1,21 @@
+@startuml
+title 论坛-反馈 构件图
+
+component 校务论坛
+component 管理员后台
+
+component 论坛服务
+component 反馈服务
+
+database 帖子表
+database 评论表
+database 反馈表
+
+校务论坛 ..> 论坛服务
+管理员后台 ..> 论坛服务
+管理员后台 ..> 反馈服务
+
+论坛服务 ..> 帖子表
+论坛服务 ..> 评论表
+反馈服务 ..> 反馈表
+@enduml

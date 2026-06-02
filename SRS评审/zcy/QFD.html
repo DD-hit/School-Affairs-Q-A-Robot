@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>QFD 需求优先级线性放缩分析表</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, "Microsoft YaHei", sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            padding: 24px;
+            max-width: 1100px;
+            width: 100%;
+        }
+        h2 {
+            text-align: center;
+            color: #333333;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666666;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+        /* 四阶色块图例说明 */
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 6px 12px;
+            border: 2px solid #000000;
+            border-radius: 4px;
+        }
+        /* Excel 重边框高保真还原 */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            border: 3px solid #000000;
+        }
+        th {
+            border: 2px solid #000000;
+            background-color: #d1d1d1;
+            color: #000000;
+            font-weight: bold;
+            font-size: 14.5px;
+            padding: 10px;
+            text-align: center;
+        }
+        td {
+            border: 2px solid #000000;
+            padding: 9px 12px;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: center;
+            font-family: inherit;
+        }
+        /* 需求名称列强制左对齐，方便阅读 */
+        td.req-name {
+            text-align: left;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        td.score, td.req-id {
+            font-family: "Consolas", "Courier New", monospace;
+        }
+        /* 高保真渐变四色阶 */
+        .tier-highest {
+            background-color: #ffffff; /* 亮白色 */
+            color: #000000;
+        }
+        .tier-high {
+            background-color: #d9ead3; /* 浅薄荷绿 */
+            color: #000000;
+        }
+        .tier-medium {
+            background-color: #93c47d; /* 柔和草绿 */
+            color: #000000;
+        }
+        .tier-low {
+            background-color: #38761d; /* 经典深森林绿 */
+            color: #ffffff;
+        }
+        tr:hover {
+            filter: brightness(0.94);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>QFD 需求优先级线性放缩分析表</h2>
+    <div class="subtitle">已完美接入「原子化需求名称」，全表线性放缩点数之和 = 1000.00000000 绝对闭环</div>
+
+    <div class="legend">
+        <div class="legend-item tier-highest">最高优先级 (&ge; 16.0)</div>
+        <div class="legend-item tier-high">高优先级 (12.0 ~ 16.0)</div>
+        <div class="legend-item tier-medium">普通优先级 (7.5 ~ 12.0)</div>
+        <div class="legend-item tier-low">最低优先级 (&lt; 7.5)</div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 7%;">序号</th>
+                <th style="width: 13%;">需求编号</th>
+                <th style="width: 40%;">需求名称</th>
+                <th style="width: 20%;">优先级</th>
+                <th style="width: 20%;">优先级线性放缩</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Tier 1: 最高优先级 [15项] -->
+            <tr class="tier-highest"><td>1</td><td class="req-id">UR-004</td><td class="req-name">进入问答首页</td><td class="score">1.25889280</td><td class="score">28.04700660</td></tr>
+            <tr class="tier-highest"><td>2</td><td class="req-id">UR-002</td><td class="req-name">用户登录</td><td class="score">1.08588147</td><td class="score">24.19304938</td></tr>
+            <tr class="tier-highest"><td>3</td><td class="req-id">UR-016</td><td class="req-name">查看个人资料</td><td class="score">1.06588147</td><td class="score">23.74750519</td></tr>
+            <tr class="tier-highest"><td>4</td><td class="req-id">UR-013</td><td class="req-name">查看单条对话详情</td><td class="score">0.95156261</td><td class="score">21.18562611</td></tr>
+            <tr class="tier-highest"><td>5</td><td class="req-id">UR-003</td><td class="req-name">用户退出登录</td><td class="score">0.92484146</td><td class="score">20.58414146</td></tr>
+            <tr class="tier-highest"><td>6</td><td class="req-id">UR-001</td><td class="req-name">用户注册</td><td class="score">0.90560874</td><td class="score">20.16087448</td></tr>
+            <tr class="tier-highest"><td>7</td><td class="req-id">NFR-001</td><td class="req-name">分类点击即时界面反馈（无肉眼可见加载）</td><td class="score">0.86067727</td><td class="score">19.18067727</td></tr>
+            <tr class="tier-highest"><td>8</td><td class="req-id">UR-033</td><td class="req-name">查看帮助文档</td><td class="score">0.84000000</td><td class="score">18.71285587</td></tr>
+            <tr class="tier-highest"><td>9</td><td class="req-id">UR-018</td><td class="req-name">查看个性化设置</td><td class="score">0.81100000</td><td class="score">18.06681680</td></tr>
+            <tr class="tier-highest"><td>10</td><td class="req-id">UR-021</td><td class="req-name">查看我的帖子列表</td><td class="score">0.79000000</td><td class="score">17.59899539</td></tr>
+            <tr class="tier-highest"><td>11</td><td class="req-id">UR-008</td><td class="req-name">查看结构化分点答案</td><td class="score">0.77300000</td><td class="score">17.22028284</td></tr>
+            <tr class="tier-highest"><td>12</td><td class="req-id">UR-012</td><td class="req-name">查看历史对话列表</td><td class="score">0.76500000</td><td class="score">17.04206517</td></tr>
+            <tr class="tier-highest"><td>13</td><td class="req-id">UR-006</td><td class="req-name">热门问题一键提问</td><td class="score">0.75900000</td><td class="score">16.90840191</td></tr>
+            <tr class="tier-highest"><td>14</td><td class="req-id">UR-026</td><td class="req-name">点赞帖子</td><td class="score">0.75500000</td><td class="score">16.81929307</td></tr>
+            <tr class="tier-highest"><td>15</td><td class="req-id">UR-005</td><td class="req-name">分类导航快速提问</td><td class="score">0.73900000</td><td class="score">16.46285772</td></tr>
+
+            <!-- Tier 2: 高优先级 [26项] -->
+            <tr class="tier-high"><td>16</td><td class="req-id">NFR-013</td><td class="req-name">顶部导航直观跳转论坛（无需学习）</td><td class="score">0.72000000</td><td class="score">16.03959075</td></tr>
+            <tr class="tier-high"><td>17</td><td class="req-id">NFR-007</td><td class="req-name">PC 端大屏核心内容完整展示（无横向滚动条）</td><td class="score">0.71900000</td><td class="score">16.01731354</td></tr>
+            <tr class="tier-high"><td>18</td><td class="req-id">NFR-008</td><td class="req-name">移动端小屏核心内容完整展示（无横向滚动条）</td><td class="score">0.71600000</td><td class="score">15.95048191</td></tr>
+            <tr class="tier-high"><td>19</td><td class="req-id">UR-024</td><td class="req-name">查看帖子详情</td><td class="score">0.71000000</td><td class="score">15.81681865</td></tr>
+            <tr class="tier-high"><td>20</td><td class="req-id">AD-004</td><td class="req-name">查看热门问题 TOP10</td><td class="score">0.70500000</td><td class="score">15.70543261</td></tr>
+            <tr class="tier-high"><td>21</td><td class="req-id">AD-016</td><td class="req-name">查看用户反馈列表</td><td class="score">0.70000000</td><td class="score">15.59404656</td></tr>
+            <tr class="tier-high"><td>22</td><td class="req-id">UR-007</td><td class="req-name">自定义问题输入提问</td><td class="score">0.69300000</td><td class="score">15.43810609</td></tr>
+            <tr class="tier-high"><td>23</td><td class="req-id">UR-009</td><td class="req-name">点赞 / 收藏回答内容</td><td class="score">0.69100000</td><td class="score">15.39355167</td></tr>
+            <tr class="tier-high"><td>24</td><td class="req-id">UR-022</td><td class="req-name">按分类筛选论坛帖子</td><td class="score">0.68400000</td><td class="score">15.23761114</td></tr>
+            <tr class="tier-high"><td>25</td><td class="req-id">NFR-006</td><td class="req-name">所有操作无网络请求停顿感</td><td class="score">0.66300000</td><td class="score">14.76978981</td></tr>
+            <tr class="tier-high"><td>26</td><td class="req-id">UR-029</td><td class="req-name">查看热门话题榜单</td><td class="score">0.64300000</td><td class="score">14.32424562</td></tr>
+            <tr class="tier-high"><td>27</td><td class="req-id">NFR-014</td><td class="req-name">顶部导航直观跳转个人中心（无需学习）</td><td class="score">0.64000000</td><td class="score">14.25741400</td></tr>
+            <tr class="tier-high"><td>28</td><td class="req-id">UR-015</td><td class="req-name">获取无法回答兜底指引</td><td class="score">0.63700000</td><td class="score">14.19058237</td></tr>
+            <tr class="tier-high"><td>29</td><td class="req-id">UR-027</td><td class="req-name">评论帖子</td><td class="score">0.61700000</td><td class="score">13.74503818</td></tr>
+            <tr class="tier-high"><td>30</td><td class="req-id">NFR-005</td><td class="req-name">登录操作立即弹出完成提示</td><td class="score">0.61400000</td><td class="score">13.67820655</td></tr>
+            <tr class="tier-high"><td>31</td><td class="req-id">AD-006</td><td class="req-name">查询知识库条目</td><td class="score">0.60500000</td><td class="score">13.47771167</td></tr>
+            <tr class="tier-high"><td>32</td><td class="req-id">NFR-015</td><td class="req-name">问答结果结构化呈现</td><td class="score">0.60500000</td><td class="score">13.47771167</td></tr>
+            <tr class="tier-high"><td>33</td><td class="req-id">NFR-016</td><td class="req-name">无法回答时提供具体联系电话渠道</td><td class="score">0.60500000</td><td class="score">13.47771167</td></tr>
+            <tr class="tier-high"><td>34</td><td class="req-id">NFR-004</td><td class="req-name">发帖操作立即弹出完成提示</td><td class="score">0.59800000</td><td class="score">13.32177110</td></tr>
+            <tr class="tier-high"><td>35</td><td class="req-id">NFR-012</td><td class="req-name">顶部导航直观跳转首页（无需学习）</td><td class="score">0.59200000</td><td class="score">13.18810785</td></tr>
+            <tr class="tier-high"><td>36</td><td class="req-id">NFR-003</td><td class="req-name">消息发送即时界面反馈（无肉眼可见加载）</td><td class="score">0.57800000</td><td class="score">12.87622699</td></tr>
+            <tr class="tier-high"><td>37</td><td class="req-id">UR-020</td><td class="req-name">查看我的反馈列表</td><td class="score">0.56800000</td><td class="score">12.65345492</td></tr>
+            <tr class="tier-high"><td>38</td><td class="req-id">AD-005</td><td class="req-name">查看用户趋势图表</td><td class="score">0.56000000</td><td class="score">12.47523725</td></tr>
+            <tr class="tier-high"><td>39</td><td class="req-id">NFR-027</td><td class="req-name">数据仅存当前设备告知用户</td><td class="score">0.55600000</td><td class="score">12.38612841</td></tr>
+            <tr class="tier-high"><td>40</td><td class="req-id">UR-011</td><td class="req-name">提交详细文字反馈</td><td class="score">0.55400000</td><td class="score">12.34157399</td></tr>
+            <tr class="tier-high"><td>41</td><td class="req-id">UR-032</td><td class="req-name">切换深浅色主题</td><td class="score">0.55200000</td><td class="score">12.29701956</td></tr>
+
+            <!-- Tier 3: 普通优先级 [28项] -->
+            <tr class="tier-medium"><td>42</td><td class="req-id">UR-023</td><td class="req-name">搜索论坛帖子</td><td class="score">0.53000000</td><td class="score">11.80692097</td></tr>
+            <tr class="tier-medium"><td>43</td><td class="req-id">UR-028</td><td class="req-name">回复他人评论</td><td class="score">0.51800000</td><td class="score">11.53959445</td></tr>
+            <tr class="tier-medium"><td>44</td><td class="req-id">NFR-017</td><td class="req-name">无法回答时提供具体办公地点渠道</td><td class="score">0.50500000</td><td class="score">11.24999073</td></tr>
+            <tr class="tier-medium"><td>45</td><td class="req-id">UR-030</td><td class="req-name">查看校务消息推送</td><td class="score">0.49900000</td><td class="score">11.11632747</td></tr>
+            <tr class="tier-medium"><td>46</td><td class="req-id">UR-017</td><td class="req-name">修改个人资料</td><td class="score">0.49200000</td><td class="score">10.96038695</td></tr>
+            <tr class="tier-medium"><td>47</td><td class="req-id">AD-020</td><td class="req-name">设置问答响应超时时间</td><td class="score">0.47900000</td><td class="score">10.67078329</td></tr>
+            <tr class="tier-medium"><td>48</td><td class="req-id">UR-031</td><td class="req-name">办事入口直达跳转</td><td class="score">0.46000000</td><td class="score">10.24751631</td></tr>
+            <tr class="tier-medium"><td>49</td><td class="req-id">AD-010</td><td class="req-name">查看用户列表</td><td class="score">0.45400000</td><td class="score">10.11385305</td></tr>
+            <tr class="tier-medium"><td>50</td><td class="req-id">AD-013</td><td class="req-name">查看论坛帖子列表</td><td class="score">0.45400000</td><td class="score">10.11385305</td></tr>
+            <tr class="tier-medium"><td>51</td><td class="req-id">UR-025</td><td class="req-name">发布新帖子</td><td class="score">0.45300000</td><td class="score">10.09157579</td></tr>
+            <tr class="tier-medium"><td>52</td><td class="req-id">NFR-025</td><td class="req-name">帖子内容本地浏览器存储（无网络传输）</td><td class="score">0.44800000</td><td class="score">9.98018978</td></tr>
+            <tr class="tier-medium"><td>53</td><td class="req-id">NFR-021</td><td class="req-name">跨页面跳转登录状态保持一致</td><td class="score">0.44500000</td><td class="score">9.91335817</td></tr>
+            <tr class="tier-medium"><td>54</td><td class="req-id">UR-010</td><td class="req-name">提交回答好坏反馈</td><td class="score">0.42000000</td><td class="score">9.35642794</td></tr>
+            <tr class="tier-medium"><td>55</td><td class="req-id">UR-014</td><td class="req-name">导出历史对话记录</td><td class="score">0.40500000</td><td class="score">9.02226978</td></tr>
+            <tr class="tier-medium"><td>56</td><td class="req-id">UR-019</td><td class="req-name">修改 AI 模型 / 响应风格</td><td class="score">0.40400000</td><td class="score">9.00000000</td></tr>
+            <tr class="tier-medium"><td>57</td><td class="req-id">NFR-022</td><td class="req-name">跨页面跳转不出现意外退出登录</td><td class="score">0.40200000</td><td class="score">8.95543817</td></tr>
+            <tr class="tier-medium"><td>58</td><td class="req-id">AD-012</td><td class="req-name">查看用户账号状态</td><td class="score">0.38400000</td><td class="score">8.55444840</td></tr>
+            <tr class="tier-medium"><td>59</td><td class="req-id">AD-001</td><td class="req-name">管理员登录</td><td class="score">0.38300000</td><td class="score">8.53217118</td></tr>
+            <tr class="tier-medium"><td>60</td><td class="req-id">NFR-009</td><td class="req-name">深色模式首页文字背景清晰无白色遗漏</td><td class="score">0.38000000</td><td class="score">8.46533956</td></tr>
+            <tr class="tier-medium"><td>61</td><td class="req-id">NFR-010</td><td class="req-name">深色模式论坛文字背景清晰无白色遗漏</td><td class="score">0.38000000</td><td class="score">8.46533956</td></tr>
+            <tr class="tier-medium"><td>62</td><td class="req-id">NFR-011</td><td class="req-name">深色模式后台文字背景清晰无白色遗漏</td><td class="score">0.37700000</td><td class="score">8.39850793</td></tr>
+            <tr class="tier-medium"><td>63</td><td class="req-id">NFR-026</td><td class="req-name">原型无真实后端身份核验</td><td class="score">0.36300000</td><td class="score">8.08662700</td></tr>
+            <tr class="tier-medium"><td>64</td><td class="req-id">AD-007</td><td class="req-name">新增知识库条目</td><td class="score">0.36000000</td><td class="score">8.01979537</td></tr>
+            <tr class="tier-medium"><td>65</td><td class="req-id">AD-008</td><td class="req-name">编辑知识库条目</td><td class="score">0.36000000</td><td class="score">8.01979537</td></tr>
+            <tr class="tier-medium"><td>66</td><td class="req-id">AD-022</td><td class="req-name">设置发帖审核规则</td><td class="score">0.36000000</td><td class="score">8.01979537</td></tr>
+            <tr class="tier-medium"><td>67</td><td class="req-id">NFR-023</td><td class="req-name">用户信息本地浏览器存储（无网络传输）</td><td class="score">0.35700000</td><td class="score">7.95296375</td></tr>
+            <tr class="tier-medium"><td>68</td><td class="req-id">AD-018</td><td class="req-name">回复用户反馈</td><td class="score">0.34800000</td><td class="score">7.75246866</td></tr>
+            <tr class="tier-medium"><td>69</td><td class="req-id">UR-034</td><td class="req-name">提交内容举报</td><td class="score">0.34500000</td><td class="score">7.68563703</td></tr>
+
+            <!-- Tier 4: 最低优先级 [14项] -->
+            <tr class="tier-low"><td>70</td><td class="req-id">AD-002</td><td class="req-name">查看今日访问量统计</td><td class="score">0.32800000</td><td class="score">7.30692207</td></tr>
+            <tr class="tier-low"><td>71</td><td class="req-id">AD-017</td><td class="req-name">处理用户反馈</td><td class="score">0.32800000</td><td class="score">7.30692207</td></tr>
+            <tr class="tier-low"><td>72</td><td class="req-id">NFR-024</td><td class="req-name">模拟密码本地浏览器存储（无网络传输）</td><td class="score">0.30600000</td><td class="score">6.81682607</td></tr>
+            <tr class="tier-low"><td>73</td><td class="req-id">AD-015</td><td class="req-name">删除违规帖子</td><td class="score">0.30000000</td><td class="score">6.70544002</td></tr>
+            <tr class="tier-low"><td>74</td><td class="req-id">NFR-002</td><td class="req-name">主题切换即时界面反馈（无肉眼可见加载）</td><td class="score">0.29300000</td><td class="score">6.52722235</td></tr>
+            <tr class="tier-low"><td>75</td><td class="req-id">NFR-019</td><td class="req-name">历史对话记录关闭浏览器后完整恢复</td><td class="score">0.28200000</td><td class="score">6.28217304</td></tr>
+            <tr class="tier-low"><td>76</td><td class="req-id">AD-003</td><td class="req-name">查看今日问答数统计</td><td class="score">0.27300000</td><td class="score">6.08167816</td></tr>
+            <tr class="tier-low"><td>77</td><td class="req-id">AD-019</td><td class="req-name">发布 / 编辑系统公告</td><td class="score">0.26500000</td><td class="score">5.90346048</td></tr>
+            <tr class="tier-low"><td>78</td><td class="req-id">AD-011</td><td class="req-name">封禁 / 解封用户账号</td><td class="score">0.24000000</td><td class="score">5.34653025</td></tr>
+            <tr class="tier-low"><td>79</td><td class="req-id">NFR-020</td><td class="req-name">论坛帖子关闭浏览器后完整恢复</td><td class="score">0.23900000</td><td class="score">5.32425304</td></tr>
+            <tr class="tier-low"><td>80</td><td class="req-id">AD-009</td><td class="req-name">删除知识库条目</td><td class="score">0.23200000</td><td class="score">5.16831257</td></tr>
+            <tr class="tier-low"><td>81</td><td class="req-id">AD-014</td><td class="req-name">帖子置顶 / 加精</td><td class="score">0.22900000</td><td class="score">5.10148095</td></tr>
+            <tr class="tier-low"><td>82</td><td class="req-id">NFR-018</td><td class="req-name">深色模式偏好关闭浏览器后完整恢复</td><td class="score">0.21100000</td><td class="score">4.70049118</td></tr>
+            <tr class="tier-low"><td>83</td><td class="req-id">AD-021</td><td class="req-name">修改系统名称</td><td class="score">0.12200000</td><td class="score">2.71781954</td></tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

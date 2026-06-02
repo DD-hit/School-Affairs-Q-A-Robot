@@ -1,0 +1,27 @@
+@startuml
+title 问答核心 构件图
+
+component 问答首页
+component 个人中心
+
+component 问答引擎服务
+component 知识库管理服务
+
+database 知识库表
+database 问答记录表
+database 热门问题表
+
+cloud AI大模型服务
+cloud 学校教务管理系统
+
+问答首页 ..> 问答引擎服务
+个人中心 ..> 问答引擎服务
+
+问答引擎服务 ..> 知识库管理服务
+问答引擎服务 ..> AI大模型服务
+问答引擎服务 ..> 学校教务管理系统
+
+知识库管理服务 ..> 知识库表
+问答引擎服务 ..> 问答记录表
+问答引擎服务 ..> 热门问题表
+@enduml

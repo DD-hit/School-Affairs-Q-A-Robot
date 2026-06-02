@@ -1,0 +1,52 @@
+@startuml
+title 校务问答机器人系统 - 包图
+
+' 顶层系统包
+package "校务问答机器人系统" {
+
+    ' 1. 表现层包 (UI)
+    package "表现层 (UI)" {
+        package "首页模块"
+        package "用户模块"
+        package "论坛模块"
+        package "帮助模块"
+        package "管理员后台模块"
+    }
+
+    ' 2. 业务逻辑层包 (Service)
+    package "业务逻辑层 (Service)" {
+        package "问答服务包"
+        package "用户服务包"
+        package "论坛服务包"
+        package "反馈服务包"
+        package "通知服务包"
+        package "统计服务包"
+    }
+
+    ' 3. 数据访问层包 (DAO)
+    package "数据访问层 (DAO)" {
+        package "用户数据包"
+        package "问答数据包"
+        package "论坛数据包"
+        package "反馈数据包"
+        package "系统配置包"
+    }
+
+    ' 4. 外部依赖包
+    package "外部依赖" {
+        package "AI大模型服务"
+        package "学校教务系统"
+    }
+}
+
+' ================= 标准依赖关系 (虚线箭头) =================
+' 页面调用服务
+"表现层 (UI)" ..> "业务逻辑层 (Service)" : 调用
+
+' 服务操作数据库
+"业务逻辑层 (Service)" ..> "数据访问层 (DAO)" : 读写
+
+' 核心服务调用外部接口
+"问答服务包" ..> "外部依赖" : 调用API
+
+@enduml

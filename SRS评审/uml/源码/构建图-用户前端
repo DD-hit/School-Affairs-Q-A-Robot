@@ -1,0 +1,24 @@
+@startuml
+title 用户-前端页面 构件图
+
+actor 学生
+actor 教师
+actor 管理员
+
+component 问答首页
+component 个人中心
+component 管理员后台
+component 校务论坛
+component 使用帮助
+
+学生 -- 问答首页
+学生 -- 个人中心
+学生 -- 校务论坛
+学生 -- 使用帮助
+
+教师 -- 问答首页
+教师 -- 个人中心
+教师 -- 使用帮助
+
+管理员 -- 管理员后台
+@enduml

@@ -1,0 +1,99 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.2.8 Chrome/140.0.7339.240 Electron/38.4.0 Safari/537.36" version="28.2.8">
+  <diagram name="第 1 页" id="SdBSbg9s_L6J9Zz3tPCi">
+    <mxGraphModel dx="1094" dy="755" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="aywDJcRbKgF-MwIa08-4-1" value="打开浏览器" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="150" y="20" width="140" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="aywDJcRbKgF-MwIa08-4-2" value="访问系统地址" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="142" y="124" width="156" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="aywDJcRbKgF-MwIa08-4-3" value="进入登录注册页面" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="126" y="228" width="188" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="aywDJcRbKgF-MwIa08-4-4" value="选择登录/注册" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="138" y="332" width="164" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="aywDJcRbKgF-MwIa08-4-5" value="输入账号/注册信息" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="122" y="436" width="196" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="aywDJcRbKgF-MwIa08-4-6" value="系统验证信息" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="237" y="540" width="156" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="aywDJcRbKgF-MwIa08-4-7" value="验证是否成功" style="rhombus;strokeWidth=2;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="240" y="644" width="150" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="aywDJcRbKgF-MwIa08-4-8" value="提示错误信息" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="20" y="867" width="156" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="aywDJcRbKgF-MwIa08-4-9" value="登录/注册完成 跳转首页" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="226" y="867" width="233" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="aywDJcRbKgF-MwIa08-4-10" value="登录注册交互完成" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="249" y="971" width="188" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="aywDJcRbKgF-MwIa08-4-11" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;" edge="1" parent="1" source="aywDJcRbKgF-MwIa08-4-1" target="aywDJcRbKgF-MwIa08-4-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aywDJcRbKgF-MwIa08-4-12" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;" edge="1" parent="1" source="aywDJcRbKgF-MwIa08-4-2" target="aywDJcRbKgF-MwIa08-4-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aywDJcRbKgF-MwIa08-4-13" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;" edge="1" parent="1" source="aywDJcRbKgF-MwIa08-4-3" target="aywDJcRbKgF-MwIa08-4-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aywDJcRbKgF-MwIa08-4-14" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;" edge="1" parent="1" source="aywDJcRbKgF-MwIa08-4-4" target="aywDJcRbKgF-MwIa08-4-5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aywDJcRbKgF-MwIa08-4-15" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.75;exitY=1;entryX=0.5;entryY=0;rounded=0;" edge="1" parent="1" source="aywDJcRbKgF-MwIa08-4-5" target="aywDJcRbKgF-MwIa08-4-6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="315" y="515" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aywDJcRbKgF-MwIa08-4-16" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;" edge="1" parent="1" source="aywDJcRbKgF-MwIa08-4-6" target="aywDJcRbKgF-MwIa08-4-7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aywDJcRbKgF-MwIa08-4-17" value="失败" style="curved=1;startArrow=none;endArrow=block;exitX=0;exitY=0.96;entryX=0.76;entryY=-0.01;rounded=0;" edge="1" parent="1" source="aywDJcRbKgF-MwIa08-4-7" target="aywDJcRbKgF-MwIa08-4-8">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="192" y="830" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aywDJcRbKgF-MwIa08-4-18" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.45;exitY=-0.01;entryX=0.13;entryY=1;rounded=0;" edge="1" parent="1" source="aywDJcRbKgF-MwIa08-4-8" target="aywDJcRbKgF-MwIa08-4-5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="79" y="830" />
+              <mxPoint x="79" y="515" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aywDJcRbKgF-MwIa08-4-19" value="成功" style="curved=1;startArrow=none;endArrow=block;exitX=0.62;exitY=1;entryX=0.5;entryY=-0.01;rounded=0;" edge="1" parent="1" source="aywDJcRbKgF-MwIa08-4-7" target="aywDJcRbKgF-MwIa08-4-9">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="343" y="830" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aywDJcRbKgF-MwIa08-4-20" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=0.99;entryX=0.5;entryY=-0.01;rounded=0;" edge="1" parent="1" source="aywDJcRbKgF-MwIa08-4-9" target="aywDJcRbKgF-MwIa08-4-10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
