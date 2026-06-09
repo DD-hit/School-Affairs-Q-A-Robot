@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最终测试 - 热门问题点击</title>
+    <style>
+        .hot-tag {
+            background: rgba(255, 255, 255, 0.95);
+            color: #1677ff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(22, 119, 255, 0.3);
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            margin: 5px;
+        }
+        .hot-tag:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            border-color: #1677ff;
+        }
+        .search-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.95);
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>最终测试 - 使用与index.html相同的结构</h1>
+    
+    <!-- 复制index.html中的搜索框结构 -->
+    <div class="search-container">
+        <input type="text" class="search-input" id="question-input" placeholder="请输入您的问题，例如：如何申请奖学金？">
+    </div>
+    
+    <!-- 复制index.html中的热门问题结构 -->
+    <div class="hot-questions">
+        <div class="hot-title">热门问题：</div>
+        <div class="hot-list" id="hot-questions-list">
+            <!-- 静态热门问题作为备用 -->
+            <div class="hot-tag">如何申请奖学金？</div>
+            <div class="hot-tag">选课系统什么时候开放？</div>
+            <div class="hot-tag">宿舍报修流程是什么？</div>
+            <div class="hot-tag">校园卡丢失怎么办？</div>
+        </div>
+    </div>
+    
+    <div id="debug" style="margin-top: 30px; padding: 15px; background: #f5f5f5; border-radius: 8px; font-family: monospace;"></div>
+    
+    <script>
+        function debug(msg) {
+            const debugDiv = document.getElementById('debug');
+            debugDiv.innerHTML += msg + '<br>';
+            console.log(msg);
+        }
+        
+        // 使用与index.html相同的setupHotQuestionClicks函数
+        function setupHotQuestionClicks() {
+            try {
+                debug('🔥 开始设置热门问题点击事件...');
+                
+                const hotTags = document.querySelectorAll('.hot-tag');
+                debug(`找到 ${hotTags.length} 个.hot-tag元素`);
+                
+                if (hotTags.length === 0) {
+                    debug('❌ 错误: 没有找到.hot-tag元素');
+                    return;
+                }
+                
+                hotTags.forEach((tag, index) => {
+                    // 使用addEventListener而不是onclick
+                    tag.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        
+                        const question = this.textContent;
+                        debug(`🎯 点击热门问题[${index}]: ${question}`);
+                        
+                        // 填充到搜索框
+                        const searchInput = document.getElementById('question-input');
+                        
+                        if (searchInput) {
+                            searchInput.value = question;
+                            searchInput.focus();
+                            debug(`✅ 已填充到搜索框: ${question}`);
+                            
+                            // 视觉反馈
+                            this.style.transform = 'scale(0.95)';
+                            setTimeout(() => {
+                                this.style.transform = '';
+                            }, 200);
+                        } else {
+                            debug('❌ 错误: 未找到#question-input元素');
+                        }
+                    });
+                    
+                    debug(`   ✅ 绑定: "${tag.textContent}"`);
+                });
+                
+                debug(`🎉 成功为 ${hotTags.length} 个热门问题标签添加了点击事件`);
+                
+            } catch (error) {
+                debug('💥 设置热门问题点击事件时出错: ' + error.message);
+            }
+        }
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            debug('DOMContentLoaded事件触发');
+            setupHotQuestionClicks();
+            debug('测试准备完成，请点击上面的热门问题标签');
+            
+            // 添加手动测试按钮
+            const testBtn = document.createElement('button');
+            testBtn.textContent = '点击这里测试第一个热门问题';
+            testBtn.style.marginTop = '20px';
+            testBtn.style.padding = '10px 20px';
+            testBtn.style.background = '#1677ff';
+            testBtn.style.color = 'white';
+            testBtn.style.border = 'none';
+            testBtn.style.borderRadius = '4px';
+            testBtn.style.cursor = 'pointer';
+            
+            testBtn.onclick = function() {
+                const firstTag = document.querySelector('.hot-tag');
+                if (firstTag) {
+                    debug('--- 手动测试开始 ---');
+                    firstTag.click();
+                    debug('--- 手动测试结束 ---');
+                }
+            };
+            
+            document.body.appendChild(testBtn);
+        });
+    </script>
+</body>
+</html>
