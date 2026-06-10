@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>问答首页 - 校务问答机器人系统</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-section {
+            text-align: center;
+            margin-bottom: 48px;
+            padding: 48px 0;
+            background: linear-gradient(135deg, #1677ff 0%, #69b1ff 100%);
+            border-radius: 12px;
+            color: white;
+        }
+        
+        .hero-title {
+            font-size: 32px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        
+        .hero-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 32px;
+        }
+        
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .search-input {
+            flex: 1;
+            height: 48px;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+        
+        .search-btn {
+            height: 48px;
+            padding: 0 32px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .hot-questions {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .hot-title {
+            font-size: 14px;
+            margin-bottom: 12px;
+            opacity: 0.9;
+        }
+        
+        .hot-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            max-height: 120px;
+            overflow-y: auto;
+            padding: 8px;
+        }
+        
+        /* 滚动条样式 */
+        .hot-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .hot-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+        
+        .hot-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+        
+        .hot-list::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .hot-tag {
+            background: rgba(255, 255, 255, 0.95);
+            color: #1677ff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(22, 119, 255, 0.3);
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hot-tag:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            border-color: #1677ff;
+        }
+        
+        .hot-tag:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+        
+        .chat-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .chat-header {
+            padding: 16px;
+            border-bottom: 1px solid #f0f0f0;
+            background: #fafafa;
+        }
+        
+        .chat-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 16px;
+        }
+        
+        .message {
+            margin-bottom: 16px;
+            display: flex;
+            gap: 12px;
+        }
+        
+        .message.user {
+            flex-direction: row-reverse;
+        }
+        
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #1677ff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        
+        .message.user .message-avatar {
+            background: #52c41a;
+        }
+        
+        .message-content {
+            max-width: 70%;
+        }
+        
+        .message.user .message-content {
+            text-align: right;
+        }
+        
+        .message-bubble {
+            background: #f5f5f5;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .message.user .message-bubble {
+            background: #1677ff;
+            color: white;
+        }
+        
+        .message-time {
+            font-size: 12px;
+            color: #8c8c8c;
+            margin-top: 4px;
+        }
+        
+        .message.user .message-time {
+            text-align: right;
+        }
+        
+        .chat-input {
+            padding: 16px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            gap: 12px;
+        }
+        
+        .chat-input textarea {
+            flex: 1;
+            height: 80px;
+            padding: 12px;
+            border: 1px solid #d9d9d9;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: none;
+        }
+        
+        .chat-input textarea:focus {
+            outline: none;
+            border-color: #1677ff;
+        }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .sidebar-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #262626;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .sidebar-title::before {
+            content: '';
+            width: 4px;
+            height: 16px;
+            background: #1677ff;
+            border-radius: 2px;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .quick-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px;
+            background: #fafafa;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #262626;
+            transition: all 0.2s;
+        }
+        
+        .quick-action:hover {
+            background: #f0f0f0;
+        }
+        
+        .action-icon {
+            width: 40px;
+            height: 40px;
+            background: #1677ff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        
+        .action-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .history-item {
+            padding: 12px;
+            background: #fafafa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+        
+        .history-item:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .history-category {
+            font-size: 11px;
+            padding: 2px 6px;
+            background: rgba(22, 119, 255, 0.1);
+            color: #1677ff;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+        
+        .history-time {
+            font-size: 11px;
+            color: #8c8c8c;
+        }
+        
+        .history-question {
+            font-size: 14px;
+            color: #262626;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .service-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .service-link {
+            padding: 8px 16px;
+            background: #f5f5f5;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #262626;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .service-link:hover {
+            background: #1677ff;
+            color: white;
+        }
+        
+        .feedback-section {
+            margin-top: 32px;
+            text-align: center;
+        }
+        
+        .feedback-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">校</div>
+                <span>校务问答机器人系统</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">首页</a>
+                <a href="personal.html" class="nav-link">个人中心</a>
+                <a href="admin.html" class="nav-link">管理员后台</a>
+                <a href="forum.html" class="nav-link">校务论坛</a>
+                <a href="help.html" class="nav-link">使用帮助</a>
+            </div>
+            <div class="user-info">
+                <button class="theme-toggle" id="theme-toggle" title="切换主题">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <span>张三 (学号：2023666)</span>
+                <div class="avatar">张</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="container">
+            <!-- 英雄区域 -->
+            <section class="hero-section">
+                <h1 class="hero-title">校务智能问答助手</h1>
+                <p class="hero-subtitle">快速解答校园政务问题，一站式服务师生</p>
+                
+                <!-- 分类查找区域（可选） -->
+                <div class="category-section">
+                    <div class="section-header">
+                        <h3 class="section-title">快速分类查找</h3>
+                        <button class="btn btn-text toggle-categories" id="toggle-categories">
+                            <i class="fas fa-chevron-down"></i> 展开分类
+                        </button>
+                    </div>
+                    <div class="category-grid" id="category-grid" style="display: none;">
+                        <!-- 分类将通过JS动态加载 -->
+                    </div>
+                </div>
+                
+                <!-- 搜索区域（始终显示） -->
+                <div class="search-container" id="search-container">
+                    <div class="search-box">
+                        <input type="text" class="search-input" id="question-input" placeholder="请输入您的问题，例如：如何申请奖学金？">
+                        <button class="btn btn-primary search-btn" id="ask-btn">提问</button>
+                    </div>
+                    
+                    <div class="hot-questions">
+                        <div class="hot-title">热门问题：</div>
+                        <div class="hot-list" id="hot-questions-list">
+                            <!-- 静态热门问题作为备用 -->
+                            <div class="hot-tag">如何申请奖学金？</div>
+                            <div class="hot-tag">选课系统什么时候开放？</div>
+                            <div class="hot-tag">宿舍报修流程是什么？</div>
+                            <div class="hot-tag">校园卡丢失怎么办？</div>
+                            <div class="hot-tag">图书馆开放时间？</div>
+                            <div class="hot-tag">四六级考试报名时间？</div>
+                            <div class="hot-tag">病假需要什么证明？</div>
+                            <div class="hot-tag">校园网怎么办理？</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 主要内容区域 -->
+            <div class="content-grid">
+                <!-- 左侧：问答对话区 -->
+                <div class="chat-container card">
+                    <div class="chat-header">
+                        <h3 class="chat-title">智能问答对话</h3>
+                    </div>
+                    
+                    <div class="chat-messages" id="chat-messages">
+                        <!-- 对话消息将通过JS动态加载 -->
+                        <div class="message">
+                            <div class="message-avatar">机</div>
+                            <div class="message-content">
+                                <div class="message-bubble">
+                                    您好！我是校务问答助手，可以为您解答关于选课、奖学金、宿舍、校园卡、图书馆、考试等方面的问题。请问有什么可以帮您？
+                                </div>
+                                <div class="message-time">刚刚</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input">
+                        <textarea id="chat-input" placeholder="输入您的问题..."></textarea>
+                        <div class="d-flex flex-column gap-2">
+                            <button class="btn btn-primary" id="send-btn">发送</button>
+                            <button class="btn btn-secondary" id="clear-btn">清空</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 右侧：侧边栏 -->
+                <div class="sidebar">
+                    <!-- 快捷操作 -->
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">快捷操作</h3>
+                        <div class="quick-actions">
+                            <a href="personal.html" class="quick-action">
+                                <div class="action-icon">👤</div>
+                                <span class="action-text">个人中心</span>
+                            </a>
+                            <a href="forum.html" class="quick-action">
+                                <div class="action-icon">💬</div>
+                                <span class="action-text">校务论坛</span>
+                            </a>
+                            <a href="admin.html" class="quick-action">
+                                <div class="action-icon">⚙️</div>
+                                <span class="action-text">管理员</span>
+                            </a>
+                            <a href="help.html" class="quick-action">
+                                <div class="action-icon">❓</div>
+                                <span class="action-text">使用帮助</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- 历史对话 -->
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">历史对话</h3>
+                        <div class="history-list" id="history-list">
+                            <!-- 历史记录将通过JS动态加载 -->
+                        </div>
+                    </div>
+                    
+                    <!-- 校务分类推送 -->
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">校务分类推送</h3>
+                        <div class="push-tabs">
+                            <div class="push-tab active" data-level="university">校级通知</div>
+                            <div class="push-tab" data-level="college">院级通知</div>
+                        </div>
+                        <div class="push-content">
+                            <div class="push-list university-push active">
+                                <div class="push-item">
+                                    <div class="push-title">关于2026年春季学期开学安排的通知</div>
+                                    <div class="push-time">2小时前</div>
+                                </div>
+                                <div class="push-item">
+                                    <div class="push-title">图书馆系统升级维护通知</div>
+                                    <div class="push-time">1天前</div>
+                                </div>
+                                <div class="push-item">
+                                    <div class="push-title">校园网缴费系统优化完成</div>
+                                    <div class="push-time">2天前</div>
+                                </div>
+                            </div>
+                            <div class="push-list college-push">
+                                <div class="push-item">
+                                    <div class="push-title">计算机学院专业分流说明会通知</div>
+                                    <div class="push-time">3小时前</div>
+                                </div>
+                                <div class="push-item">
+                                    <div class="push-title">软件工程专业实习安排</div>
+                                    <div class="push-time">1天前</div>
+                                </div>
+                                <div class="push-item">
+                                    <div class="push-title">人工智能实验室开放时间调整</div>
+                                    <div class="push-time">2天前</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 办事入口 -->
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">办事入口</h3>
+                        <div class="service-links">
+                            <a href="#" class="service-link">选课系统</a>
+                            <a href="#" class="service-link">奖学金申请</a>
+                            <a href="#" class="service-link">宿舍报修</a>
+                            <a href="#" class="service-link">校园卡服务</a>
+                            <a href="#" class="service-link">图书馆预约</a>
+                            <a href="#" class="service-link">考试报名</a>
+                            <a href="#" class="service-link">成绩查询</a>
+                            <a href="#" class="service-link">请假申请</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 反馈区域 -->
+            <div class="feedback-section">
+                <p>这个回答对您有帮助吗？</p>
+                <div class="feedback-buttons">
+                    <button class="btn btn-text btn-like">👍 有帮助</button>
+                    <button class="btn btn-text btn-like">👎 没帮助</button>
+                    <button class="btn btn-text" id="feedback-btn">📝 详细反馈</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部栏 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html" class="footer-link">首页</a>
+                <a href="forum.html" class="footer-link">校务论坛</a>
+                <a href="help.html" class="footer-link">使用帮助</a>
+                <a href="#" class="footer-link">关于我们</a>
+                <a href="#" class="footer-link">隐私政策</a>
+            </div>
+            <div class="copyright">
+                © 2026 校务问答机器人系统. 版权所有.
+            </div>
+        </div>
+    </footer>
+
+    <!-- 反馈模态框 -->
+    <div class="modal" id="feedback-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">问题反馈</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label" for="feedback-type">反馈类型</label>
+                    <select id="feedback-type" class="form-control">
+                        <option value="answer-wrong">回答错误</option>
+                        <option value="answer-incomplete">回答不完整</option>
+                        <option value="response-slow">响应太慢</option>
+                        <option value="other">其他问题</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="feedback-content">详细描述</label>
+                    <textarea id="feedback-content" class="form-control" rows="4" placeholder="请详细描述您遇到的问题或建议..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-feedback">取消</button>
+                <button class="btn btn-primary" id="submit-feedback">提交反馈</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // 问答首页特定逻辑 - 简化可靠版本
+        console.log('📝 JavaScript开始执行...');
+        
+        // 全局模拟数据 - 放在最前面确保所有函数都能访问
+        window.mockData = {
+            chatHistory: [
+                {
+                    id: 1,
+                    question: '如何申请奖学金？',
+                    answer: '奖学金申请流程：1.查看学校通知 2.准备申请材料 3.提交申请 4.等待审核 5.公示结果。具体时间请关注教务处通知。',
+                    time: '2026-03-10 14:30',
+                    category: '奖学金'
+                },
+                {
+                    id: 2,
+                    question: '选课系统什么时候开放？',
+                    answer: '本学期选课系统开放时间安排：第一阶段3月15日9:00，第二阶段3月25日9:00，第三阶段4月5日9:00。请提前做好准备。',
+                    time: '2026-03-09 10:15',
+                    category: '学业相关'
+                },
+                {
+                    id: 3,
+                    question: '宿舍报修流程是什么？',
+                    answer: '宿舍报修可以通过以下方式：1.登录后勤服务公众号 2.拨打报修电话12345 3.到宿舍楼值班室登记。紧急情况请直接联系值班室。',
+                    time: '2026-03-08 16:45',
+                    category: '宿舍生活'
+                },
+                {
+                    id: 4,
+                    question: '校园卡丢失怎么办？',
+                    answer: '校园卡丢失处理步骤：1.立即挂失（电话或网上）2.到校园卡服务中心补办 3.携带学生证和身份证 4.缴纳补办费用20元。',
+                    time: '2026-03-07 09:20',
+                    category: '校园卡'
+                },
+                {
+                    id: 5,
+                    question: '图书馆借书期限是多久？',
+                    answer: '图书馆借书期限：本科生30天，研究生60天，教职工90天。可续借一次，续借期限同原借期。逾期每天罚款0.1元。',
+                    time: '2026-03-06 13:10',
+                    category: '图书馆'
+                },
+                {
+                    id: 6,
+                    question: '如何办理休学手续？',
+                    answer: '休学办理流程：1.填写休学申请表 2.家长签字同意 3.辅导员审核 4.学院审批 5.教务处备案。需提供相关证明材料。',
+                    time: '2026-03-05 11:30',
+                    category: '学籍管理'
+                }
+            ]
+        };
+        
+        console.log('📊 全局mockData已初始化，包含', window.mockData.chatHistory.length, '条历史记录');
+        
+        // 简单测试：确保JavaScript基本功能正常
+        try {
+            console.log('✅ JavaScript引擎正常');
+            console.log('✅ document对象可用:', !!document);
+            console.log('✅ getElementById可用:', !!document.getElementById);
+            console.log('✅ window.mockData可用:', !!window.mockData);
+        } catch (e) {
+            console.error('❌ JavaScript初始化错误:', e);
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 DOMContentLoaded事件触发，页面开始加载...');
+            
+            // === 简单直接的分类功能 ===
+            function setupCategorySystem() {
+                console.log('🛠️ 设置分类系统...');
+                
+                // 1. 获取元素
+                const categoryGrid = document.getElementById('category-grid');
+                const toggleBtn = document.getElementById('toggle-categories');
+                
+                if (!categoryGrid) {
+                    console.error('❌ 错误: 找不到category-grid');
+                    return;
+                }
+                
+                if (!toggleBtn) {
+                    console.error('❌ 错误: 找不到toggle-categories按钮');
+                    return;
+                }
+                
+                console.log('✅ 找到所有必要元素');
+                
+                // 2. 分类数据
+                const categories = [
+                    { name: '学业相关', icon: 'fas fa-graduation-cap', color: '#1677ff' },
+                    { name: '奖学金', icon: 'fas fa-award', color: '#52c41a' },
+                    { name: '宿舍生活', icon: 'fas fa-home', color: '#fa8c16' },
+                    { name: '校园卡', icon: 'fas fa-credit-card', color: '#722ed1' },
+                    { name: '图书馆', icon: 'fas fa-book', color: '#13c2c2' },
+                    { name: '考试报名', icon: 'fas fa-file-alt', color: '#f5222d' },
+                    { name: '请假申请', icon: 'fas fa-calendar-check', color: '#eb2f96' },
+                    { name: '其他问题', icon: 'fas fa-question-circle', color: '#8c8c8c' }
+                ];
+                
+                // 3. 加载分类到网格
+                function loadCategories() {
+                    console.log('📦 加载分类卡片...');
+                    categoryGrid.innerHTML = '';
+                    
+                    categories.forEach(category => {
+                        const card = document.createElement('div');
+                        card.className = 'category-card';
+                        card.innerHTML = `
+                            <div class="category-icon" style="background: ${category.color}">
+                                <i class="${category.icon}"></i>
+                            </div>
+                            <div class="category-name">${category.name}</div>
+                        `;
+                        
+                        // 点击事件
+                        card.addEventListener('click', function() {
+                            console.log(`🎯 点击: ${category.name}`);
+                            // 视觉反馈
+                            this.style.transform = 'scale(0.95)';
+                            setTimeout(() => {
+                                this.style.transform = '';
+                            }, 200);
+                            
+                            // 更新搜索框提示
+                            const searchInput = document.getElementById('question-input');
+                            const chatInput = document.getElementById('chat-input');
+                            if (searchInput) {
+                                searchInput.placeholder = `请输入关于${category.name}的问题...`;
+                                searchInput.focus();
+                            }
+                            if (chatInput) {
+                                chatInput.placeholder = `请输入关于${category.name}的问题...`;
+                            }
+                        });
+                        
+                        categoryGrid.appendChild(card);
+                    });
+                    
+                    console.log(`✅ 加载了 ${categories.length} 个分类`);
+                }
+                
+                // 4. 切换显示/隐藏
+                function toggleCategories() {
+                    console.log('🔄 切换分类显示');
+                    const isVisible = categoryGrid.style.display !== 'none';
+                    
+                    if (isVisible) {
+                        categoryGrid.style.display = 'none';
+                        toggleBtn.innerHTML = '<i class="fas fa-chevron-down"></i> 展开分类';
+                        console.log('📤 隐藏分类');
+                    } else {
+                        categoryGrid.style.display = 'grid';
+                        toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i> 收起分类';
+                        console.log('📥 显示分类');
+                        
+                        // 确保有内容
+                        if (categoryGrid.children.length === 0) {
+                            loadCategories();
+                        }
+                    }
+                }
+                
+                // 5. 绑定事件
+                toggleBtn.addEventListener('click', toggleCategories);
+                console.log('🔗 切换按钮事件已绑定');
+                
+                // 6. 初始加载
+                loadCategories();
+                
+                console.log('🎉 分类系统设置完成');
+            }
+            
+            // 执行设置
+            setupCategorySystem();
+            
+            // 模拟数据 - 工具函数
+            const utils = {
+                formatTime: function(date) {
+                    const d = new Date(date);
+                    const now = new Date();
+                    const diff = now - d;
+                    
+                    if (diff < 60000) return '刚刚';
+                    if (diff < 3600000) return Math.floor(diff / 60000) + '分钟前';
+                    if (diff < 86400000) return Math.floor(diff / 3600000) + '小时前';
+                    if (diff < 604800000) return Math.floor(diff / 86400000) + '天前';
+                    
+                    return d.toLocaleDateString('zh-CN');
+                },
+                showError: function(message) {
+                    alert(message);
+                },
+                showSuccess: function(message) {
+                    alert(message);
+                },
+                showLoading: function(button, isLoading) {
+                    if (isLoading) {
+                        button.innerHTML = '<div class="loading"></div>';
+                        button.disabled = true;
+                    } else {
+                        button.innerHTML = '提交反馈';
+                        button.disabled = false;
+                    }
+                }
+            };
+            
+            // 使用全局的mockData，不再重复定义
+            console.log('使用全局mockData，包含', window.mockData.chatHistory.length, '条历史记录');
+            
+            // 分类数据
+            const categories = [
+                { id: 'academic', name: '学业相关', icon: 'fas fa-graduation-cap', color: '#1677ff' },
+                { id: 'scholarship', name: '奖学金', icon: 'fas fa-award', color: '#52c41a' },
+                { id: 'dormitory', name: '宿舍生活', icon: 'fas fa-home', color: '#fa8c16' },
+                { id: 'campus-card', name: '校园卡', icon: 'fas fa-credit-card', color: '#722ed1' },
+                { id: 'library', name: '图书馆', icon: 'fas fa-book', color: '#13c2c2' },
+                { id: 'exam', name: '考试报名', icon: 'fas fa-file-alt', color: '#f5222d' },
+                { id: 'leave', name: '请假申请', icon: 'fas fa-calendar-check', color: '#eb2f96' },
+                { id: 'other', name: '其他问题', icon: 'fas fa-question-circle', color: '#8c8c8c' }
+            ];
+            
+            const categoryQuestions = {
+                'academic': [
+                    '如何申请转专业？',
+                    '课程重修流程是什么？',
+                    '如何查看课程表？',
+                    '学分要求是多少？'
+                ],
+                'scholarship': [
+                    '如何申请奖学金？',
+                    '奖学金评选标准是什么？',
+                    '奖学金发放时间？',
+                    '国家助学金申请条件？'
+                ],
+                'dormitory': [
+                    '宿舍报修流程是什么？',
+                    '宿舍调换如何申请？',
+                    '宿舍水电费如何缴纳？',
+                    '宿舍门禁时间？'
+                ],
+                'campus-card': [
+                    '校园卡丢失怎么办？',
+                    '如何给校园卡充值？',
+                    '校园卡挂失电话？',
+                    '补办校园卡需要什么材料？'
+                ],
+                'library': [
+                    '图书馆开放时间？',
+                    '如何预约图书馆座位？',
+                    '图书借阅期限是多久？',
+                    '如何续借图书？'
+                ],
+                'exam': [
+                    '四六级考试报名时间？',
+                    '计算机等级考试如何报名？',
+                    '期末考试安排在哪里查看？',
+                    '补考申请流程？'
+                ],
+                'leave': [
+                    '病假需要什么证明？',
+                    '事假如何申请？',
+                    '请假最长可以请多久？',
+                    '紧急请假流程？'
+                ],
+                'other': [
+                    '校园网怎么办理？',
+                    '体育馆开放时间？',
+                    '校医院在哪里？',
+                    '失物招领处位置？'
+                ]
+            };
+            
+            const mockAnswers = {
+                '如何申请奖学金？': {
+                    title: '奖学金申请流程',
+                    content: '奖学金申请通常在每学期初开放，具体流程如下：',
+                    steps: [
+                        '登录教务系统查看奖学金通知',
+                        '准备相关证明材料（成绩单、获奖证书等）',
+                        '在规定时间内提交申请',
+                        '等待学院和学校审核',
+                        '公示结果'
+                    ],
+                    category: 'scholarship'
+                },
+                '选课系统什么时候开放？': {
+                    title: '选课系统开放时间',
+                    content: '本学期选课系统开放时间安排：',
+                    steps: [
+                        '第一阶段：3月15日 9:00 - 3月20日 17:00',
+                        '第二阶段：3月25日 9:00 - 3月30日 17:00',
+                        '第三阶段（补选）：4月5日 9:00 - 4月10日 17:00'
+                    ],
+                    category: 'academic'
+                },
+                '宿舍报修流程是什么？': {
+                    title: '宿舍报修流程',
+                    content: '宿舍报修可以通过以下方式：',
+                    steps: [
+                        '关注"校园后勤服务"公众号',
+                        '点击"在线报修"填写信息',
+                        '或拨打报修电话：12345678',
+                        '维修人员会在24小时内上门处理'
+                    ],
+                    category: 'dormitory'
+                },
+                '校园卡丢失怎么办？': {
+                    title: '校园卡丢失处理步骤',
+                    content: '校园卡丢失请立即按以下步骤处理：',
+                    steps: [
+                        '登录校园一卡通系统挂失',
+                        '携带身份证到卡务中心补办',
+                        '补办费用：20元',
+                        '补办时间：工作日 8:30-17:00'
+                    ],
+                    category: 'campus-card'
+                },
+                '图书馆开放时间？': {
+                    title: '图书馆开放时间',
+                    content: '图书馆开放时间：',
+                    steps: [
+                        '周一至周五：8:00-22:00',
+                        '周六至周日：9:00-21:00',
+                        '节假日：9:00-17:00',
+                        '自习室：24小时开放（需预约）'
+                    ],
+                    category: 'library'
+                }
+            };
+            
+            // 获取DOM元素
+            const questionInput = document.getElementById('question-input');
+            const askBtn = document.getElementById('ask-btn');
+            const chatMessages = document.getElementById('chat-messages');
+            const chatInput = document.getElementById('chat-input');
+            const sendBtn = document.getElementById('send-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const hotQuestionsList = document.getElementById('hot-questions-list');
+            const historyList = document.getElementById('history-list');
+            const feedbackBtn = document.getElementById('feedback-btn');
+            const feedbackModal = document.getElementById('feedback-modal');
+            const cancelFeedbackBtn = document.getElementById('cancel-feedback');
+            const submitFeedbackBtn = document.getElementById('submit-feedback');
+            const categoryGrid = document.getElementById('category-grid');
+            const toggleCategoriesBtn = document.getElementById('toggle-categories');
+            const themeToggle = document.getElementById('theme-toggle');
+            
+            // 加载分类 - 简化可靠版本
+            // 注意: 旧的loadCategories和toggleCategories函数已被新的简化版本替换
+            // 新的分类系统在代码开头部分（搜索"=== 简单直接的分类功能 ==="）
+            
+            // 分类点击事件
+            function handleCategoryClick(category, event) {
+                // 移除其他分类的激活状态
+                document.querySelectorAll('.category-card').forEach(card => {
+                    card.classList.remove('active');
+                });
+                // 激活当前分类
+                event.currentTarget.classList.add('active');
+                // 在搜索框中显示分类提示
+                questionInput.placeholder = `请输入关于${category.name}的问题...`;
+                chatInput.placeholder = `请输入关于${category.name}的问题...`;
+                // 加载该分类的热门问题
+                loadCategoryQuestions(category.id);
+            }
+            
+            // 加载分类热门问题
+            function loadCategoryQuestions(categoryId) {
+                hotQuestionsList.innerHTML = '';
+                const questions = categoryQuestions[categoryId] || [];
+                questions.forEach(question => {
+                    const tag = document.createElement('div');
+                    tag.className = 'hot-tag';
+                    tag.textContent = question;
+                    tag.addEventListener('click', () => {
+                        questionInput.value = question;
+                        chatInput.value = question;
+                    });
+                    hotQuestionsList.appendChild(tag);
+                });
+            }
+            
+            // 加载通用热门问题 - 调用外部设置函数
+            function loadHotQuestions() {
+                console.log('🔥 [热门问题] 调用外部点击事件设置');
+                // 调用在页面底部定义的设置函数
+                if (typeof window.setupHotQuestionClicks === 'function') {
+                    window.setupHotQuestionClicks();
+                } else {
+                    console.log('ℹ️ [热门问题] 外部函数尚未加载，稍后会自动执行');
+                }
+            }
+            
+            // 加载历史记录 - 简化可靠版本
+            function loadHistory() {
+                console.log('🔥 [历史记录] 开始加载...');
+                
+                try {
+                    const historyList = document.getElementById('history-list');
+                    if (!historyList) {
+                        console.error('❌ [历史记录] 错误: 未找到#history-list元素');
+                        return;
+                    }
+                    
+                    console.log('✅ [历史记录] 找到#history-list元素');
+                    historyList.innerHTML = '';
+                    
+                    // 检查数据 - 使用全局的window.mockData
+                    if (!window.mockData || !window.mockData.chatHistory || window.mockData.chatHistory.length === 0) {
+                        console.error('❌ [历史记录] 错误: 没有历史数据');
+                        historyList.innerHTML = '<div style="padding: 20px; text-align: center; color: #8c8c8c;">暂无历史对话</div>';
+                        return;
+                    }
+                    
+                    console.log(`📦 [历史记录] 准备加载 ${window.mockData.chatHistory.length} 条记录`);
+                    
+                    window.mockData.chatHistory.forEach((item, index) => {
+                        try {
+                            const historyItem = document.createElement('div');
+                            historyItem.className = 'history-item';
+                            historyItem.dataset.chatId = item.id || index;
+                            
+                            // 格式化时间显示
+                            let formattedTime = '刚刚';
+                            try {
+                                const time = new Date(item.time);
+                                if (!isNaN(time.getTime())) {
+                                    formattedTime = time.toLocaleDateString('zh-CN') + ' ' + 
+                                                   time.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+                                }
+                            } catch (timeError) {
+                                console.warn(`时间格式化错误: ${item.time}`, timeError);
+                            }
+                            
+                            historyItem.innerHTML = `
+                                <div class="history-header">
+                                    <span class="history-category">${item.category || '未分类'}</span>
+                                    <span class="history-time">${formattedTime}</span>
+                                </div>
+                                <div class="history-question">${item.question || '未知问题'}</div>
+                            `;
+                            
+                            // 点击查看历史对话
+                            historyItem.addEventListener('click', function() {
+                                console.log(`🎯 [历史记录] 点击: ${item.question}`);
+                                
+                                // 清空当前聊天框
+                                chatMessages.innerHTML = '';
+                                
+                                // 添加用户问题
+                                const userMessage = document.createElement('div');
+                                userMessage.className = 'message user';
+                                userMessage.innerHTML = `
+                                    <div class="message-avatar">我</div>
+                                    <div class="message-content">
+                                        <div class="message-bubble">${item.question}</div>
+                                        <div class="message-time">${formattedTime}</div>
+                                    </div>
+                                `;
+                                chatMessages.appendChild(userMessage);
+                                
+                                // 添加机器人回答
+                                const botMessage = document.createElement('div');
+                                botMessage.className = 'message';
+                                botMessage.innerHTML = `
+                                    <div class="message-avatar">机</div>
+                                    <div class="message-content">
+                                        <div class="message-bubble">${item.answer}</div>
+                                        <div class="message-time">${formattedTime}</div>
+                                    </div>
+                                `;
+                                chatMessages.appendChild(botMessage);
+                                
+                                // 滚动到底部
+                                chatMessages.scrollTop = chatMessages.scrollHeight;
+                                
+                                // 视觉反馈
+                                document.querySelectorAll('.history-item').forEach(otherItem => {
+                                    otherItem.style.backgroundColor = '';
+                                    otherItem.style.borderLeft = '';
+                                });
+                                this.style.backgroundColor = 'rgba(22, 119, 255, 0.05)';
+                                this.style.borderLeft = '3px solid #1677ff';
+                            });
+                            
+                            historyList.appendChild(historyItem);
+                            console.log(`   ✅ 添加: ${item.question.substring(0, 20)}...`);
+                            
+                        } catch (itemError) {
+                            console.error(`❌ [历史记录] 添加第${index}条记录时出错:`, itemError);
+                        }
+                    });
+                    
+                    const createdItems = historyList.querySelectorAll('.history-item');
+                    console.log(`🎉 [历史记录] 完成! 创建了 ${createdItems.length} 条历史记录`);
+                    
+                    if (createdItems.length === 0) {
+                        console.error('⚠️ [历史记录] 警告: 没有创建任何历史记录');
+                        // 添加测试数据
+                        const testItem = document.createElement('div');
+                        testItem.className = 'history-item';
+                        testItem.innerHTML = `
+                            <div class="history-header">
+                                <span class="history-category">测试</span>
+                                <span class="history-time">刚刚</span>
+                            </div>
+                            <div class="history-question">点击测试历史对话功能</div>
+                        `;
+                        testItem.addEventListener('click', function() {
+                            chatMessages.innerHTML = `
+                                <div class="message user">
+                                    <div class="message-avatar">我</div>
+                                    <div class="message-content">
+                                        <div class="message-bubble">测试问题</div>
+                                        <div class="message-time">刚刚</div>
+                                    </div>
+                                </div>
+                                <div class="message">
+                                    <div class="message-avatar">机</div>
+                                    <div class="message-content">
+                                        <div class="message-bubble">这是测试回答，说明历史对话功能正常工作。</div>
+                                        <div class="message-time">刚刚</div>
+                                    </div>
+                                </div>
+                            `;
+                            chatMessages.scrollTop = chatMessages.scrollHeight;
+                        });
+                        historyList.appendChild(testItem);
+                        console.log('⚠️ 已添加测试历史记录');
+                    }
+                    
+                } catch (error) {
+                    console.error('💥 [历史记录] 函数执行出错:', error);
+                }
+            }
+            
+            // 添加消息到聊天框
+            function addMessage(content, isUser = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${isUser ? 'user' : ''}`;
+                
+                const avatar = isUser ? '我' : '机';
+                const time = new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+                
+                messageDiv.innerHTML = `
+                    <div class="message-avatar">${avatar}</div>
+                    <div class="message-content">
+                        <div class="message-bubble">${content}</div>
+                        <div class="message-time">${time}</div>
+                    </div>
+                `;
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // 获取回答
+            function getAnswer(question) {
+                // 查找匹配的回答
+                for (const [key, answerData] of Object.entries(mockAnswers)) {
+                    if (question.includes(key.replace('？', '').replace('?', ''))) {
+                        // 返回结构化答案
+                        return formatStructuredAnswer(answerData);
+                    }
+                }
+                
+                // 无法回答时的提示
+                return formatSolutionPath(question);
+            }
+            
+            // 格式化结构化答案
+            function formatStructuredAnswer(answerData) {
+                let html = `
+                    <div class="structured-answer">
+                        <h4>${answerData.title}</h4>
+                        <p>${answerData.content}</p>
+                        <ol class="answer-steps">
+                `;
+                
+                answerData.steps.forEach(step => {
+                    html += `<li>${step}</li>`;
+                });
+                
+                html += `
+                        </ol>
+                    </div>
+                `;
+                
+                return html;
+            }
+            
+            // 格式化解决路径
+            function formatSolutionPath(question) {
+                return `
+                    <div class="solution-path">
+                        <div class="solution-header">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span>暂时无法回答您的问题</span>
+                        </div>
+                        <p>关于"${question}"的问题，我暂时没有找到准确的答案。您可以尝试以下方式：</p>
+                        <div class="solution-options">
+                            <div class="solution-option">
+                                <i class="fas fa-phone"></i>
+                                <span>电话咨询：教务处 12345678</span>
+                            </div>
+                            <div class="solution-option">
+                                <i class="fas fa-link"></i>
+                                <a href="forum.html">相关讨论：查看校务论坛</a>
+                            </div>
+                            <div class="solution-option">
+                                <i class="fas fa-building"></i>
+                                <span>部门指引：行政楼301室（教务处）</span>
+                            </div>
+                            <div class="solution-option">
+                                <i class="fas fa-redo"></i>
+                                <span>其他建议：尝试重新表述问题</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // 提问按钮点击事件
+            askBtn.addEventListener('click', () => {
+                const question = questionInput.value.trim();
+                if (!question) {
+                    utils.showError('请输入问题');
+                    return;
+                }
+                
+                // 添加到聊天框
+                addMessage(question, true);
+                
+                // 模拟思考时间
+                setTimeout(() => {
+                    const answer = getAnswer(question);
+                    addMessage(answer);
+                }, 1000);
+                
+                // 清空输入框
+                questionInput.value = '';
+                chatInput.value = '';
+            });
+            
+            // 发送按钮点击事件
+            sendBtn.addEventListener('click', () => {
+                const question = chatInput.value.trim();
+                if (!question) {
+                    utils.showError('请输入问题');
+                    return;
+                }
+                
+                // 添加到聊天框
+                addMessage(question, true);
+                
+                // 模拟思考时间
+                setTimeout(() => {
+                    const answer = getAnswer(question);
+                    addMessage(answer);
+                }, 1000);
+                
+                // 清空输入框
+                chatInput.value = '';
+                questionInput.value = '';
+            });
+            
+            // 清空按钮点击事件
+            clearBtn.addEventListener('click', () => {
+                chatInput.value = '';
+                questionInput.value = '';
+            });
+            
+            // 输入框回车事件
+            questionInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    askBtn.click();
+                }
+            });
+            
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendBtn.click();
+                }
+            });
+            
+            // 反馈按钮点击事件
+            feedbackBtn.addEventListener('click', () => {
+                feedbackModal.classList.add('show');
+            });
+            
+            // 取消反馈
+            cancelFeedbackBtn.addEventListener('click', () => {
+                feedbackModal.classList.remove('show');
+            });
+            
+            // 提交反馈
+            submitFeedbackBtn.addEventListener('click', () => {
+                const feedbackType = document.getElementById('feedback-type').value;
+                const feedbackContent = document.getElementById('feedback-content').value.trim();
+                
+                if (!feedbackContent) {
+                    utils.showError('请填写反馈内容');
+                    return;
+                }
+                
+                utils.showLoading(submitFeedbackBtn, true);
+                
+                setTimeout(() => {
+                    utils.showLoading(submitFeedbackBtn, false);
+                    feedbackModal.classList.remove('show');
+                    utils.showSuccess('反馈提交成功！感谢您的反馈。');
+                    
+                    // 清空表单
+                    document.getElementById('feedback-content').value = '';
+                }, 1000);
+            });
+            
+            // 主题切换功能
+            function initTheme() {
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                if (savedTheme === 'dark') {
+                    document.body.classList.add('dark-mode');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                }
+            }
+            
+            function toggleTheme() {
+                if (document.body.classList.contains('dark-mode')) {
+                    document.body.classList.remove('dark-mode');
+                    localStorage.setItem('theme', 'light');
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                } else {
+                    document.body.classList.add('dark-mode');
+                    localStorage.setItem('theme', 'dark');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                }
+            }
+            
+            // 校务推送标签切换功能
+            function initPushTabs() {
+                const pushTabs = document.querySelectorAll('.push-tab');
+                const pushLists = document.querySelectorAll('.push-list');
+                
+                if (pushTabs.length === 0 || pushLists.length === 0) {
+                    console.log('未找到校务推送标签或列表');
+                    return;
+                }
+                
+                pushTabs.forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        // 移除所有标签的激活状态
+                        pushTabs.forEach(t => t.classList.remove('active'));
+                        // 添加当前标签的激活状态
+                        this.classList.add('active');
+                        
+                        // 获取标签类型
+                        const level = this.getAttribute('data-level');
+                        
+                        // 隐藏所有推送列表
+                        pushLists.forEach(list => {
+                            list.classList.remove('active');
+                        });
+                        
+                        // 显示对应的推送列表
+                        const targetList = document.querySelector(`.${level}-push`);
+                        if (targetList) {
+                            targetList.classList.add('active');
+                        }
+                    });
+                });
+                
+                console.log('校务推送标签切换功能已初始化');
+            }
+            
+            // 初始化主题
+            initTheme();
+            
+            // 绑定主题切换事件
+            if (themeToggle) {
+                themeToggle.addEventListener('click', toggleTheme);
+            }
+            
+            // 初始化校务推送标签
+            initPushTabs();
+            
+            console.log('准备加载热门问题...');
+            // 加载热门问题
+            loadHotQuestions();
+            console.log('热门问题加载函数已调用');
+            
+            console.log('准备加载历史记录...');
+            // 加载历史记录 - 增强调试版本
+            console.log('=== 开始加载历史记录 ===');
+            try {
+                // 先检查元素是否存在
+                const historyList = document.getElementById('history-list');
+                console.log('1. 检查#history-list元素:', historyList ? '找到' : '未找到');
+                if (historyList) {
+                    console.log('2. #history-list当前内容长度:', historyList.innerHTML.length);
+                    console.log('3. #history-list子元素数量:', historyList.children.length);
+                }
+                
+                // 检查mockData是否存在
+                console.log('4. mockData是否存在:', window.mockData ? '是' : '否');
+                if (window.mockData) {
+                    console.log('5. mockData.chatHistory:', window.mockData.chatHistory);
+                    console.log('6. chatHistory长度:', window.mockData.chatHistory ? window.mockData.chatHistory.length : 0);
+                }
+                
+                // 调用loadHistory函数
+                console.log('7. 调用loadHistory函数...');
+                loadHistory();
+                console.log('8. loadHistory函数调用完成');
+                
+                // 延迟检查结果，给DOM更新一些时间
+                setTimeout(() => {
+                    console.log('9. 延迟检查历史记录结果...');
+                    const historyItems = document.querySelectorAll('.history-item');
+                    console.log(`10. 找到的历史记录数量: ${historyItems.length} 条`);
+                    
+                    if (historyItems.length === 0) {
+                        console.error('11. 警告: 历史记录加载失败，没有创建任何历史项');
+                        console.log('12. 尝试手动创建测试历史记录...');
+                        
+                        // 尝试手动创建测试历史记录
+                        if (historyList) {
+                            const testItem = document.createElement('div');
+                            testItem.className = 'history-item';
+                            testItem.innerHTML = `
+                                <div class="history-header">
+                                    <span class="history-category" style="color: #1677ff;">测试</span>
+                                    <span class="history-time" style="color: #8c8c8c;">刚刚</span>
+                                </div>
+                                <div class="history-question" style="font-weight: 500;">测试历史对话功能是否正常</div>
+                            `;
+                            testItem.style.borderLeft = '3px solid #1677ff';
+                            testItem.style.backgroundColor = '#f0f9ff';
+                            historyList.appendChild(testItem);
+                            console.log('13. 已手动插入测试历史记录');
+                        }
+                    } else {
+                        console.log('14. 历史记录加载成功!');
+                        historyItems.forEach((item, index) => {
+                            console.log(`    ${index + 1}. ${item.querySelector('.history-question')?.textContent || '未知问题'}`);
+                        });
+                    }
+                }, 100);
+                
+            } catch (error) {
+                console.error('加载历史记录时出错:', error);
+                console.error('错误详情:', error.message);
+                console.error('错误堆栈:', error.stack);
+            }
+            console.log('=== 历史记录加载流程结束 ===');
+            
+            // 注意: 旧的初始化代码已被移除
+            // 新的分类系统在代码开头部分自动执行
+            // 其他功能（主题、推送标签、历史记录）保持原有逻辑
+            
+            // 直接为所有热门问题标签添加点击事件 - 增强版本
+            function setupHotQuestionClicks() {
+                try {
+                    console.log('🔥 [热门问题] 开始设置点击事件...');
+                    
+                    // 方法1: 使用事件委托
+                    const hotQuestionsList = document.getElementById('hot-questions-list');
+                    if (hotQuestionsList) {
+                        console.log('✅ 找到#hot-questions-list容器');
+                        
+                        // 移除旧的点击事件监听器
+                        hotQuestionsList.removeEventListener('click', handleHotTagClick);
+                        
+                        // 添加新的事件监听器
+                        hotQuestionsList.addEventListener('click', handleHotTagClick);
+                        console.log('✅ 已添加事件委托监听器');
+                    }
+                    
+                    // 方法2: 直接绑定每个元素（备用）
+                    const hotTags = document.querySelectorAll('.hot-tag');
+                    console.log(`📊 找到 ${hotTags.length} 个.hot-tag元素`);
+                    
+                    if (hotTags.length === 0) {
+                        console.error('❌ 错误: 没有找到.hot-tag元素');
+                        console.log('检查HTML内容:', document.querySelector('.hot-questions')?.innerHTML);
+                        return;
+                    }
+                    
+                    hotTags.forEach((tag, index) => {
+                        // 移除所有可能的事件监听器
+                        const newTag = tag.cloneNode(true);
+                        tag.parentNode.replaceChild(newTag, tag);
+                        
+                        // 重新绑定事件
+                        newTag.addEventListener('click', function(e) {
+                            e.stopPropagation(); // 防止事件冒泡
+                            handleHotTagClickOnElement(this, index);
+                        });
+                        
+                        // 添加悬停效果
+                        newTag.addEventListener('mouseover', function() {
+                            this.style.transform = 'translateY(-2px)';
+                            this.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.15)';
+                        });
+                        
+                        newTag.addEventListener('mouseout', function() {
+                            this.style.transform = '';
+                            this.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
+                        });
+                        
+                        console.log(`   ✅ 绑定: "${newTag.textContent.substring(0, 20)}..."`);
+                    });
+                    
+                    console.log(`🎉 成功为 ${hotTags.length} 个热门问题标签添加了点击事件`);
+                    
+                } catch (error) {
+                    console.error('💥 设置热门问题点击事件时出错:', error);
+                    console.error('错误详情:', error.message);
+                    console.error('错误堆栈:', error.stack);
+                }
+            }
+            
+            // 处理热门标签点击的函数
+            function handleHotTagClick(e) {
+                // 检查点击的是否是.hot-tag元素
+                const hotTag = e.target.closest('.hot-tag');
+                if (!hotTag) return;
+                
+                const question = hotTag.textContent;
+                console.log(`🎯 [事件委托] 点击热门问题: ${question}`);
+                
+                fillQuestionToInput(question, hotTag);
+            }
+            
+            // 处理元素点击的函数
+            function handleHotTagClickOnElement(element, index) {
+                const question = element.textContent;
+                console.log(`🎯 [直接绑定] 点击热门问题[${index}]: ${question}`);
+                
+                fillQuestionToInput(question, element);
+            }
+            
+            // 填充问题到输入框的通用函数
+            function fillQuestionToInput(question, element) {
+                try {
+                    // 填充到搜索框
+                    const searchInput = document.getElementById('question-input');
+                    const chatInput = document.getElementById('chat-input');
+                    
+                    let filled = false;
+                    
+                    if (searchInput) {
+                        searchInput.value = question;
+                        searchInput.focus(); // 聚焦到搜索框
+                        console.log(`✅ 已填充到搜索框: ${question}`);
+                        filled = true;
+                    } else {
+                        console.error('❌ 错误: 未找到#question-input元素');
+                    }
+                    
+                    if (chatInput) {
+                        chatInput.value = question;
+                        console.log(`✅ 已填充到聊天框: ${question}`);
+                        filled = true;
+                    }
+                    
+                    if (!filled) {
+                        console.error('❌ 错误: 没有找到任何输入框');
+                        alert(`问题: ${question}\n(输入框未找到)`);
+                        return;
+                    }
+                    
+                    // 视觉反馈
+                    if (element) {
+                        element.style.transform = 'scale(0.95)';
+                        element.style.boxShadow = '0 1px 2px rgba(0, 0, 0, 0.1)';
+                        setTimeout(() => {
+                            element.style.transform = '';
+                            element.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
+                        }, 200);
+                    }
+                    
+                } catch (error) {
+                    console.error('💥 填充问题时出错:', error);
+                }
+            }
+            
+            // 设置热门问题点击事件
+            try {
+                setupHotQuestionClicks();
+                console.log('✅ 热门问题点击事件设置完成');
+                
+                // 添加测试功能
+                setTimeout(() => {
+                    console.log('🧪 开始自动测试热门问题功能...');
+                    
+                    // 测试1: 检查元素是否存在
+                    const hotTags = document.querySelectorAll('.hot-tag');
+                    const searchInput = document.getElementById('question-input');
+                    
+                    console.log(`测试结果:`);
+                    console.log(`  - 热门问题标签: ${hotTags.length} 个`);
+                    console.log(`  - 搜索框: ${searchInput ? '找到' : '未找到'}`);
+                    
+                    if (hotTags.length > 0 && searchInput) {
+                        console.log('  - ✅ 基本元素检查通过');
+                        
+                        // 测试2: 模拟点击第一个热门问题
+                        console.log('  - 模拟点击第一个热门问题...');
+                        const firstTag = hotTags[0];
+                        const testQuestion = firstTag.textContent;
+                        
+                        // 保存原始值
+                        const originalValue = searchInput.value;
+                        
+                        // 触发点击事件
+                        firstTag.click();
+                        
+                        // 检查是否填充成功
+                        setTimeout(() => {
+                            if (searchInput.value === testQuestion) {
+                                console.log(`  - ✅ 自动测试通过: "${testQuestion.substring(0, 20)}..." 已成功填充`);
+                            } else {
+                                console.error(`  - ❌ 自动测试失败: 搜索框值未改变`);
+                                console.error(`     期望: "${testQuestion}"`);
+                                console.error(`     实际: "${searchInput.value}"`);
+                            }
+                            
+                            // 恢复原始值
+                            searchInput.value = originalValue;
+                        }, 100);
+                    } else {
+                        console.error('  - ❌ 基本元素检查失败');
+                    }
+                }, 500);
+                
+            } catch (error) {
+                console.error('❌ 设置热门问题点击事件时出错:', error);
+            }
+            
+            console.log('🎉 所有初始化函数调用完成');
+        });
+        
+        // 最终检查：确保脚本标签正常关闭
+        console.log('✅ script标签解析完成');
+    </script>
+    
+
+</body>
+</html>

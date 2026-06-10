@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录注册 - 校务问答机器人系统</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .auth-container {
+            max-width: 400px;
+            margin: 80px auto;
+        }
+        
+        .auth-card {
+            padding: 32px;
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .auth-title {
+            font-size: 24px;
+            color: #1677ff;
+            margin-bottom: 8px;
+        }
+        
+        .auth-subtitle {
+            color: #595959;
+            font-size: 14px;
+        }
+        
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: #595959;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        
+        .auth-tab:hover {
+            color: #1677ff;
+        }
+        
+        .auth-tab.active {
+            color: #1677ff;
+            border-bottom-color: #1677ff;
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+        }
+        
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .forgot-password {
+            color: #1677ff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        
+        .auth-footer {
+            text-align: center;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .switch-auth {
+            color: #1677ff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .switch-auth:hover {
+            text-decoration: underline;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">校</div>
+                <span>校务问答机器人系统</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">返回首页</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-card card">
+                    <div class="auth-header">
+                        <h1 class="auth-title">校务问答机器人系统</h1>
+                        <p class="auth-subtitle">校园政务服务智能问答平台</p>
+                    </div>
+                    
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" data-tab="login">登录</button>
+                        <button class="auth-tab" data-tab="register">注册</button>
+                    </div>
+                    
+                    <!-- 登录表单 -->
+                    <form id="login-form" class="auth-form active">
+                        <div class="form-group">
+                            <label class="form-label" for="login-username">账号</label>
+                            <input type="text" id="login-username" class="form-control" placeholder="请输入学号/工号" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="login-password">密码</label>
+                            <input type="password" id="login-password" class="form-control" placeholder="请输入密码" required>
+                        </div>
+                        
+                        <div class="form-options">
+                            <label class="remember-me">
+                                <input type="checkbox">
+                                <span>记住密码</span>
+                            </label>
+                            <a href="#" class="forgot-password">忘记密码？</a>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100">登录</button>
+                        
+                        <div class="auth-footer">
+                            <p>还没有账号？ <a href="#" class="switch-auth" data-switch="register">立即注册</a></p>
+                        </div>
+                    </form>
+                    
+                    <!-- 注册表单 -->
+                    <form id="register-form" class="auth-form">
+                        <div class="form-group">
+                            <label class="form-label" for="register-username">用户名</label>
+                            <input type="text" id="register-username" class="form-control" placeholder="请输入用户名" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="register-phone">手机号</label>
+                            <input type="tel" id="register-phone" class="form-control" placeholder="请输入手机号" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="register-password">密码</label>
+                            <input type="password" id="register-password" class="form-control" placeholder="请输入密码（至少6位）" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="register-confirm-password">确认密码</label>
+                            <input type="password" id="register-confirm-password" class="form-control" placeholder="请再次输入密码" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100">注册</button>
+                        
+                        <div class="auth-footer">
+                            <p>已有账号？ <a href="#" class="switch-auth" data-switch="login">立即登录</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部栏 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html" class="footer-link">首页</a>
+                <a href="forum.html" class="footer-link">校务论坛</a>
+                <a href="help.html" class="footer-link">使用帮助</a>
+                <a href="#" class="footer-link">关于我们</a>
+                <a href="#" class="footer-link">隐私政策</a>
+            </div>
+            <div class="copyright">
+                © 2026 校务问答机器人系统. 版权所有.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // 登录注册页特定逻辑
+        document.addEventListener('DOMContentLoaded', function() {
+            // 标签页切换
+            const authTabs = document.querySelectorAll('.auth-tab');
+            const authForms = document.querySelectorAll('.auth-form');
+            const switchLinks = document.querySelectorAll('.switch-auth');
+            
+            // 标签页点击事件
+            authTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.dataset.tab;
+                    
+                    // 更新标签页状态
+                    authTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // 显示对应表单
+                    authForms.forEach(form => {
+                        form.classList.remove('active');
+                        if (form.id === tabId + '-form') {
+                            form.classList.add('active');
+                        }
+                    });
+                });
+            });
+            
+            // 切换链接点击事件
+            switchLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetTab = link.dataset.switch;
+                    
+                    // 触发对应标签页点击
+                    const targetTabElement = document.querySelector(`.auth-tab[data-tab="${targetTab}"]`);
+                    if (targetTabElement) {
+                        targetTabElement.click();
+                    }
+                });
+            });
+            
+            // 表单验证
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const username = document.getElementById('login-username').value;
+                    const password = document.getElementById('login-password').value;
+                    
+                    if (!username.trim()) {
+                        utils.showError('请输入账号');
+                        return;
+                    }
+                    
+                    if (!password.trim()) {
+                        utils.showError('请输入密码');
+                        return;
+                    }
+                    
+                    // 模拟登录
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    utils.showLoading(submitBtn, true);
+                    
+                    setTimeout(() => {
+                        utils.showLoading(submitBtn, false);
+                        utils.showSuccess('登录成功！');
+                        setTimeout(() => navigateTo('index.html'), 1000);
+                    }, 1000);
+                });
+            }
+            
+            if (registerForm) {
+                registerForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const username = document.getElementById('register-username').value;
+                    const phone = document.getElementById('register-phone').value;
+                    const password = document.getElementById('register-password').value;
+                    const confirmPassword = document.getElementById('register-confirm-password').value;
+                    
+                    // 验证表单
+                    const errors = [];
+                    
+                    if (!username.trim()) {
+                        errors.push('请输入用户名');
+                    }
+                    
+                    if (!phone.trim()) {
+                        errors.push('请输入手机号');
+                    } else if (!/^(1[3-9]\d{9}|88888888)$/.test(phone)) {
+                        errors.push('请输入有效的手机号码（支持88888888测试号）');
+                    }
+                    
+                    if (!password.trim()) {
+                        errors.push('请输入密码');
+                    } else if (password.length < 6) {
+                        errors.push('密码长度至少6位');
+                    }
+                    
+                    if (!confirmPassword.trim()) {
+                        errors.push('请确认密码');
+                    } else if (password !== confirmPassword) {
+                        errors.push('两次输入的密码不一致');
+                    }
+                    
+                    if (errors.length > 0) {
+                        utils.showError(errors[0]);
+                        return;
+                    }
+                    
+                    // 模拟注册
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    utils.showLoading(submitBtn, true);
+                    
+                    setTimeout(() => {
+                        utils.showLoading(submitBtn, false);
+                        utils.showSuccess('注册成功！');
+                        setTimeout(() => navigateTo('login.html'), 1000);
+                    }, 1000);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

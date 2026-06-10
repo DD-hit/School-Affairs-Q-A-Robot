@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>历史记录测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        #history-list {
+            border: 1px solid #ddd;
+            padding: 10px;
+            min-height: 200px;
+        }
+        .history-item {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #eee;
+            cursor: pointer;
+        }
+        .history-item:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <h1>历史记录功能测试</h1>
+    <div id="history-list"></div>
+    
+    <script>
+        // 模拟数据
+        const mockData = {
+            chatHistory: [
+                {
+                    id: 1,
+                    question: "如何查询成绩？",
+                    answer: "可以通过教务系统或学校APP查询成绩。",
+                    category: "学业相关",
+                    time: "2024-01-15 10:30:00"
+                },
+                {
+                    id: 2,
+                    question: "图书馆开放时间？",
+                    answer: "图书馆开放时间为周一至周日8:00-22:00。",
+                    category: "生活服务",
+                    time: "2024-01-14 15:45:00"
+                }
+            ]
+        };
+        
+        function loadHistory() {
+            console.log('开始加载历史记录...');
+            
+            try {
+                const historyList = document.getElementById('history-list');
+                if (!historyList) {
+                    console.error('未找到#history-list元素');
+                    return;
+                }
+                
+                console.log('找到#history-list元素');
+                historyList.innerHTML = '';
+                
+                if (!mockData || !mockData.chatHistory || mockData.chatHistory.length === 0) {
+                    console.error('没有历史数据');
+                    historyList.innerHTML = '<div style="padding: 20px; text-align: center; color: #8c8c8c;">暂无历史对话</div>';
+                    return;
+                }
+                
+                console.log(`准备加载 ${mockData.chatHistory.length} 条记录`);
+                
+                mockData.chatHistory.forEach((item, index) => {
+                    try {
+                        const historyItem = document.createElement('div');
+                        historyItem.className = 'history-item';
+                        historyItem.dataset.chatId = item.id || index;
+                        
+                        // 格式化时间显示
+                        let formattedTime = '刚刚';
+                        try {
+                            const time = new Date(item.time);
+                            if (!isNaN(time.getTime())) {
+                                formattedTime = time.toLocaleDateString('zh-CN') + ' ' + 
+                                               time.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+                            }
+                        } catch (timeError) {
+                            console.warn(`时间格式化错误: ${item.time}`, timeError);
+                        }
+                        
+                        historyItem.innerHTML = `
+                            <div><strong>${item.category || '未分类'}</strong> - ${formattedTime}</div>
+                            <div>${item.question || '未知问题'}</div>
+                        `;
+                        
+                        historyItem.addEventListener('click', function() {
+                            console.log(`点击: ${item.question}`);
+                            alert(`问题: ${item.question}\n回答: ${item.answer}`);
+                        });
+                        
+                        historyList.appendChild(historyItem);
+                        console.log(`添加: ${item.question.substring(0, 20)}...`);
+                        
+                    } catch (itemError) {
+                        console.error(`添加第${index}条记录时出错:`, itemError);
+                    }
+                });
+                
+                const createdItems = historyList.querySelectorAll('.history-item');
+                console.log(`完成! 创建了 ${createdItems.length} 条历史记录`);
+                
+            } catch (error) {
+                console.error('函数执行出错:', error);
+            }
+        }
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOMContentLoaded事件触发');
+            loadHistory();
+        });
+    </script>
+</body>
+</html>

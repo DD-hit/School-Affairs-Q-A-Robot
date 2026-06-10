@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帖子详情 - 校务问答机器人系统</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        
+        .post-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .post-content-card {
+            margin-bottom: 32px;
+        }
+        
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+            color: #595959;
+            font-size: 14px;
+        }
+        
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .author-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #1677ff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .post-category {
+            display: inline-block;
+            padding: 4px 12px;
+            background-color: rgba(22, 119, 255, 0.1);
+            color: #1677ff;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .post-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #262626;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+        
+        .post-body {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #262626;
+        }
+        
+        .post-body p {
+            margin-bottom: 16px;
+        }
+        
+        .post-body ul, .post-body ol {
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+        
+        .post-body li {
+            margin-bottom: 8px;
+        }
+        
+        .post-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .post-stats {
+            display: flex;
+            gap: 24px;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #595959;
+            font-size: 14px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .stat-item:hover {
+            color: #1677ff;
+        }
+        
+        .stat-icon {
+            font-size: 16px;
+        }
+        
+        .stat-count {
+            font-weight: 500;
+        }
+        
+        .post-actions-bottom {
+            display: flex;
+            gap: 8px;
+        }
+        
+        /* 评论区域 */
+        .comments-section {
+            margin-top: 40px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .comments-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #262626;
+        }
+        
+        .comment-count {
+            color: #1677ff;
+            font-weight: 600;
+        }
+        
+        .comment-form {
+            margin-bottom: 32px;
+        }
+        
+        .comment-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 16px;
+            border: 1px solid #d9d9d9;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+        
+        .comment-input:focus {
+            outline: none;
+            border-color: #1677ff;
+            box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.2);
+        }
+        
+        .comment-form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .comment-card {
+            position: relative;
+        }
+        
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        
+        .comment-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .comment-author-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #69b1ff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .comment-author-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .comment-author-name {
+            font-weight: 500;
+            color: #262626;
+        }
+        
+        .comment-time {
+            font-size: 12px;
+            color: #8c8c8c;
+        }
+        
+        .comment-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .comment-action-btn {
+            background: none;
+            border: none;
+            color: #595959;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        .comment-action-btn:hover {
+            background-color: #f5f5f5;
+            color: #1677ff;
+        }
+        
+        .comment-body {
+            color: #262626;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        
+        .comment-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .comment-likes {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #595959;
+            font-size: 12px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .comment-likes:hover {
+            color: #1677ff;
+        }
+        
+        .comment-reply-btn {
+            background: none;
+            border: none;
+            color: #1677ff;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .comment-reply-btn:hover {
+            background-color: rgba(22, 119, 255, 0.1);
+        }
+        
+        /* 发帖表单 */
+        .new-post-form {
+            display: none;
+        }
+        
+        .new-post-form.active {
+            display: block;
+        }
+        
+        .form-section {
+            margin-bottom: 24px;
+        }
+        
+        .form-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #262626;
+        }
+        
+        .post-editor {
+            min-height: 300px;
+            padding: 16px;
+            border: 1px solid #d9d9d9;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+        
+        .post-editor:focus {
+            outline: none;
+            border-color: #1677ff;
+            box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.2);
+        }
+        
+        .editor-toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .editor-btn {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            color: #262626;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        
+        .editor-btn:hover {
+            background-color: #f5f5f5;
+            border-color: #1677ff;
+            color: #1677ff;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        /* 关联办事入口 */
+        .related-services {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: rgba(22, 119, 255, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid #1677ff;
+        }
+        
+        .related-services-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1677ff;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .services-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        
+        .service-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: white;
+            border: 1px solid #d9d9d9;
+            border-radius: 6px;
+            color: #262626;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .service-link:hover {
+            border-color: #1677ff;
+            color: #1677ff;
+            background-color: rgba(22, 119, 255, 0.05);
+        }
+        
+        /* 模式切换 */
+        .mode-switch {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        
+        .mode-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            color: #595959;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .mode-btn:hover {
+            border-color: #1677ff;
+            color: #1677ff;
+        }
+        
+        .mode-btn.active {
+            background: #1677ff;
+            border-color: #1677ff;
+            color: white;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .post-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .post-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+            
+            .post-footer {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+            
+            .post-stats {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .post-actions-bottom {
+                width: 100%;
+                justify-content: flex-end;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .form-actions .btn {
+                width: 100%;
+            }
+        }
+        
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #8c8c8c;
+        }
+        
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+        
+        .empty-text {
+            font-size: 16px;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">校</div>
+                <span>校务问答机器人系统</span>
+            </a>
+            
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">首页</a>
+                <a href="personal.html" class="nav-link">个人中心</a>
+                <a href="admin.html" class="nav-link">管理员后台</a>
+                <a href="forum.html" class="nav-link active">校务论坛</a>
+                <a href="help.html" class="nav-link">使用帮助</a>
+            </div>
+            
+            <div class="user-info">
+                <span>欢迎，张三同学 (学号：2023666)</span>
+                <button class="btn btn-text" onclick="logout()">退出登录</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="container">
+            <div class="post-container">
+                <!-- 模式切换 -->
+                <div class="mode-switch">
+                    <button class="mode-btn active" onclick="switchMode('view')">查看帖子</button>
+                    <button class="mode-btn" onclick="switchMode('edit')">发新帖</button>
+                </div>
+
+                <!-- 帖子详情模式 -->
+                <div id="postViewMode">
+                    <!-- 帖子头部 -->
+                    <div class="post-header">
+                        <div>
+                            <h1 class="post-title" id="postTitle">关于选课系统优化的建议与反馈</h1>
+                            <div class="post-meta">
+                                <div class="post-author">
+                                    <div class="author-avatar">张</div>
+                                    <span id="postAuthor">张三同学</span>
+                                </div>
+                                <span id="postTime">2026-04-09 14:30</span>
+                                <span class="post-category" id="postCategory">选课</span>
+                                <span class="badge badge-primary" id="postStatus">置顶</span>
+                            </div>
+                        </div>
+                        <div class="post-actions">
+                            <button class="btn btn-text" onclick="editPost()">
+                                <span class="stat-icon">✏️</span> 编辑
+                            </button>
+                            <button class="btn btn-text" onclick="deletePost()">
+                                <span class="stat-icon">🗑️</span> 删除
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 帖子内容 -->
+                    <div class="card post-content-card">
+                        <div class="card-body">
+                            <div class="post-body" id="postContent">
+                                <p>各位老师和同学们好，</p>
+                                <p>我是计算机学院大三的学生，在使用选课系统的过程中发现了一些可以优化的地方，希望能与大家分享并得到反馈：</p>
+                                
+                                <h3>一、当前存在的问题</h3>
+                                <ul>
+                                    <li><strong>系统响应慢</strong>：选课高峰期系统经常卡顿，页面加载需要10-15秒</li>
+                                    <li><strong>课程信息不完整</strong>：部分课程缺少详细的课程大纲和教师介绍</li>
+                                    <li><strong>冲突检测不准确</strong>：有时系统显示时间冲突，但实际时间并不冲突</li>
+                                    <li><strong>移动端体验差</strong>：在手机上操作非常不方便，按钮太小容易误触</li>
+                                </ul>
+                                
+                                <h3>二、优化建议</h3>
+                                <ol>
+                                    <li><strong>性能优化</strong>：增加服务器资源，优化数据库查询，使用缓存技术</li>
+                                    <li><strong>信息完善</strong>：要求教师上传完整的课程资料，包括教学大纲、考核方式等</li>
+                                    <li><strong>智能推荐</strong>：根据学生的专业、兴趣和已修课程推荐相关课程</li>
+                                    <li><strong>移动端适配</strong>：开发专门的移动端应用或优化响应式设计</li>
+                                    <li><strong>实时通知</strong>：选课成功、课程变动等重要信息实时推送</li>
+                                </ol>
+                                
+                                <h3>三、期望效果</h3>
+                                <p>希望通过这些改进，能让选课系统更加高效、智能、易用，提升师生的使用体验。</p>
+                                <p>欢迎大家提出更多建议，共同完善我们的校园信息系统！</p>
+                            </div>
+                            
+                            <div class="post-footer">
+                                <div class="post-stats">
+                                    <div class="stat-item" onclick="likePost()">
+                                        <span class="stat-icon">👍</span>
+                                        <span class="stat-count" id="likeCount">248</span>
+                                        <span>点赞</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-icon">👁️</span>
+                                        <span class="stat-count" id="viewCount">1,892</span>
+                                        <span>浏览</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-icon">💬</span>
+                                        <span class="stat-count" id="commentCount">56</span>
+                                        <span>评论</span>
+                                    </div>
+                                </div>
+                                <div class="post-actions-bottom">
+                                    <button class="btn btn-primary" onclick="likePost()">
+                                        <span class="stat-icon">👍</span> 点赞
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="scrollToComments()">
+                                        <span class="stat-icon">💬</span> 评论
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 关联办事入口 -->
+                    <div class="related-services">
+                        <div class="related-services-title">
+                            <span>📋</span> 相关办事入口
+                        </div>
+                        <div class="services-list">
+                            <a href="javascript:void(0)" class="service-link" onclick="openService('course')">选课系统入口</a>
+                            <a href="javascript:void(0)" class="service-link" onclick="openService('feedback')">系统反馈建议</a>
+                            <a href="javascript:void(0)" class="service-link" onclick="openService('timetable')">课程时间表查询</a>
+                            <a href="javascript:void(0)" class="service-link" onclick="openService('teacher')">教师联系方式</a>
+                            <a href="javascript:void(0)" class="service-link" onclick="openService('help')">选课帮助文档</a>
+                        </div>
+                    </div>
+
+                    <!-- 评论区域 -->
+                    <div class="comments-section" id="commentsSection">
+                        <div class="comments-header">
+                            <h2 class="comments-title">
+                                评论 <span class="comment-count" id="totalComments">56</span>
+                            </h2>
+                            <button class="btn btn-text" onclick="sortComments('latest')">
+                                <span class="stat-icon">🔄</span> 最新
+                            </button>
+                        </div>
+
+                        <!-- 评论表单 -->
+                        <div class="comment-form">
+                            <textarea class="comment-input" id="commentInput" placeholder="写下你的评论..."></textarea>
+                            <div class="comment-form-actions">
+                                <button class="btn btn-text" onclick="clearComment()">取消</button>
+                                <button class="btn btn-primary" onclick="submitComment()">发表评论</button>
+                            </div>
+                        </div>
+
+                        <!-- 评论列表 -->
+                        <div class="comments-list" id="commentsList">
+                            <!-- 评论将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 发帖模式 -->
+                <div id="postEditMode" class="new-post-form">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">发布新帖子</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-section">
+                                <label class="form-label" for="postTitleInput">帖子标题</label>
+                                <input type="text" class="form-control" id="postTitleInput" placeholder="请输入帖子标题" maxlength="100">
+                                <div class="form-text">标题应简洁明了，不超过100字</div>
+                            </div>
+                            
+                            <div class="form-section">
+                                <label class="form-label" for="postCategorySelect">选择分类</label>
+                                <select class="form-control" id="postCategorySelect">
+                                    <option value="">请选择分类</option>
+                                    <option value="course">选课</option>
+                                    <option value="scholarship">奖助勤贷</option>
+                                    <option value="dorm">宿舍</option>
+                                    <option value="card">校园卡</option>
+                                    <option value="library">图书馆</option>
+                                    <option value="exam">考试</option>
+                                    <option value="other">其他</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-section">
+                                <label class="form-label">帖子内容</label>
+                                <div class="editor-toolbar">
+                                    <button class="editor-btn" onclick="formatText('bold')">粗体</button>
+                                    <button class="editor-btn" onclick="formatText('italic')">斜体</button>
+                                    <button class="editor-btn" onclick="formatText('underline')">下划线</button>
+                                    <button class="editor-btn" onclick="insertList('ul')">无序列表</button>
+                                    <button class="editor-btn" onclick="insertList('ol')">有序列表</button>
+                                    <button class="editor-btn" onclick="insertLink()">插入链接</button>
+                                </div>
+                                <textarea class="post-editor" id="postEditor" placeholder="请输入帖子内容..."></textarea>
+                                <div class="form-text">支持Markdown语法，内容应文明友善，符合校园规范</div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button class="btn btn-secondary" onclick="cancelPost()">取消</button>
+                                <button class="btn btn-primary" onclick="submitPost()">发布帖子</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部栏 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html" class="footer-link">首页</a>
+                <a href="forum.html" class="footer-link">校务论坛</a>
+                <a href="help.html" class="footer-link">使用帮助</a>
+                <a href="javascript:void(0)" class="footer-link" onclick="showFeedbackModal()">意见反馈</a>
+            </div>
+            <div class="copyright">
+                © 2026 校务问答机器人系统 | 智慧校园服务平台
+            </div>
+        </div>
+    </footer>
+
+    <!-- 模态框 -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">确认操作</h3>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage">确定要执行此操作吗？</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" id="modalConfirmBtn">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // 页面模式管理
+        let currentMode = 'view';
+        
+        function switchMode(mode) {
+            currentMode = mode;
+            const viewMode = document.getElementById('postViewMode');
+            const editMode = document.getElementById('postEditMode');
+            const modeBtns = document.querySelectorAll('.mode-btn');
+            
+            if (mode === 'view') {
+                viewMode.style.display = 'block';
+                editMode.classList.remove('active');
+                modeBtns[0].classList.add('active');
+                modeBtns[1].classList.remove('active');
+            } else {
+                viewMode.style.display = 'none';
+                editMode.classList.add('active');
+                modeBtns[0].classList.remove('active');
+                modeBtns[1].classList.add('active');
+            }
+        }
+        
+        // 帖子操作
+        function editPost() {
+            switchMode('edit');
+            // 填充现有帖子数据到表单
+            document.getElementById('postTitleInput').value = document.getElementById('postTitle').textContent;
+            document.getElementById('postEditor').value = document.getElementById('postContent').innerText;
+            document.getElementById('postCategorySelect').value = 'course';
+        }
+        
+        function deletePost() {
+            showConfirmModal('删除帖子', '确定要删除这个帖子吗？删除后无法恢复。', () => {
+                showToast('帖子已删除', 'success');
+                setTimeout(() => {
+                    window.location.href = 'forum.html';
+                }, 1500);
+            });
+        }
+        
+        function likePost() {
+            const likeCount = document.getElementById('likeCount');
+            let count = parseInt(likeCount.textContent);
+            count++;
+            likeCount.textContent = count;
+            showToast('已点赞', 'success');
+        }
+        
+        function scrollToComments() {
+            document.getElementById('commentsSection').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('commentInput').focus();
+        }
+        
+        // 评论功能
+        let comments = [
+            {
+                id: 1,
+                author: '李四老师',
+                avatar: '李',
+                time: '2026-04-09 15:20',
+                content: '感谢同学的建议！教务处已经注意到选课系统的问题，正在制定优化方案。',
+                likes: 42,
+                isLiked: false
+            },
+            {
+                id: 2,
+                author: '王五同学',
+                avatar: '王',
+                time: '2026-04-09 16:05',
+                content: '完全同意！特别是移动端体验太差了，希望尽快改进。',
+                likes: 28,
+                isLiked: true
+            },
+            {
+                id: 3,
+                author: '赵六同学',
+                avatar: '赵',
+                time: '2026-04-09 17:30',
+                content: '建议增加课程评价功能，可以参考其他学校的选课系统。',
+                likes: 15,
+                isLiked: false
+            }
+        ];
+        
+        function renderComments() {
+            const commentsList = document.getElementById('commentsList');
+            commentsList.innerHTML = '';
+            
+            if (comments.length === 0) {
+                commentsList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">💬</div>
+                        <div class="empty-text">暂无评论，快来发表第一条评论吧！</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            comments.forEach(comment => {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'card comment-card';
+                commentElement.innerHTML = `
+                    <div class="comment-header">
+                        <div class="comment-author">
+                            <div class="comment-author-avatar">${comment.avatar}</div>
+                            <div class="comment-author-info">
+                                <div class="comment-author-name">${comment.author}</div>
+                                <div class="comment-time">${comment.time}</div>
+                            </div>
+                        </div>
+                        <div class="comment-actions">
+                            <button class="comment-action-btn" onclick="replyToComment(${comment.id})">回复</button>
+                            <button class="comment-action-btn" onclick="reportComment(${comment.id})">举报</button>
+                        </div>
+                    </div>
+                    <div class="comment-body">${comment.content}</div>
+                    <div class="comment-footer">
+                        <div class="comment-likes" onclick="likeComment(${comment.id})">
+                            <span class="stat-icon">${comment.isLiked ? '❤️' : '🤍'}</span>
+                            <span class="stat-count">${comment.likes}</span>
+                            <span>点赞</span>
+                        </div>
+                        <button class="comment-reply-btn" onclick="replyToComment(${comment.id})">回复</button>
+                    </div>
+                `;
+                commentsList.appendChild(commentElement);
+            });
+            
+            document.getElementById('totalComments').textContent = comments.length;
+            document.getElementById('commentCount').textContent = comments.length;
+        }
+        
+        function submitComment() {
+            const commentInput = document.getElementById('commentInput');
+            const content = commentInput.value.trim();
+            
+            if (!content) {
+                showToast('请输入评论内容', 'error');
+                return;
+            }
+            
+            const newComment = {
+                id: comments.length + 1,
+                author: '张三同学 (2023666)',
+                avatar: '张',
+                time: '刚刚',
+                content: content,
+                likes: 0,
+                isLiked: false
+            };
+            
+            comments.unshift(newComment);
+            renderComments();
+            commentInput.value = '';
+            showToast('评论发表成功', 'success');
+        }
+        
+        function clearComment() {
+            document.getElementById('commentInput').value = '';
+        }
+        
+        function likeComment(commentId) {
+            const comment = comments.find(c => c.id === commentId);
+            if (comment) {
+                if (comment.isLiked) {
+                    comment.likes--;
+                    comment.isLiked = false;
+                } else {
+                    comment.likes++;
+                    comment.isLiked = true;
+                }
+                renderComments();
+            }
+        }
+        
+        function replyToComment(commentId) {
+            const comment = comments.find(c => c.id === commentId);
+            if (comment) {
+                const commentInput = document.getElementById('commentInput');
+                commentInput.value = `@${comment.author} `;
+                commentInput.focus();
+                scrollToComments();
+            }
+        }
+        
+        function reportComment(commentId) {
+            showConfirmModal('举报评论', '确定要举报这条评论吗？', () => {
+                showToast('举报已提交，管理员会尽快处理', 'success');
+            });
+        }
+        
+        function sortComments(sortBy) {
+            if (sortBy === 'latest') {
+                comments.sort((a, b) => b.id - a.id);
+            } else if (sortBy === 'popular') {
+                comments.sort((a, b) => b.likes - a.likes);
+            }
+            renderComments();
+            showToast(`已按${sortBy === 'latest' ? '最新' : '热门'}排序`, 'success');
+        }
+        
+        // 发帖功能
+        function formatText(type) {
+            const editor = document.getElementById('postEditor');
+            const start = editor.selectionStart;
+            const end = editor.selectionEnd;
+            const selectedText = editor.value.substring(start, end);
+            
+            let formattedText = '';
+            switch(type) {
+                case 'bold':
+                    formattedText = `**${selectedText}**`;
+                    break;
+                case 'italic':
+                    formattedText = `*${selectedText}*`;
+                    break;
+                case 'underline':
+                    formattedText = `<u>${selectedText}</u>`;
+                    break;
+            }
+            
+            editor.value = editor.value.substring(0, start) + formattedText + editor.value.substring(end);
+            editor.focus();
+            editor.setSelectionRange(start + formattedText.length, start + formattedText.length);
+        }
+        
+        function insertList(type) {
+            const editor = document.getElementById('postEditor');
+            const start = editor.selectionStart;
+            const listItem = type === 'ul' ? '- 列表项' : '1. 列表项';
+            
+            editor.value = editor.value.substring(0, start) + listItem + '\n' + editor.value.substring(start);
+            editor.focus();
+            editor.setSelectionRange(start + listItem.length, start + listItem.length);
+        }
+        
+        function insertLink() {
+            const url = prompt('请输入链接地址：');
+            if (url) {
+                const text = prompt('请输入链接文本（可选）：', url);
+                const editor = document.getElementById('postEditor');
+                const start = editor.selectionStart;
+                const link = `[${text || url}](${url})`;
+                
+                editor.value = editor.value.substring(0, start) + link + editor.value.substring(start);
+                editor.focus();
+                editor.setSelectionRange(start + link.length, start + link.length);
+            }
+        }
+        
+        function submitPost() {
+            const title = document.getElementById('postTitleInput').value.trim();
+            const category = document.getElementById('postCategorySelect').value;
+            const content = document.getElementById('postEditor').value.trim();
+            
+            if (!title) {
+                showToast('请输入帖子标题', 'error');
+                return;
+            }
+            
+            if (!category) {
+                showToast('请选择帖子分类', 'error');
+                return;
+            }
+            
+            if (!content) {
+                showToast('请输入帖子内容', 'error');
+                return;
+            }
+            
+            showToast('帖子发布成功', 'success');
+            setTimeout(() => {
+                window.location.href = 'forum.html';
+            }, 1500);
+        }
+        
+        function cancelPost() {
+            if (document.getElementById('postTitleInput').value || document.getElementById('postEditor').value) {
+                showConfirmModal('取消发帖', '确定要取消发帖吗？已输入的内容将丢失。', () => {
+                    switchMode('view');
+                    document.getElementById('postTitleInput').value = '';
+                    document.getElementById('postEditor').value = '';
+                    document.getElementById('postCategorySelect').value = '';
+                });
+            } else {
+                switchMode('view');
+            }
+        }
+        
+        // 关联办事入口
+        function openService(serviceType) {
+            const services = {
+                course: 'https://example.com/course-system',
+                feedback: 'https://example.com/feedback',
+                timetable: 'https://example.com/timetable',
+                teacher: 'https://example.com/teacher-contact',
+                help: 'https://example.com/help-docs'
+            };
+            
+            if (services[serviceType]) {
+                window.open(services[serviceType], '_blank');
+            }
+        }
+        
+        // 模态框功能
+        function showConfirmModal(title, message, confirmCallback) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalMessage').textContent = message;
+            const confirmBtn = document.getElementById('modalConfirmBtn');
+            
+            confirmBtn.onclick = function() {
+                closeModal();
+                if (confirmCallback) confirmCallback();
+            };
+            
+            document.getElementById('confirmModal').classList.add('show');
+        }
+        
+        function closeModal() {
+            document.getElementById('confirmModal').classList.remove('show');
+        }
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            renderComments();
+            
+            // 检查URL参数，判断是否进入发帖模式
+            const urlParams = new URLSearchParams(window.location.search);
+            const mode = urlParams.get('mode');
+            if (mode === 'new') {
+                switchMode('edit');
+            }
+        });
+        
+        // 退出登录
+        function logout() {
+            showConfirmModal('退出登录', '确定要退出登录吗？', () => {
+                window.location.href = 'login.html';
+            });
+        }
+        
+        // 显示反馈弹窗
+        function showFeedbackModal() {
+            alert('反馈功能将在后续版本中开放，敬请期待！');
+        }
+    </script>
+</body>
+</html>
