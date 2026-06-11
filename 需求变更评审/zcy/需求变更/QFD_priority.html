@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>需求变更 QFD 优先级线性放缩分析表</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, "Microsoft YaHei", sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            padding: 24px;
+            max-width: 1000px;
+            width: 100%;
+        }
+        h2 {
+            text-align: center;
+            color: #333333;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666666;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 6px 12px;
+            border: 2px solid #000000;
+            border-radius: 4px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            border: 3px solid #000000;
+        }
+        th {
+            border: 2px solid #000000;
+            background-color: #d1d1d1;
+            color: #000000;
+            font-weight: bold;
+            font-size: 14.5px;
+            padding: 10px;
+            text-align: center;
+        }
+        td {
+            border: 2px solid #000000;
+            padding: 9px 12px;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: center;
+            font-family: inherit;
+        }
+        td.req-name {
+            text-align: left;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        td.score, td.req-id {
+            font-family: "Consolas", "Courier New", monospace;
+        }
+        .tier-highest {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        .tier-high {
+            background-color: #d9ead3;
+            color: #000000;
+        }
+        .tier-medium {
+            background-color: #93c47d;
+            color: #000000;
+        }
+        .tier-low {
+            background-color: #38761d;
+            color: #ffffff;
+        }
+        tr:hover {
+            filter: brightness(0.94);
+            cursor: pointer;
+        }
+        .footnote {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #666666;
+            text-align: center;
+        }
+        .tier-highest td.score,
+        .tier-high td.score,
+        .tier-medium td.score {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>需求变更 QFD 优先级线性放缩分析表</h2>
+    <div class="subtitle">100点制点数分配法 · 全表线性放缩点数之和 = 100.00000000 绝对闭环</div>
+
+    <div class="legend">
+        <div class="legend-item tier-highest">超级优先级 (&ge; 22 点)</div>
+        <div class="legend-item tier-high">高级优先级 (18 ~ 21 点)</div>
+        <div class="legend-item tier-medium">普通优先级 (13 ~ 17 点)</div>
+        <div class="legend-item tier-low">低级优先级 (&lt; 13 点)</div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 7%;">序号</th>
+                <th style="width: 13%;">需求编号</th>
+                <th style="width: 42%;">需求名称</th>
+                <th style="width: 18%;">QFD 原始优先级</th>
+                <th style="width: 20%;">100点制线性放缩</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 超级优先级: ≥ 22 点 [1项] -->
+            <tr class="tier-highest">
+                <td>1</td>
+                <td class="req-id">CR-002</td>
+                <td class="req-name">新增"常见文件下载"专区</td>
+                <td class="score">0.7356</td>
+                <td class="score">23</td>
+            </tr>
+
+            <!-- 高级优先级: 18 ~ 21 点 [1项] -->
+            <tr class="tier-high">
+                <td>2</td>
+                <td class="req-id">CR-003</td>
+                <td class="req-name">新增登录页"忘记密码"流程模拟</td>
+                <td class="score">0.6170</td>
+                <td class="score">19</td>
+            </tr>
+
+            <!-- 普通优先级: 13 ~ 17 点 [3项] -->
+            <tr class="tier-medium">
+                <td>3</td>
+                <td class="req-id">CR-005</td>
+                <td class="req-name">公共知识库新增教师政策分类</td>
+                <td class="score">0.5607</td>
+                <td class="score">17</td>
+            </tr>
+            <tr class="tier-medium">
+                <td>4</td>
+                <td class="req-id">CR-004</td>
+                <td class="req-name">新增"校园黄页"页面</td>
+                <td class="score">0.5422</td>
+                <td class="score">17</td>
+            </tr>
+            <tr class="tier-medium">
+                <td>5</td>
+                <td class="req-id">CR-001</td>
+                <td class="req-name">新增"预约人工客服"模拟功能</td>
+                <td class="score">0.4365</td>
+                <td class="score">14</td>
+            </tr>
+
+            <!-- 低级优先级: < 13 点 [1项] -->
+            <tr class="tier-low">
+                <td>6</td>
+                <td class="req-id">CR-006</td>
+                <td class="req-name">新增用户个人资料上传与私域问答功能</td>
+                <td class="score">0.3108</td>
+                <td class="score">10</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="footnote">
+        <p>点数分配依据：各项 QFD 原始优先级占总和比例 × 100 → 最大余数法取整 | 总和 = 23 + 19 + 17 + 17 + 14 + 10 = <strong>100</strong></p>
+    </div>
+</div>
+
+</body>
+</html>
