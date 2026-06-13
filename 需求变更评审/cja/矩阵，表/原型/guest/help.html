@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用帮助 - 校务问答机器人系统</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <style>
+        .help-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .help-header {
+            text-align: center;
+            margin-bottom: 48px;
+            padding: 48px 0;
+        }
+        
+        .help-title {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1677ff;
+        }
+        
+        .help-subtitle {
+            font-size: 16px;
+            color: #595959;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .help-nav {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+        
+        .help-nav-btn {
+            padding: 8px 20px;
+            background: white;
+            border: 1px solid #f0f0f0;
+            border-radius: 20px;
+            color: #595959;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+        
+        .help-nav-btn:hover {
+            border-color: #1677ff;
+            color: #1677ff;
+        }
+        
+        .help-nav-btn.active {
+            background: #1677ff;
+            border-color: #1677ff;
+            color: white;
+        }
+        
+        .help-section {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid #f0f0f0;
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #262626;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .section-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(22, 119, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1677ff;
+        }
+        
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .faq-item {
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        
+        .faq-question {
+            padding: 16px;
+            background: #fafafa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .faq-question:hover {
+            background: #f5f5f5;
+        }
+        
+        .faq-answer {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .faq-answer.show {
+            padding: 16px;
+            max-height: 500px;
+        }
+        
+        .faq-toggle {
+            font-size: 20px;
+            color: #8c8c8c;
+            transition: transform 0.3s;
+        }
+        
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+        
+        .step-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .step-item {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: #1677ff;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #262626;
+        }
+        
+        .step-desc {
+            color: #595959;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+        
+        .contact-card {
+            background: #fafafa;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #f0f0f0;
+            transition: all 0.2s;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(22, 119, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            color: #1677ff;
+            font-size: 20px;
+        }
+        
+        .contact-title {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #262626;
+        }
+        
+        .contact-info {
+            color: #595959;
+            font-size: 14px;
+        }
+        
+        .contact-link {
+            color: #1677ff;
+            text-decoration: none;
+        }
+        
+        .contact-link:hover {
+            text-decoration: underline;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+        
+        .feature-card {
+            background: #fafafa;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(22, 119, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            color: #1677ff;
+            font-size: 20px;
+        }
+        
+        .feature-title {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #262626;
+        }
+        
+        .feature-desc {
+            color: #595959;
+            font-size: 14px;
+        }
+        
+        .quick-actions {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 32px;
+            flex-wrap: wrap;
+        }
+        
+        .help-image {
+            width: 100%;
+            max-width: 600px;
+            margin: 24px auto;
+            display: block;
+            border-radius: 8px;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .image-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #f5f5f5 25%, #e8e8e8 25%, #e8e8e8 50%, #f5f5f5 50%, #f5f5f5 75%, #e8e8e8 75%, #e8e8e8);
+            background-size: 40px 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8c8c8c;
+            font-size: 14px;
+        }
+        
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+        }
+        
+        .note-box {
+            background: #e6f7ff;
+            border: 1px solid #91d5ff;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .note-title {
+            font-weight: 500;
+            color: #0050b3;
+            margin-bottom: 8px;
+        }
+        
+        .warning-box {
+            background: #fff7e6;
+            border: 1px solid #ffd591;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .warning-title {
+            font-weight: 500;
+            color: #d46b08;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">校</div>
+                <span>校务问答机器人系统</span>
+            </a>
+            
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">首页</a>
+                <a href="personal.html" class="nav-link">个人中心</a>
+                <a href="../admin/admin.html" class="nav-link">管理员后台</a>
+                <a href="forum.html" class="nav-link">校务论坛</a>
+                <a href="help.html" class="nav-link active">使用帮助</a>
+            </div>
+            
+            <div class="user-info">
+                <a href="../login.html" class="btn btn-text">登录</a>
+                <a href="../login.html" class="btn btn-primary">注册</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="container">
+            <div class="help-container">
+                <!-- 页面头部 -->
+                <div class="help-header">
+                    <h1 class="help-title">使用帮助中心</h1>
+                    <p class="help-subtitle">在这里您可以找到关于校务问答机器人系统的详细使用说明、常见问题解答和联系我们</p>
+                </div>
+                
+                <!-- 导航按钮 -->
+                <div class="help-nav">
+                    <button class="help-nav-btn active" data-target="quick-start">快速开始</button>
+                    <button class="help-nav-btn" data-target="faq">常见问题</button>
+                    <button class="help-nav-btn" data-target="features">功能说明</button>
+                    <button class="help-nav-btn" data-target="contact">联系我们</button>
+                </div>
+                
+                <!-- 快速开始 -->
+                <div class="help-section" id="quick-start-section">
+                    <div class="section-title">
+                        <div class="section-icon">🚀</div>
+                        <span>快速开始指南</span>
+                    </div>
+                    
+                    <div class="step-list">
+                        <div class="step-item">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <div class="step-title">注册与登录</div>
+                                <div class="step-desc">
+                                    首次使用需要注册账号。点击右上角"注册"按钮，填写用户名、手机号、密码等信息完成注册。注册成功后使用账号密码登录系统。
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step-item">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <div class="step-title">开始问答</div>
+                                <div class="step-desc">
+                                    在首页的问答框中输入您的问题，点击发送按钮。系统会智能分析您的问题并提供准确的答案。您也可以点击热门问题标签快速提问。
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step-item">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <div class="step-title">使用论坛</div>
+                                <div class="step-desc">
+                                    访问"校务论坛"页面，可以浏览其他用户的帖子，发表自己的问题或经验分享。论坛支持分类浏览、搜索、点赞和评论功能。
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step-item">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <div class="step-title">管理个人中心</div>
+                                <div class="step-desc">
+                                    在个人中心可以查看历史对话记录、管理收藏的问答、查看自己的论坛帖子和反馈记录。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="image-placeholder">系统界面示意图</div>
+                    
+                    <div class="quick-actions">
+                        <a href="../login.html" class="btn btn-primary">立即登录</a>
+                        <a href="index.html" class="btn btn-secondary">前往首页</a>
+                        <a href="forum.html" class="btn btn-secondary">浏览论坛</a>
+                    </div>
+                </div>
+                
+                <!-- 常见问题 -->
+                <div class="help-section" id="faq-section" style="display: none;">
+                    <div class="section-title">
+                        <div class="section-icon">❓</div>
+                        <span>常见问题解答</span>
+                    </div>
+                    
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>如何查询成绩？</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                您可以直接在问答框中输入"如何查询成绩？"，系统会提供详细的查询步骤。或者访问教务系统网站，使用学号和密码登录后进入成绩查询页面。
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>选课系统什么时候开放？</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                选课系统通常在每学期第16周开放预选，具体时间请关注教务处通知。您可以在问答框中询问"选课时间"获取最新信息。
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>校园卡丢失怎么办？</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                校园卡丢失后请立即挂失：1. 登录校园卡服务平台挂失；2. 前往校园卡服务中心补办；3. 临时卡可在图书馆借阅处办理。详细流程可在问答中查询"校园卡挂失"。
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>如何申请奖学金？</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                奖学金申请流程：1. 关注学院通知；2. 准备申请材料；3. 在线填写申请表；4. 提交纸质材料到学院办公室。具体要求和时间以各学院通知为准。
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>图书馆开放时间是？</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                图书馆开放时间：周一至周日 8:00-22:00，节假日开放时间会有调整。具体安排可在图书馆官网或问答中查询"图书馆开放时间"。
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>宿舍报修怎么操作？</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                宿舍报修方式：1. 登录宿舍管理系统在线报修；2. 拨打后勤服务热线；3. 到宿舍楼值班室登记。紧急情况可直接拨打24小时服务电话。
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="note-box">
+                        <div class="note-title">💡 提示</div>
+                        <p>如果以上问题没有解决您的疑问，可以在问答框中直接提问，或者到校务论坛发帖求助。</p>
+                    </div>
+                </div>
+                
+                <!-- 功能说明 -->
+                <div class="help-section" id="features-section" style="display: none;">
+                    <div class="section-title">
+                        <div class="section-icon">✨</div>
+                        <span>系统功能说明</span>
+                    </div>
+                    
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🤖</div>
+                            <div class="feature-title">智能问答</div>
+                            <div class="feature-desc">基于AI技术的智能问答系统，快速解答校务相关问题</div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">📝</div>
+                            <div class="feature-title">校务论坛</div>
+                            <div class="feature-desc">用户交流平台，分享经验、提问求助、讨论热点</div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">📊</div>
+                            <div class="feature-title">个人中心</div>
+                            <div class="feature-desc">管理历史对话、收藏内容、个人帖子和反馈记录</div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">🔗</div>
+                            <div class="feature-title">办事入口</div>
+                            <div class="feature-desc">快速跳转到相关办事系统，一站式解决校务问题</div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">📱</div>
+                            <div class="feature-title">移动适配</div>
+                            <div class="feature-desc">响应式设计，在手机、平板、电脑上都能良好显示</div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">🔒</div>
+                            <div class="feature-title">安全可靠</div>
+                            <div class="feature-desc">数据加密传输，保护用户隐私和信息安全</div>
+                        </div>
+                    </div>
+                    
+                    <div class="warning-box">
+                        <div class="warning-title">⚠️ 注意事项</div>
+                        <p>1. 请勿在系统中发布不当言论或敏感信息<br>
+                        2. 保护好自己的账号密码，不要泄露给他人<br>
+                        3. 系统维护时间：每周日凌晨2:00-4:00<br>
+                        4. 如有问题请及时反馈，我们会尽快处理</p>
+                    </div>
+                </div>
+                
+                <!-- 联系我们 -->
+                <div class="help-section" id="contact-section" style="display: none;">
+                    <div class="section-title">
+                        <div class="section-icon">📞</div>
+                        <span>联系我们</span>
+                    </div>
+                    
+                    <div class="contact-grid">
+                        <div class="contact-card">
+                            <div class="contact-icon">📧</div>
+                            <div class="contact-title">电子邮件</div>
+                            <div class="contact-info">
+                                <a href="mailto:3181244967@qq.com" class="contact-link">3181244967@qq.com</a>
+                            </div>
+                            <div class="contact-info mt-2">工作日24小时内回复</div>
+                        </div>
+                        
+                        <div class="contact-card">
+                            <div class="contact-icon">📱</div>
+                            <div class="contact-title">服务热线</div>
+                            <div class="contact-info">888666</div>
+                            <div class="contact-info mt-2">工作日 9:00-17:00</div>
+                        </div>
+                        
+                        <div class="contact-card">
+                            <div class="contact-icon">🏢</div>
+                            <div class="contact-title">办公地址</div>
+                            <div class="contact-info">浙大城市学院</div>
+                        </div>
+                        
+                        <div class="contact-card">
+                            <div class="contact-icon">💬</div>
+                            <div class="contact-title">在线反馈</div>
+                            <div class="contact-info">
+                                <a href="#" class="contact-link">点击提交反馈</a>
+                            </div>
+                            <div class="contact-info mt-2">实时提交，快速响应</div>
+                        </div>
+                    </div>
+                    
+                    <div class="note-box">
+                        <div class="note-title">📋 反馈建议</div>
+                        <p>我们非常重视您的反馈和建议。如果您在使用过程中遇到问题，或者有改进系统的想法，请通过以上方式联系我们。您的意见将帮助我们不断优化系统，提供更好的服务。</p>
+                    </div>
+                    
+                    <div class="quick-actions">
+                        <button class="btn btn-primary" onclick="showFeedbackModal()">提交反馈</button>
+                        <a href="forum.html" class="btn btn-secondary">前往论坛</a>
+                        <a href="index.html" class="btn btn-secondary">返回首页</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部栏 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html" class="footer-link">首页</a>
+                <a href="forum.html" class="footer-link">校务论坛</a>
+                <a href="help.html" class="footer-link">使用帮助</a>
+                <a href="#" class="footer-link">关于我们</a>
+                <a href="#" class="footer-link">联系我们</a>
+            </div>
+            <div class="copyright">
+                © 2026 校务问答机器人系统. 版权所有.
+            </div>
+        </div>
+    </footer>
+
+    <!-- 反馈模态框 -->
+    <div class="modal" id="feedbackModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">提交反馈</h3>
+                <button class="modal-close" onclick="closeModal('feedbackModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">反馈类型</label>
+                    <select class="form-control">
+                        <option value="">请选择反馈类型</option>
+                        <option value="bug">系统错误</option>
+                        <option value="suggestion">功能建议</option>
+                        <option value="question">使用问题</option>
+                        <option value="other">其他</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">反馈内容</label>
+                    <textarea class="form-control" rows="6" placeholder="请详细描述您的问题或建议..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">联系方式（选填）</label>
+                    <input type="text" class="form-control" placeholder="邮箱或手机号，方便我们回复您">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('feedbackModal')">取消</button>
+                <button class="btn btn-primary" onclick="submitFeedback()">提交</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showGuestLoginPrompt(message) {
+            alert(message);
+        }
+
+        (function applyAdminNavVisibility() {
+            const isAdmin = localStorage.getItem('userRole') === 'admin';
+            const adminLink = document.querySelector('.nav-links a[href="../admin/admin.html"]');
+            if (adminLink && !isAdmin) {
+                adminLink.style.display = 'none';
+            }
+        })();
+        // 导航切换
+        (function applyGuestPersonalRestriction() {
+            if (localStorage.getItem('userRole') !== 'guest') return;
+            const personalLink = document.querySelector('.nav-links a[href="personal.html"]');
+            if (!personalLink) return;
+            personalLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                showGuestLoginPrompt('请登录后使用个人中心');
+            });
+        })();
+        document.querySelectorAll('.help-nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // 移除所有active类
+                document.querySelectorAll('.help-nav-btn').forEach(b => b.classList.remove('active'));
+                // 添加当前active类
+                this.classList.add('active');
+                
+                // 隐藏所有内容区
+                document.querySelectorAll('.help-section').forEach(section => {
+                    section.style.display = 'none';
+                });
+                
+                // 显示对应的内容区
+                const targetId = this.getAttribute('data-target') + '-section';
+                document.getElementById(targetId).style.display = 'block';
+            });
+        });
+        
+        // FAQ展开/收起
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const item = this.parentElement;
+                const answer = this.nextElementSibling;
+                const toggle = this.querySelector('.faq-toggle');
+                
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    answer.classList.remove('show');
+                    toggle.textContent = '+';
+                } else {
+                    // 关闭其他打开的FAQ
+                    document.querySelectorAll('.faq-item.active').forEach(activeItem => {
+                        activeItem.classList.remove('active');
+                        activeItem.querySelector('.faq-answer').classList.remove('show');
+                        activeItem.querySelector('.faq-toggle').textContent = '+';
+                    });
+                    
+                    item.classList.add('active');
+                    answer.classList.add('show');
+                    toggle.textContent = '×';
+                }
+            });
+        });
+        
+        // 模态框控制
+        function showFeedbackModal() {
+            document.getElementById('feedbackModal').classList.add('show');
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+        
+        function submitFeedback() {
+            alert('反馈提交成功！感谢您的宝贵意见。');
+            closeModal('feedbackModal');
+        }
+        
+        // 点击模态框外部关闭
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('show');
+                }
+            });
+        });
+        
+        // 页面跳转
+        function goToPage(page) {
+            window.location.href = page;
+        }
+    </script>
+</body>
+</html>

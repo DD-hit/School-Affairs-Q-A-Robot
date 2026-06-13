@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录注册 - 校务问答机器人系统</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <style>
+        .auth-container {
+            max-width: 400px;
+            margin: 80px auto;
+        }
+        
+        .auth-card {
+            padding: 32px;
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .auth-title {
+            font-size: 24px;
+            color: #1677ff;
+            margin-bottom: 8px;
+        }
+        
+        .auth-subtitle {
+            color: #595959;
+            font-size: 14px;
+        }
+        
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: #595959;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        
+        .auth-tab:hover {
+            color: #1677ff;
+        }
+        
+        .auth-tab.active {
+            color: #1677ff;
+            border-bottom-color: #1677ff;
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+        }
+        
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .forgot-password {
+            color: #1677ff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        
+        .auth-footer {
+            text-align: center;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .switch-auth {
+            color: #1677ff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .switch-auth:hover {
+            text-decoration: underline;
+        }
+        
+        .forgot-password-flow {
+            display: none;
+        }
+
+        .forgot-password-flow.active {
+            display: block;
+        }
+
+        .forgot-password-nav {
+            margin-bottom: 20px;
+        }
+
+        .forgot-steps {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+
+        .forgot-step {
+            flex: 1;
+            position: relative;
+            text-align: center;
+            color: #8c8c8c;
+            font-size: 12px;
+        }
+
+        .forgot-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 16px;
+            left: calc(50% + 20px);
+            width: calc(100% - 40px);
+            height: 1px;
+            background-color: #f0f0f0;
+        }
+
+        .forgot-step-indicator {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 8px;
+            border-radius: 50%;
+            border: 1px solid #d9d9d9;
+            background: #ffffff;
+            color: #8c8c8c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .forgot-step.active,
+        .forgot-step.done {
+            color: #1677ff;
+        }
+
+        .forgot-step.active .forgot-step-indicator,
+        .forgot-step.done .forgot-step-indicator {
+            border-color: #1677ff;
+            background-color: #1677ff;
+            color: #ffffff;
+        }
+
+        .forgot-step-panel {
+            display: none;
+        }
+
+        .forgot-step-panel.active {
+            display: block;
+        }
+
+        .verification-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .verification-row .form-control {
+            flex: 1;
+        }
+
+        .verification-row .btn {
+            min-width: 118px;
+            white-space: nowrap;
+        }
+
+        .forgot-contact-tip {
+            margin-bottom: 16px;
+            padding: 10px 12px;
+            background-color: #fafafa;
+            border: 1px solid #f0f0f0;
+            border-radius: 4px;
+            color: #595959;
+            font-size: 13px;
+        }
+
+        .forgot-code-tip {
+            margin-top: 4px;
+            color: #8c8c8c;
+            font-size: 12px;
+        }
+
+        .forgot-success {
+            text-align: center;
+            padding: 24px 0 8px;
+        }
+
+        .forgot-success-title {
+            font-size: 20px;
+            color: #52c41a;
+            margin-bottom: 8px;
+        }
+
+        .forgot-success-text {
+            color: #595959;
+            margin-bottom: 24px;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="user/index.html" class="logo">
+                <div class="logo-icon">校</div>
+                <span>校务问答机器人系统</span>
+            </a>
+            <div class="nav-links">
+                <a href="user/index.html" class="nav-link">返回首页</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-card card">
+                    <div class="auth-header">
+                        <h1 class="auth-title">校务问答机器人系统</h1>
+                        <p class="auth-subtitle">校园政务服务智能问答平台</p>
+                    </div>
+                    
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" data-tab="login">登录</button>
+                        <button class="auth-tab" data-tab="register">注册</button>
+                    </div>
+                    
+                    <!-- 登录表单 -->
+                    <form id="login-form" class="auth-form active">
+                        <div class="form-group">
+                            <label class="form-label" for="login-username">账号</label>
+                            <input type="text" id="login-username" class="form-control" placeholder="请输入学号/工号" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="login-password">密码</label>
+                            <input type="password" id="login-password" class="form-control" placeholder="请输入密码" required>
+                        </div>
+                        
+                        <div class="form-options">
+                            <label class="remember-me">
+                                <input type="checkbox">
+                                <span>记住密码</span>
+                            </label>
+                            <a href="#" class="forgot-password">忘记密码？</a>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100">登录</button>
+                        <div style="margin-top:12px; text-align:center;">
+                            <button id="guest-login-btn" class="btn btn-outline w-100" type="button">游客登录（只读）</button>
+                        </div>
+                        
+                        <div class="auth-footer">
+                            <p>还没有账号？ <a href="#" class="switch-auth" data-switch="register">立即注册</a></p>
+                        </div>
+                    </form>
+                    
+                    <!-- 注册表单 -->
+                    <form id="register-form" class="auth-form">
+                        <div class="form-group">
+                            <label class="form-label" for="register-username">用户名</label>
+                            <input type="text" id="register-username" class="form-control" placeholder="请输入用户名" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="register-phone">手机号</label>
+                            <input type="tel" id="register-phone" class="form-control" placeholder="请输入手机号" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="register-password">密码</label>
+                            <input type="password" id="register-password" class="form-control" placeholder="请输入密码（至少6位）" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="register-confirm-password">确认密码</label>
+                            <input type="password" id="register-confirm-password" class="form-control" placeholder="请再次输入密码" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100">注册</button>
+                        
+                        <div class="auth-footer">
+                            <p>已有账号？ <a href="#" class="switch-auth" data-switch="login">立即登录</a></p>
+                        </div>
+                    </form>
+
+                    <div id="forgot-password-form" class="auth-form forgot-password-flow">
+                        <div class="forgot-password-nav">
+                            <a href="#" class="switch-auth back-to-login-link" data-switch="login">返回登录</a>
+                        </div>
+
+                        <div class="forgot-steps">
+                            <div class="forgot-step active" data-step="1">
+                                <div class="forgot-step-indicator">1</div>
+                                <div>输入注册邮箱/手机号</div>
+                            </div>
+                            <div class="forgot-step" data-step="2">
+                                <div class="forgot-step-indicator">2</div>
+                                <div>输入验证码与新密码</div>
+                            </div>
+                            <div class="forgot-step" data-step="3">
+                                <div class="forgot-step-indicator">3</div>
+                                <div>重置成功</div>
+                            </div>
+                        </div>
+
+                        <div class="forgot-step-panel active" data-panel="1">
+                            <div class="form-group">
+                                <label class="form-label" for="forgot-account">注册邮箱/手机号</label>
+                                <input type="text" id="forgot-account" class="form-control" placeholder="请输入注册邮箱或手机号">
+                                <div class="form-text">支持邮箱或手机号找回密码</div>
+                            </div>
+                            <button id="forgot-send-code-btn" type="button" class="btn btn-primary w-100">发送验证码</button>
+                        </div>
+
+                        <div class="forgot-step-panel" data-panel="2">
+                            <div class="forgot-contact-tip">
+                                验证码已发送至：<span id="forgot-contact-display"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="forgot-code">验证码</label>
+                                <div class="verification-row">
+                                    <input type="text" id="forgot-code" class="form-control" maxlength="6" placeholder="请输入验证码">
+                                    <button id="forgot-resend-code-btn" type="button" class="btn btn-secondary">重新发送验证码</button>
+                                </div>
+                                <div class="forgot-code-tip">原型固定验证码为 123456，发送后按钮倒计时 60 秒</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="forgot-new-password">新密码</label>
+                                <input type="password" id="forgot-new-password" class="form-control" placeholder="请输入新密码（至少6位）">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="forgot-confirm-password">确认新密码</label>
+                                <input type="password" id="forgot-confirm-password" class="form-control" placeholder="请再次输入新密码">
+                            </div>
+
+                            <button id="forgot-reset-btn" type="button" class="btn btn-primary w-100">确认重置</button>
+                        </div>
+
+                        <div class="forgot-step-panel forgot-success" data-panel="3">
+                            <div class="forgot-success-title">密码重置成功</div>
+                            <div class="forgot-success-text">请使用新密码重新登录系统。</div>
+                            <button type="button" class="btn btn-primary w-100 switch-auth" data-switch="login">返回登录</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部栏 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="user/index.html" class="footer-link">首页</a>
+                <a href="guest/forum.html" class="footer-link">校务论坛</a>
+                <a href="user/help.html" class="footer-link">使用帮助</a>
+                <a href="#" class="footer-link">关于我们</a>
+                <a href="#" class="footer-link">隐私政策</a>
+            </div>
+            <div class="copyright">
+                © 2026 校务问答机器人系统. 版权所有.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/script.js"></script>
+    <script>
+        // 登录注册页特定逻辑
+        document.addEventListener('DOMContentLoaded', function() {
+            // 标签页切换
+            const authTabs = document.querySelectorAll('.auth-tab');
+            const authForms = document.querySelectorAll('.auth-form');
+            const switchLinks = document.querySelectorAll('.switch-auth');
+            
+            // 标签页点击事件
+            authTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.dataset.tab;
+                    
+                    // 更新标签页状态
+                    authTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // 显示对应表单
+                    authForms.forEach(form => {
+                        form.classList.remove('active');
+                        if (form.id === tabId + '-form') {
+                            form.classList.add('active');
+                        }
+                    });
+                });
+            });
+            
+            // 切换链接点击事件
+            switchLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetTab = link.dataset.switch;
+                    
+                    // 触发对应标签页点击
+                    const targetTabElement = document.querySelector(`.auth-tab[data-tab="${targetTab}"]`);
+                    if (targetTabElement) {
+                        targetTabElement.click();
+                    }
+                });
+            });
+            
+            // 表单验证
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const guestLoginBtn = document.getElementById('guest-login-btn');
+            const forgotPasswordForm = document.getElementById('forgot-password-form');
+            const forgotPasswordLink = document.querySelector('.forgot-password');
+            const forgotSendCodeBtn = document.getElementById('forgot-send-code-btn');
+            const forgotResendCodeBtn = document.getElementById('forgot-resend-code-btn');
+            const forgotResetBtn = document.getElementById('forgot-reset-btn');
+            const forgotAccountInput = document.getElementById('forgot-account');
+            const forgotCodeInput = document.getElementById('forgot-code');
+            const forgotNewPasswordInput = document.getElementById('forgot-new-password');
+            const forgotConfirmPasswordInput = document.getElementById('forgot-confirm-password');
+            const forgotContactDisplay = document.getElementById('forgot-contact-display');
+            const forgotSteps = document.querySelectorAll('.forgot-step');
+            const forgotStepPanels = document.querySelectorAll('.forgot-step-panel');
+            const forgotBackLinks = document.querySelectorAll('.back-to-login-link');
+            let forgotCountdown = 0;
+            let forgotTimer = null;
+            let forgotAccountValue = '';
+
+            function setForgotStep(step) {
+                forgotSteps.forEach(item => {
+                    const itemStep = Number(item.dataset.step);
+                    item.classList.toggle('active', itemStep === step);
+                    item.classList.toggle('done', itemStep < step);
+                });
+
+                forgotStepPanels.forEach(panel => {
+                    panel.classList.toggle('active', Number(panel.dataset.panel) === step);
+                });
+            }
+
+            function clearForgotTimer() {
+                if (forgotTimer) {
+                    clearInterval(forgotTimer);
+                    forgotTimer = null;
+                }
+            }
+
+            function updateForgotCountdown() {
+                if (forgotSendCodeBtn) {
+                    forgotSendCodeBtn.disabled = forgotCountdown > 0;
+                    forgotSendCodeBtn.textContent = forgotCountdown > 0 ? `${forgotCountdown}s 后可重发` : '发送验证码';
+                }
+
+                if (forgotResendCodeBtn) {
+                    forgotResendCodeBtn.disabled = forgotCountdown > 0;
+                    forgotResendCodeBtn.textContent = forgotCountdown > 0 ? `${forgotCountdown}s 后重发` : '重新发送验证码';
+                }
+            }
+
+            function startForgotCountdown() {
+                clearForgotTimer();
+                forgotCountdown = 60;
+                updateForgotCountdown();
+
+                forgotTimer = setInterval(() => {
+                    forgotCountdown -= 1;
+
+                    if (forgotCountdown <= 0) {
+                        forgotCountdown = 0;
+                        clearForgotTimer();
+                    }
+
+                    updateForgotCountdown();
+                }, 1000);
+            }
+
+            function resetForgotFlow() {
+                clearForgotTimer();
+                forgotCountdown = 0;
+                forgotAccountValue = '';
+
+                if (forgotAccountInput) forgotAccountInput.value = '';
+                if (forgotCodeInput) forgotCodeInput.value = '';
+                if (forgotNewPasswordInput) forgotNewPasswordInput.value = '';
+                if (forgotConfirmPasswordInput) forgotConfirmPasswordInput.value = '';
+                if (forgotContactDisplay) forgotContactDisplay.textContent = '';
+
+                updateForgotCountdown();
+                setForgotStep(1);
+            }
+
+            function showForgotFlow() {
+                authTabs.forEach(tab => tab.classList.remove('active'));
+                authForms.forEach(form => form.classList.remove('active'));
+                resetForgotFlow();
+
+                if (forgotPasswordForm) {
+                    forgotPasswordForm.classList.add('active');
+                }
+            }
+
+            function validateRecoveryAccount(value) {
+                const trimmedValue = value.trim();
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const phoneRegex = /^(1[3-9]\d{9}|88888888)$/;
+
+                return emailRegex.test(trimmedValue) || phoneRegex.test(trimmedValue);
+            }
+
+            function sendRecoveryCode() {
+                const account = forgotAccountInput.value.trim();
+
+                if (!account) {
+                    utils.showError('请输入注册邮箱或手机号');
+                    return;
+                }
+
+                if (!validateRecoveryAccount(account)) {
+                    utils.showError('请输入有效的注册邮箱或手机号');
+                    return;
+                }
+
+                forgotAccountValue = account;
+                forgotContactDisplay.textContent = account;
+                setForgotStep(2);
+                startForgotCountdown();
+                utils.showSuccess('验证码已发送，固定验证码为 123456');
+            }
+             
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const username = document.getElementById('login-username').value;
+                    const password = document.getElementById('login-password').value;
+                    
+                    if (!username.trim()) {
+                        utils.showError('请输入账号');
+                        return;
+                    }
+                    
+                    if (!password.trim()) {
+                        utils.showError('请输入密码');
+                        return;
+                    }
+                    
+                    // 模拟登录
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    utils.showLoading(submitBtn, true);
+                    
+                    setTimeout(() => {
+                        utils.showLoading(submitBtn, false);
+                        // 根据用户名简单判定管理员
+                        const displayName = username.trim();
+                        const uname = displayName.toLowerCase();
+                        if (uname === 'admin' || uname.includes('admin') || uname.includes('管理员') || uname === 'root') {
+                            localStorage.setItem('userRole', 'admin');
+                            localStorage.setItem('username', displayName);
+                        } else {
+                            localStorage.setItem('userRole', 'user');
+                            localStorage.setItem('username', displayName);
+                        }
+                        utils.showSuccess('登录成功！');
+                        setTimeout(() => navigateTo(localStorage.getItem('userRole') === 'admin' ? 'admin/admin.html' : 'user/index.html'), 800);
+                    }, 1000);
+                });
+            }
+            
+            if (registerForm) {
+                registerForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const username = document.getElementById('register-username').value;
+                    const phone = document.getElementById('register-phone').value;
+                    const password = document.getElementById('register-password').value;
+                    const confirmPassword = document.getElementById('register-confirm-password').value;
+                    
+                    // 验证表单
+                    const errors = [];
+                    
+                    if (!username.trim()) {
+                        errors.push('请输入用户名');
+                    }
+                    
+                    if (!phone.trim()) {
+                        errors.push('请输入手机号');
+                    } else if (!/^(1[3-9]\d{9}|88888888)$/.test(phone)) {
+                        errors.push('请输入有效的手机号码（支持88888888测试号）');
+                    }
+                    
+                    if (!password.trim()) {
+                        errors.push('请输入密码');
+                    } else if (password.length < 6) {
+                        errors.push('密码长度至少6位');
+                    }
+                    
+                    if (!confirmPassword.trim()) {
+                        errors.push('请确认密码');
+                    } else if (password !== confirmPassword) {
+                        errors.push('两次输入的密码不一致');
+                    }
+                    
+                    if (errors.length > 0) {
+                        utils.showError(errors[0]);
+                        return;
+                    }
+                    
+                    // 模拟注册
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    utils.showLoading(submitBtn, true);
+                    
+                    setTimeout(() => {
+                        utils.showLoading(submitBtn, false);
+                        utils.showSuccess('注册成功！');
+                        setTimeout(() => navigateTo('login.html'), 1000);
+                    }, 1000);
+                });
+            }
+
+            if (guestLoginBtn) {
+                guestLoginBtn.addEventListener('click', function() {
+                    localStorage.setItem('userRole', 'guest');
+                    localStorage.setItem('username', '游客');
+                    utils.showSuccess('已进入游客模式');
+                    setTimeout(() => navigateTo('guest/forum.html'), 500);
+                });
+            }
+
+            if (forgotPasswordLink) {
+                forgotPasswordLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showForgotFlow();
+                });
+            }
+
+            forgotBackLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    resetForgotFlow();
+                });
+            });
+
+            if (forgotSendCodeBtn) {
+                forgotSendCodeBtn.addEventListener('click', sendRecoveryCode);
+            }
+
+            if (forgotResendCodeBtn) {
+                forgotResendCodeBtn.addEventListener('click', function() {
+                    if (!forgotAccountValue) {
+                        utils.showError('请先输入注册邮箱或手机号');
+                        setForgotStep(1);
+                        return;
+                    }
+
+                    forgotContactDisplay.textContent = forgotAccountValue;
+                    startForgotCountdown();
+                    utils.showSuccess('验证码已重新发送，固定验证码为 123456');
+                });
+            }
+
+            if (forgotResetBtn) {
+                forgotResetBtn.addEventListener('click', function() {
+                    const verifyCode = forgotCodeInput.value.trim();
+                    const newPassword = forgotNewPasswordInput.value;
+                    const confirmPassword = forgotConfirmPasswordInput.value;
+
+                    if (!forgotAccountValue) {
+                        utils.showError('请先完成验证码发送');
+                        setForgotStep(1);
+                        return;
+                    }
+
+                    if (!verifyCode) {
+                        utils.showError('请输入验证码');
+                        return;
+                    }
+
+                    if (verifyCode !== '123456') {
+                        utils.showError('验证码错误，请输入固定验证码 123456');
+                        return;
+                    }
+
+                    if (!newPassword.trim()) {
+                        utils.showError('请输入新密码');
+                        return;
+                    }
+
+                    if (newPassword.length < 6) {
+                        utils.showError('新密码长度至少6位');
+                        return;
+                    }
+
+                    if (!confirmPassword.trim()) {
+                        utils.showError('请确认新密码');
+                        return;
+                    }
+
+                    if (newPassword !== confirmPassword) {
+                        utils.showError('两次输入的新密码不一致');
+                        return;
+                    }
+
+                    clearForgotTimer();
+                    forgotCountdown = 0;
+                    updateForgotCountdown();
+                    setForgotStep(3);
+                    utils.showSuccess('密码重置成功！');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

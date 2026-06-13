@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员后台 - 校务问答机器人系统</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <style>
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 24px;
+            min-height: 600px;
+        }
+
+        .admin-sidebar {
+            background: white;
+            border-radius: 12px;
+            padding: 20px 0;
+            border: 1px solid #f0f0f0;
+        }
+
+        .admin-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: #262626;
+            text-decoration: none;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            cursor: pointer;
+        }
+
+        .admin-menu-item:hover {
+            background: #fafafa;
+            color: #1677ff;
+        }
+
+        .admin-menu-item.active {
+            background: rgba(22, 119, 255, 0.1);
+            color: #1677ff;
+            border-left-color: #1677ff;
+        }
+
+        .admin-menu-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: currentColor;
+            flex-shrink: 0;
+        }
+
+        .admin-menu-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .admin-menu-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .admin-content {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .admin-header {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #f0f0f0;
+        }
+
+        .admin-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #262626;
+        }
+
+        .admin-subtitle {
+            color: #595959;
+            font-size: 14px;
+        }
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #f0f0f0;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1677ff;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: #595959;
+            font-size: 14px;
+        }
+
+        .admin-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #f0f0f0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 16px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #262626;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .admin-table th {
+            background: #fafafa;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #262626;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .admin-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .admin-table tr:hover {
+            background: #fafafa;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .knowledge-form {
+            max-width: 600px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: rgba(82, 196, 26, 0.1);
+            color: #52c41a;
+        }
+
+        .status-inactive {
+            background: rgba(140, 140, 140, 0.1);
+            color: #8c8c8c;
+        }
+
+        .status-banned {
+            background: rgba(255, 77, 79, 0.1);
+            color: #ff4d4f;
+        }
+
+        .chart-container {
+            height: 300px;
+            margin-top: 20px;
+        }
+
+        .chart-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f5f5f5 25%, #e8e8e8 25%, #e8e8e8 50%, #f5f5f5 50%, #f5f5f5 75%, #e8e8e8 75%, #e8e8e8);
+            background-size: 40px 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8c8c8c;
+            font-size: 14px;
+        }
+
+        .forum-post-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #f0f0f0;
+            gap: 16px;
+        }
+
+        .forum-post-item:last-child {
+            border-bottom: none;
+        }
+
+        .post-info {
+            flex: 1;
+        }
+
+        .post-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: #262626;
+        }
+
+        .post-meta {
+            font-size: 12px;
+            color: #8c8c8c;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .modal-content {
+            max-width: 800px;
+        }
+
+        .yellow-status {
+            min-width: 64px;
+            text-align: center;
+        }
+
+        .department-name-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .department-name-main {
+            font-weight: 500;
+            color: #262626;
+        }
+
+        .department-name-sub {
+            font-size: 12px;
+            color: #8c8c8c;
+            line-height: 1.5;
+        }
+
+        .yellow-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .yellow-summary-card {
+            background: #fafafa;
+            border: 1px solid #f0f0f0;
+            border-radius: 10px;
+            padding: 18px;
+        }
+
+        .yellow-summary-value {
+            font-size: 26px;
+            font-weight: 600;
+            color: #1677ff;
+            margin-bottom: 6px;
+        }
+
+        .yellow-summary-label {
+            font-size: 13px;
+            color: #595959;
+        }
+
+        .yellow-modal-desc {
+            font-size: 13px;
+            color: #8c8c8c;
+            margin-top: 4px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 1100px) {
+            .admin-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-stats,
+            .yellow-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-stats,
+            .yellow-summary,
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <a href="admin.html" class="logo">
+                <div class="logo-icon">校</div>
+                <span>校务问答机器人系统</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="../user/index.html" class="nav-link">首页</a>
+                <a href="../user/personal.html" class="nav-link">个人中心</a>
+                <a href="admin.html" class="nav-link active">管理员后台</a>
+                <a href="../user/forum.html" class="nav-link">校务论坛</a>
+                <a href="../user/yellow-pages.html" class="nav-link">校园黄页</a>
+                <a href="../user/help.html" class="nav-link">使用帮助</a>
+            </div>
+
+            <div class="user-info">
+                <span>管理员：张三（工号：1023666）</span>
+                <button class="btn btn-text" onclick="logout()">退出登录</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="admin-layout">
+                <div class="admin-sidebar">
+                    <div class="admin-menu-item active" data-section="dashboard">
+                        <div class="admin-menu-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M4 19V10"></path>
+                                <path d="M10 19V5"></path>
+                                <path d="M16 19v-7"></path>
+                                <path d="M22 19v-4"></path>
+                            </svg>
+                        </div>
+                        <span class="admin-menu-text">数据概览</span>
+                    </div>
+                    <div class="admin-menu-item" data-section="knowledge">
+                        <div class="admin-menu-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M4 6.5C4 5.12 5.12 4 6.5 4H20v15.5c0 .28-.22.5-.5.5H6.5A2.5 2.5 0 0 1 4 17.5z"></path>
+                                <path d="M8 8h8"></path>
+                                <path d="M8 12h8"></path>
+                                <path d="M8 16h5"></path>
+                            </svg>
+                        </div>
+                        <span class="admin-menu-text">知识库管理</span>
+                    </div>
+                    <div class="admin-menu-item" data-section="users">
+                        <div class="admin-menu-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9.5" cy="8" r="3"></circle>
+                                <path d="M20 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16.5 5.13a3 3 0 0 1 0 5.74"></path>
+                            </svg>
+                        </div>
+                        <span class="admin-menu-text">用户管理</span>
+                    </div>
+                    <div class="admin-menu-item" data-section="feedback">
+                        <div class="admin-menu-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                <path d="M8 9h8"></path>
+                                <path d="M8 13h5"></path>
+                            </svg>
+                        </div>
+                        <span class="admin-menu-text">反馈管理</span>
+                    </div>
+                    <div class="admin-menu-item" data-section="forum">
+                        <div class="admin-menu-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M7 10h10"></path>
+                                <path d="M7 14h6"></path>
+                                <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                        </div>
+                        <span class="admin-menu-text">论坛管理</span>
+                    </div>
+                    <div class="admin-menu-item" data-section="yellow-pages">
+                        <div class="admin-menu-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M6 21V8"></path>
+                                <path d="M18 21V4"></path>
+                                <path d="M6 12h12"></path>
+                                <path d="M6 21h12"></path>
+                                <path d="M10 8V4h4v4"></path>
+                            </svg>
+                        </div>
+                        <span class="admin-menu-text">校园黄页</span>
+                    </div>
+                    <div class="admin-menu-item" data-section="settings">
+                        <div class="admin-menu-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01A1.65 1.65 0 0 0 10 3.09V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
+                        </div>
+                        <span class="admin-menu-text">系统设置</span>
+                    </div>
+                </div>
+
+                <div class="admin-content">
+                    <div class="admin-section" id="dashboard-section">
+                        <div class="admin-header">
+                            <h1 class="admin-title">管理员后台</h1>
+                            <p class="admin-subtitle">系统数据概览与运营情况监控</p>
+                        </div>
+
+                        <div class="admin-stats">
+                            <div class="stat-card">
+                                <div class="stat-value">1,248</div>
+                                <div class="stat-label">今日访问量</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">356</div>
+                                <div class="stat-label">今日问答数</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">89</div>
+                                <div class="stat-label">新增用户</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">24</div>
+                                <div class="stat-label">新论坛帖子</div>
+                            </div>
+                        </div>
+
+                        <div class="admin-section">
+                            <div class="section-header">
+                                <h2 class="section-title">问答数据统计</h2>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-secondary" type="button">今日</button>
+                                    <button class="btn btn-secondary" type="button">本周</button>
+                                    <button class="btn btn-primary" type="button">本月</button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <div class="chart-placeholder">问答趋势图占位</div>
+                            </div>
+                        </div>
+
+                        <div class="admin-section">
+                            <div class="section-header">
+                                <h2 class="section-title">热门问题 TOP 5</h2>
+                            </div>
+                            <div class="table-container">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>排名</th>
+                                            <th>问题内容</th>
+                                            <th>提问次数</th>
+                                            <th>解决率</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>如何查询成绩？</td>
+                                            <td>156</td>
+                                            <td>98%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>选课系统什么时候开放？</td>
+                                            <td>142</td>
+                                            <td>95%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>校园卡如何挂失补办？</td>
+                                            <td>128</td>
+                                            <td>100%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>图书馆开放时间是什么？</td>
+                                            <td>115</td>
+                                            <td>100%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>奖学金申请流程有哪些？</td>
+                                            <td>98</td>
+                                            <td>92%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-section" id="knowledge-section" style="display: none;">
+                        <div class="section-header">
+                            <h2 class="section-title">知识库管理</h2>
+                            <button class="btn btn-primary" type="button" onclick="showAddKnowledgeModal()">添加知识</button>
+                        </div>
+
+                        <div class="search-bar">
+                            <input type="text" class="form-control search-input" placeholder="搜索知识条目">
+                            <button class="btn btn-primary" type="button">搜索</button>
+                        </div>
+
+                        <div class="table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>问题</th>
+                                        <th>答案</th>
+                                        <th>分类</th>
+                                        <th>创建时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="knowledgeTableBody">
+                                    <tr>
+                                        <td>001</td>
+                                        <td>如何查询成绩？</td>
+                                        <td>登录教务系统，进入成绩查询页面即可查看。</td>
+                                        <td><span class="badge badge-primary">成绩查询</span></td>
+                                        <td>2026-04-01</td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-text" type="button" onclick="editKnowledge(1)">编辑</button>
+                                                <button class="btn btn-text btn-danger" type="button" onclick="deleteKnowledge(1)">删除</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>002</td>
+                                        <td>选课系统怎么用？</td>
+                                        <td>访问选课系统网站，使用学号登录并按批次完成选课。</td>
+                                        <td><span class="badge badge-primary">选课系统</span></td>
+                                        <td>2026-03-14</td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="btn btn-text" type="button" onclick="editKnowledge(2)">编辑</button>
+                                                <button class="btn btn-text btn-danger" type="button" onclick="deleteKnowledge(2)">删除</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="admin-section" id="users-section" style="display: none;">
+                        <div class="section-header">
+                            <h2 class="section-title">用户管理</h2>
+                            <button class="btn btn-secondary" type="button">导出名单</button>
+                        </div>
+
+                        <div class="table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>用户名</th>
+                                        <th>身份</th>
+                                        <th>手机号</th>
+                                        <th>状态</th>
+                                        <th>注册时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>张三</td>
+                                        <td>学生</td>
+                                        <td>13800000001</td>
+                                        <td><span class="status-badge status-active">正常</span></td>
+                                        <td>2026-03-01</td>
+                                    </tr>
+                                    <tr>
+                                        <td>李四</td>
+                                        <td>教师</td>
+                                        <td>13800000002</td>
+                                        <td><span class="status-badge status-active">正常</span></td>
+                                        <td>2026-03-02</td>
+                                    </tr>
+                                    <tr>
+                                        <td>王五</td>
+                                        <td>游客</td>
+                                        <td>-</td>
+                                        <td><span class="status-badge status-inactive">未激活</span></td>
+                                        <td>2026-03-03</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="admin-section" id="feedback-section" style="display: none;">
+                        <div class="section-header">
+                            <h2 class="section-title">反馈管理</h2>
+                            <button class="btn btn-secondary" type="button">批量标记已处理</button>
+                        </div>
+
+                        <div class="table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>反馈类型</th>
+                                        <th>反馈内容</th>
+                                        <th>提交人</th>
+                                        <th>状态</th>
+                                        <th>时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>功能建议</td>
+                                        <td>希望问答页面增加常用办事入口。</td>
+                                        <td>张三</td>
+                                        <td><span class="status-badge status-active">待处理</span></td>
+                                        <td>2026-06-10 11:20</td>
+                                    </tr>
+                                    <tr>
+                                        <td>系统问题</td>
+                                        <td>论坛发帖后页面刷新较慢。</td>
+                                        <td>李四</td>
+                                        <td><span class="status-badge status-inactive">处理中</span></td>
+                                        <td>2026-06-09 16:45</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="admin-section" id="forum-section" style="display: none;">
+                        <div class="section-header">
+                            <h2 class="section-title">论坛管理</h2>
+                            <button class="btn btn-primary" type="button">批量操作</button>
+                        </div>
+
+                        <div class="search-bar">
+                            <input type="text" class="form-control search-input" placeholder="搜索帖子标题或内容">
+                            <select class="form-control" style="width: 150px;">
+                                <option value="">全部分类</option>
+                                <option value="course">选课</option>
+                                <option value="scholarship">奖助</option>
+                                <option value="dorm">宿舍</option>
+                                <option value="card">校园卡</option>
+                                <option value="library">图书馆</option>
+                                <option value="exam">考试</option>
+                            </select>
+                            <button class="btn btn-primary" type="button">搜索</button>
+                        </div>
+
+                        <div class="list">
+                            <div class="forum-post-item">
+                                <div class="post-info">
+                                    <div class="post-title">选课系统使用指南</div>
+                                    <div class="post-meta">作者：李老师 | 分类：选课 | 发布时间：2026-03-15 10:30 | 浏览：156 | 点赞：24 | 评论：8</div>
+                                </div>
+                                <div class="post-actions">
+                                    <button class="btn btn-text" type="button">置顶</button>
+                                    <button class="btn btn-text" type="button">加精</button>
+                                    <button class="btn btn-text btn-danger" type="button">删除</button>
+                                </div>
+                            </div>
+                            <div class="forum-post-item">
+                                <div class="post-info">
+                                    <div class="post-title">宿舍报修流程说明</div>
+                                    <div class="post-meta">作者：王同学 | 分类：宿舍 | 发布时间：2026-03-14 15:20 | 浏览：89 | 点赞：12 | 评论：5</div>
+                                </div>
+                                <div class="post-actions">
+                                    <button class="btn btn-text" type="button">置顶</button>
+                                    <button class="btn btn-text" type="button">加精</button>
+                                    <button class="btn btn-text btn-danger" type="button">删除</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-section" id="yellow-pages-section" style="display: none;">
+                        <div class="section-header">
+                            <div>
+                                <h2 class="section-title">校园黄页管理</h2>
+                                <div class="yellow-modal-desc">维护校内部门联系方式、办公地点、职责说明和前台展示状态。</div>
+                            </div>
+                            <button class="btn btn-primary" type="button" onclick="openYellowPageModal()">新增部门</button>
+                        </div>
+
+                        <div class="yellow-summary" id="yellowPageSummary"></div>
+
+                        <div class="search-bar">
+                            <input type="text" id="yellowPageSearch" class="form-control search-input" placeholder="搜索部门名称、电话或职责关键词">
+                            <select id="yellowPageCategory" class="form-control" style="width: 160px;">
+                                <option value="all">全部类别</option>
+                            </select>
+                            <select id="yellowPageStatus" class="form-control" style="width: 140px;">
+                                <option value="all">全部状态</option>
+                                <option value="active">启用</option>
+                                <option value="inactive">停用</option>
+                            </select>
+                            <button class="btn btn-primary" type="button" onclick="renderYellowPageTable()">搜索</button>
+                        </div>
+
+                        <div class="table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>部门名称</th>
+                                        <th>类别</th>
+                                        <th>办公地点</th>
+                                        <th>联系电话</th>
+                                        <th>办公时间</th>
+                                        <th>状态</th>
+                                        <th>更新时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="yellowPageTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="admin-section" id="settings-section" style="display: none;">
+                        <div class="section-header">
+                            <h2 class="section-title">系统设置</h2>
+                        </div>
+
+                        <div class="knowledge-form">
+                            <div class="form-group">
+                                <label class="form-label">系统名称</label>
+                                <input type="text" class="form-control" value="校务问答机器人系统">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">系统公告</label>
+                                <textarea class="form-control" rows="4" placeholder="请输入系统公告内容">欢迎使用校务问答机器人系统。系统维护时间：每周日凌晨 02:00-04:00。</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">问答响应超时时间（秒）</label>
+                                <input type="number" class="form-control" value="30">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">私域资料边界</label>
+                                <textarea class="form-control" rows="3" readonly>用户个人资料库仅保存在用户本地浏览器中，不纳入公共知识库，不上传服务端，管理员不可查看或干预。</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">论坛发帖审核</label>
+                                <div class="d-flex gap-3">
+                                    <label class="d-flex align-center gap-2">
+                                        <input type="radio" name="review" checked> 自动发布
+                                    </label>
+                                    <label class="d-flex align-center gap-2">
+                                        <input type="radio" name="review"> 需要审核
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button class="btn btn-secondary" type="button">取消</button>
+                                <button class="btn btn-primary" type="button">保存设置</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="../user/index.html" class="footer-link">首页</a>
+                <a href="../user/forum.html" class="footer-link">校务论坛</a>
+                <a href="../user/yellow-pages.html" class="footer-link">校园黄页</a>
+                <a href="../user/help.html" class="footer-link">使用帮助</a>
+                <a href="#" class="footer-link">关于我们</a>
+                <a href="#" class="footer-link">联系我们</a>
+            </div>
+            <div class="copyright">
+                © 2026 校务问答机器人系统 版权所有
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal" id="addKnowledgeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">添加知识条目</h3>
+                <button class="modal-close" onclick="closeModal('addKnowledgeModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="knowledge-form">
+                    <div class="form-group">
+                        <label class="form-label">问题</label>
+                        <input type="text" class="form-control" placeholder="请输入问题">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">答案</label>
+                        <textarea class="form-control" rows="6" placeholder="请输入详细答案"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">分类</label>
+                            <select class="form-control">
+                                <option value="">请选择分类</option>
+                                <option value="course">选课系统</option>
+                                <option value="score">成绩查询</option>
+                                <option value="card">校园卡</option>
+                                <option value="dorm">宿舍管理</option>
+                                <option value="library">图书馆</option>
+                                <option value="scholarship">奖助学金</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">优先级</label>
+                            <select class="form-control">
+                                <option value="high">高</option>
+                                <option value="medium" selected>中</option>
+                                <option value="low">低</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" onclick="closeModal('addKnowledgeModal')">取消</button>
+                <button class="btn btn-primary" type="button">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="yellowPageModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title" id="yellowPageModalTitle">新增黄页部门</h3>
+                    <div class="yellow-modal-desc">完善部门基础信息后，即可用于前台校园黄页展示与筛选。</div>
+                </div>
+                <button class="modal-close" onclick="closeModal('yellowPageModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="knowledge-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">部门名称</label>
+                            <input type="text" id="yellowFormName" class="form-control" placeholder="请输入部门名称">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">所属类别</label>
+                            <select id="yellowFormCategory" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">办公地点</label>
+                            <input type="text" id="yellowFormLocation" class="form-control" placeholder="请输入办公地点">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">联系电话</label>
+                            <input type="text" id="yellowFormPhone" class="form-control" placeholder="请输入联系电话">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">办公时间</label>
+                            <input type="text" id="yellowFormHours" class="form-control" placeholder="例如：工作日 08:30-17:00">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">状态</label>
+                            <select id="yellowFormStatus" class="form-control">
+                                <option value="active">启用</option>
+                                <option value="inactive">停用</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">主要职责简介</label>
+                        <textarea id="yellowFormDescription" class="form-control" rows="4" placeholder="请输入部门职责简介"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">搜索关键词</label>
+                        <input type="text" id="yellowFormKeywords" class="form-control" placeholder="多个关键词可用顿号、逗号或空格分隔">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" onclick="closeModal('yellowPageModal')">取消</button>
+                <button class="btn btn-primary" type="button" onclick="saveYellowPageDepartment()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/yellow-pages-data.js"></script>
+    <script src="../assets/knowledge-base-data.js"></script>
+    <script src="../assets/admin-yellow-pages.js"></script>
+</body>
+</html>

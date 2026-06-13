@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模板下载 - 校务问答机器人系统</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <style>
+        .download-page {
+            padding: 40px 0 120px;
+        }
+
+        .download-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+            gap: 24px;
+            align-items: start;
+        }
+
+        .download-detail,
+        .download-side {
+            background: #fff;
+            border: 1px solid #f0f0f0;
+            border-radius: 16px;
+            box-shadow: 0 12px 36px rgba(15, 23, 42, 0.08);
+        }
+
+        .download-detail {
+            padding: 32px;
+        }
+
+        .download-side {
+            padding: 24px;
+            position: sticky;
+            top: 92px;
+        }
+
+        .download-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(22, 119, 255, 0.08);
+            color: #1677ff;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .download-title {
+            font-size: 30px;
+            line-height: 1.3;
+            margin-bottom: 12px;
+            color: #262626;
+        }
+
+        .download-desc {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #595959;
+            margin-bottom: 24px;
+        }
+
+        .download-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .download-meta-card {
+            padding: 18px 20px;
+            border-radius: 12px;
+            background: #fafafa;
+            border: 1px solid #f0f0f0;
+        }
+
+        .download-meta-label {
+            font-size: 13px;
+            color: #8c8c8c;
+            margin-bottom: 8px;
+        }
+
+        .download-meta-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #262626;
+            line-height: 1.6;
+            word-break: break-word;
+        }
+
+        .download-section {
+            margin-top: 28px;
+        }
+
+        .download-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #262626;
+            margin-bottom: 14px;
+        }
+
+        .download-notes {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .download-notes li {
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: #fafafa;
+            border: 1px solid #f0f0f0;
+            color: #595959;
+            line-height: 1.7;
+        }
+
+        .download-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 28px;
+        }
+
+        .download-actions .btn {
+            min-width: 132px;
+            min-height: 42px;
+        }
+
+        .side-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #262626;
+            margin-bottom: 16px;
+        }
+
+        .side-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .side-list li {
+            padding: 12px 14px;
+            border-radius: 10px;
+            background: #fafafa;
+            border: 1px solid #f0f0f0;
+            color: #595959;
+            line-height: 1.6;
+        }
+
+        .side-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .side-actions .btn {
+            width: 100%;
+            min-height: 42px;
+        }
+
+        @media (max-width: 992px) {
+            .download-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .download-side {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .download-page {
+                padding-top: 24px;
+            }
+
+            .download-detail,
+            .download-side {
+                padding: 20px;
+            }
+
+            .download-title {
+                font-size: 24px;
+            }
+
+            .download-meta-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .download-actions .btn {
+                flex: 1;
+                min-width: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">校</div>
+                <span>校务问答机器人系统</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">首页</a>
+                <a href="forum.html" class="nav-link">校务论坛</a>
+                <a href="yellow-pages.html" class="nav-link">校园黄页</a>
+                <a href="help.html" class="nav-link">使用帮助</a>
+            </div>
+            <div class="user-info">
+                <span>张三（学号：2023666）</span>
+                <div class="avatar">张</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content download-page">
+        <div class="container">
+            <div class="download-layout">
+                <section class="download-detail">
+                    <div class="download-badge" id="file-format-badge">模板文件</div>
+                    <h1 class="download-title" id="file-name">未指定文件</h1>
+                    <p class="download-desc" id="file-description">
+                        请确认模板用途、填写说明和提交要求后再下载使用。
+                    </p>
+
+                    <div class="download-meta-grid">
+                        <div class="download-meta-card">
+                            <div class="download-meta-label">所属分类</div>
+                            <div class="download-meta-value" id="file-category">未指定</div>
+                        </div>
+                        <div class="download-meta-card">
+                            <div class="download-meta-label">文件格式</div>
+                            <div class="download-meta-value" id="file-format">DOCX</div>
+                        </div>
+                        <div class="download-meta-card">
+                            <div class="download-meta-label">适用场景</div>
+                            <div class="download-meta-value" id="file-scene">学生日常事务办理</div>
+                        </div>
+                        <div class="download-meta-card">
+                            <div class="download-meta-label">办理方式</div>
+                            <div class="download-meta-value" id="file-process">下载填写后提交至对应部门</div>
+                        </div>
+                    </div>
+
+                    <div class="download-section">
+                        <h2 class="download-section-title">办理说明</h2>
+                        <ul class="download-notes" id="file-notes"></ul>
+                    </div>
+
+                    <div class="download-section">
+                        <h2 class="download-section-title">使用提醒</h2>
+                        <ul class="download-notes">
+                            <li>请优先使用电脑端下载并填写模板，避免移动端编辑导致排版错乱。</li>
+                            <li>提交前请核对个人信息、学院、学号、联系方式等字段是否完整。</li>
+                            <li>如表单需签字盖章，请按学院或职能部门的最新办理要求准备附件材料。</li>
+                        </ul>
+                    </div>
+
+                    <div class="download-actions">
+                        <a href="#" class="btn btn-primary" id="download-btn" download>下载模板</a>
+                        <a href="#" class="btn btn-secondary" id="preview-btn" target="_blank" rel="noopener noreferrer">在线预览</a>
+                        <a href="index.html" class="btn btn-secondary">返回首页</a>
+                    </div>
+                </section>
+
+                <aside class="download-side">
+                    <h2 class="side-title">办理建议</h2>
+                    <ul class="side-list" id="side-tips">
+                        <li>下载前先阅读表单用途，避免选错模板。</li>
+                        <li>如需补充证明材料，请与学院辅导员或对应窗口确认最新要求。</li>
+                        <li>遇到格式无法打开时，建议使用 Office 或兼容阅读器处理。</li>
+                    </ul>
+
+                    <div class="side-actions">
+                        <a href="help.html" class="btn btn-secondary">查看使用帮助</a>
+                        <a href="forum.html" class="btn btn-secondary">前往校务论坛</a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html" class="footer-link">首页</a>
+                <a href="forum.html" class="footer-link">校务论坛</a>
+                <a href="yellow-pages.html" class="footer-link">校园黄页</a>
+                <a href="help.html" class="footer-link">使用帮助</a>
+            </div>
+            <div class="copyright">
+                © 2026 校务问答机器人系统. 版权所有.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const requestedFileName = params.get('file') || '未指定文件';
+        const requestedCategory = params.get('category') || '未指定';
+
+        const fileConfigs = {
+            '奖学金申请表': {
+                format: 'PDF',
+                extension: 'pdf',
+                description: '用于校级奖学金、综合测评奖学金等项目申请填写，下载后按学院通知要求提交。',
+                scene: '奖学金评审、综合测评申请',
+                process: '下载填写后提交至学院奖助工作窗口',
+                notes: [
+                    '请根据学年评审通知填写个人基本信息、申请类别和获奖情况。',
+                    '如需附成绩单、获奖证书复印件，请按学院要求一并准备。',
+                    '提交前请确认辅导员审核、班级评议或学院盖章流程是否已完成。 '
+                ],
+                mimeType: 'application/pdf'
+            },
+            '助学金申请表': {
+                format: 'DOCX',
+                extension: 'docx',
+                description: '适用于国家助学金、临时困难补助等资助申请，需结合家庭经济情况说明一并提交。',
+                scene: '资助申请、困难补助办理',
+                process: '下载填写后提交至学生资助管理部门',
+                notes: [
+                    '请如实填写家庭成员、收入情况和申请事由。',
+                    '如学院要求提供困难证明，请同步准备扫描件或纸质件。',
+                    '资助类申请通常有时间节点，请在通知截止前完成提交。'
+                ],
+                mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            },
+            '请假条模板': {
+                format: 'DOCX',
+                extension: 'docx',
+                description: '用于课程请假、考试请假等事项说明，填写完成后需交由任课教师或辅导员审批。',
+                scene: '课程请假、考试请假办理',
+                process: '下载填写后提交至任课教师或辅导员审批',
+                notes: [
+                    '请注明请假时间、课程名称、请假原因和紧急联系方式。',
+                    '考试请假需按教务部门规定补充相关证明材料。',
+                    '如属病假，请附医院就诊记录或诊断证明。'
+                ],
+                mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            },
+            '宿舍调换申请表': {
+                format: 'PDF',
+                extension: 'pdf',
+                description: '用于宿舍调换、床位调整等住宿事务申请，需按宿管部门要求填写并审核。',
+                scene: '宿舍调换、住宿调整',
+                process: '下载填写后提交至宿舍管理部门',
+                notes: [
+                    '请完整填写原宿舍、目标宿舍及调换原因。',
+                    '如涉及多人互换，请确认相关同学信息填写无误。',
+                    '调宿结果以宿舍管理部门最终审批为准。'
+                ],
+                mimeType: 'application/pdf'
+            },
+            '校园卡挂失表': {
+                format: 'PDF',
+                extension: 'pdf',
+                description: '用于校园卡挂失和补办前的信息登记，适用于卡片遗失、损坏等场景。',
+                scene: '校园卡挂失、补卡登记',
+                process: '下载填写后提交至校园卡服务中心',
+                notes: [
+                    '挂失前建议先确认是否可通过线上平台自助冻结账户。',
+                    '补卡时可能需要本人证件，请按窗口要求携带。',
+                    '如卡内余额异常，请同步向服务中心登记处理。'
+                ],
+                mimeType: 'application/pdf'
+            },
+            '在读证明模板': {
+                format: 'DOCX',
+                extension: 'docx',
+                description: '适用于学生在读状态说明、单位材料提交等场景，可按用途补充个性化说明。',
+                scene: '在读证明开具、单位材料提交',
+                process: '下载填写后提交至学院或教务窗口盖章',
+                notes: [
+                    '请填写姓名、学号、专业、年级及证明用途。',
+                    '如接收单位有固定格式要求，请提前确认是否允许使用校内模板。',
+                    '盖章前请核实信息与学籍系统保持一致。'
+                ],
+                mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            },
+            '贫困证明申请模板': {
+                format: 'DOCX',
+                extension: 'docx',
+                description: '用于家庭经济困难认定和补充证明材料填写，可配合资助类申请共同使用。',
+                scene: '困难认定、补充证明提交',
+                process: '下载填写后提交至学院资助工作老师',
+                notes: [
+                    '请按要求填写家庭住址、收入来源及困难情况说明。',
+                    '如需村委会、街道或社区出具证明，请提前确认盖章要求。',
+                    '建议与奖助学申请材料一并整理，避免重复提交。'
+                ],
+                mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            },
+            '复学申请表': {
+                format: 'PDF',
+                extension: 'pdf',
+                description: '适用于休学期满后申请复学办理，通常需配合学院审核和学籍恢复流程使用。',
+                scene: '复学申请、学籍恢复办理',
+                process: '下载填写后提交至学院教务与学籍管理部门',
+                notes: [
+                    '请填写原休学原因、休学起止时间和复学申请时间。',
+                    '如因病休学，通常需补充医院或康复相关证明。',
+                    '复学前请确认培养方案、课程补修和住宿安排是否需同步办理。'
+                ],
+                mimeType: 'application/pdf'
+            }
+        };
+
+        function buildFileContent(config) {
+            const lines = [
+                `${requestedFileName}`,
+                '',
+                `所属分类：${requestedCategory}`,
+                `文件格式：${config.format}`,
+                `适用场景：${config.scene}`,
+                '',
+                '办理说明：',
+                ...config.notes.map((note, index) => `${index + 1}. ${note}`),
+                '',
+                '请以学校最新通知和实际办理要求为准。'
+            ];
+
+            return lines.join('\n');
+        }
+
+        function buildDataUrl(config) {
+            const content = buildFileContent(config);
+            return `data:${config.mimeType};charset=utf-8,${encodeURIComponent(content)}`;
+        }
+
+        const currentConfig = fileConfigs[requestedFileName] || {
+            format: 'DOCX',
+            extension: 'docx',
+            description: '该模板用于学生日常事务办理，请下载后按照页面说明填写并提交。',
+            scene: '学生事务办理',
+            process: '下载填写后提交至对应业务部门',
+            notes: [
+                '请先确认所选模板与实际办理事项一致。',
+                '填写前建议阅读学院或部门通知中的提交要求。',
+                '如需签章或附件，请在提交前一并准备完整。'
+            ],
+            mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        };
+
+        document.getElementById('file-name').textContent = requestedFileName;
+        document.getElementById('file-category').textContent = requestedCategory;
+        document.getElementById('file-format').textContent = currentConfig.format;
+        document.getElementById('file-scene').textContent = currentConfig.scene;
+        document.getElementById('file-process').textContent = currentConfig.process;
+        document.getElementById('file-description').textContent = currentConfig.description;
+        document.getElementById('file-format-badge').textContent = `${currentConfig.format} 模板`;
+
+        const notesContainer = document.getElementById('file-notes');
+        notesContainer.innerHTML = currentConfig.notes
+            .map(note => `<li>${note}</li>`)
+            .join('');
+
+        const fileUrl = buildDataUrl(currentConfig);
+        const safeName = requestedFileName.replace(/[\\/:*?"<>|]/g, '-');
+        const downloadBtn = document.getElementById('download-btn');
+        const previewBtn = document.getElementById('preview-btn');
+
+        downloadBtn.href = fileUrl;
+        downloadBtn.download = `${safeName}.${currentConfig.extension}`;
+        previewBtn.href = fileUrl;
+    </script>
+</body>
+</html>

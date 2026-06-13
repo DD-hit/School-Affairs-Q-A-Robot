@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>校园黄页 - 校务问答机器人系统</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <style>
+        .yellow-page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .yellow-page-header {
+            background: linear-gradient(135deg, #1677ff 0%, #69b1ff 100%);
+            border-radius: 12px;
+            padding: 40px;
+            color: #fff;
+            margin-bottom: 24px;
+        }
+
+        .yellow-page-title {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .yellow-page-subtitle {
+            max-width: 720px;
+            font-size: 16px;
+            line-height: 1.8;
+            opacity: 0.95;
+        }
+
+        .yellow-page-toolbar {
+            background: #fff;
+            border: 1px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .toolbar-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .toolbar-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #262626;
+            margin-bottom: 6px;
+        }
+
+        .toolbar-subtitle {
+            font-size: 13px;
+            color: #8c8c8c;
+        }
+
+        .toolbar-count {
+            font-size: 14px;
+            color: #595959;
+            white-space: nowrap;
+            padding-top: 4px;
+        }
+
+        .toolbar-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .category-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .category-filter {
+            padding: 8px 16px;
+            border-radius: 999px;
+            border: 1px solid #d9d9d9;
+            background: #fff;
+            color: #595959;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            line-height: 1;
+        }
+
+        .category-filter:hover {
+            color: #1677ff;
+            border-color: #1677ff;
+            background: rgba(22, 119, 255, 0.05);
+        }
+
+        .category-filter.active {
+            background: #1677ff;
+            border-color: #1677ff;
+            color: #fff;
+            box-shadow: 0 6px 18px rgba(22, 119, 255, 0.2);
+        }
+
+        .search-box {
+            width: 320px;
+            max-width: 100%;
+        }
+
+        .search-input {
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        .department-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .department-card {
+            background: #fff;
+            border: 1px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            min-height: 232px;
+            transition: all 0.2s ease;
+        }
+
+        .department-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+        }
+
+        .department-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .department-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #262626;
+            line-height: 1.4;
+        }
+
+        .department-badge {
+            flex-shrink: 0;
+        }
+
+        .department-info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .department-info-item {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            font-size: 14px;
+            color: #595959;
+            line-height: 1.6;
+        }
+
+        .department-info-label {
+            width: 70px;
+            flex-shrink: 0;
+            color: #8c8c8c;
+        }
+
+        .department-desc {
+            margin-top: auto;
+            padding-top: 14px;
+            border-top: 1px solid #f5f5f5;
+            color: #595959;
+            font-size: 14px;
+            line-height: 1.7;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 74px;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 56px 20px;
+            background: #fff;
+            border: 1px dashed #d9d9d9;
+            border-radius: 12px;
+        }
+
+        .empty-state-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #262626;
+            margin-bottom: 8px;
+        }
+
+        .empty-state-desc {
+            color: #8c8c8c;
+            font-size: 14px;
+        }
+
+        @media (max-width: 992px) {
+            .department-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .yellow-page-header {
+                padding: 28px 20px;
+            }
+
+            .yellow-page-title {
+                font-size: 26px;
+            }
+
+            .toolbar-bottom {
+                align-items: stretch;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .department-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">校</div>
+                <span>校务问答机器人系统</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">首页</a>
+                <a href="personal.html" class="nav-link">个人中心</a>
+                <a href="../admin/admin.html" class="nav-link">管理员后台</a>
+                <a href="forum.html" class="nav-link">校务论坛</a>
+                <a href="yellow-pages.html" class="nav-link active">校园黄页</a>
+                <a href="help.html" class="nav-link">使用帮助</a>
+            </div>
+
+            <div class="user-info">
+                <span>张三（学号：2023666）</span>
+                <div class="avatar">张</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="yellow-page-container">
+                <div class="yellow-page-header">
+                    <h1 class="yellow-page-title">校园黄页</h1>
+                    <p class="yellow-page-subtitle">集中展示校内各部门联系方式、办公地点与职责说明，支持按部门类别筛选，并可通过名称或职责关键词快速搜索。</p>
+                </div>
+
+                <div class="yellow-page-toolbar">
+                    <div class="toolbar-top">
+                        <div>
+                            <div class="toolbar-title">部门通讯录</div>
+                            <div class="toolbar-subtitle">当前仅展示启用中的校内部门信息</div>
+                        </div>
+                        <div class="toolbar-count" id="resultCount">共 0 个部门</div>
+                    </div>
+
+                    <div class="toolbar-bottom">
+                        <div class="category-filters" id="categoryFilters"></div>
+                        <div class="search-box">
+                            <input type="text" id="departmentSearch" class="form-control search-input" placeholder="搜索部门名称或职责关键词">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="department-grid" id="departmentGrid"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html" class="footer-link">首页</a>
+                <a href="forum.html" class="footer-link">校务论坛</a>
+                <a href="yellow-pages.html" class="footer-link">校园黄页</a>
+                <a href="help.html" class="footer-link">使用帮助</a>
+                <a href="#" class="footer-link">关于我们</a>
+            </div>
+            <div class="copyright">
+                © 2026 校务问答机器人系统 版权所有
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/yellow-pages-data.js"></script>
+    <script>
+        (function initYellowPageUserInfo() {
+            const role = localStorage.getItem('userRole');
+            const username = (localStorage.getItem('username') || '张三').trim() || '张三';
+            const userInfo = document.querySelector('.user-info');
+            const adminLink = document.querySelector('.nav-links a[href="../admin/admin.html"]');
+
+            if (adminLink && role !== 'admin') {
+                adminLink.style.display = 'none';
+            }
+
+            if (!userInfo) {
+                return;
+            }
+
+            if (role === 'guest') {
+                userInfo.innerHTML = '<span>欢迎，游客</span><a href="../login.html" class="btn btn-text">登录</a>';
+                return;
+            }
+
+            if (role === 'admin') {
+                userInfo.innerHTML = `<span>管理员：${username}</span><button class="btn btn-text" onclick="yellowPageLogout()">退出登录</button>`;
+                return;
+            }
+
+            userInfo.innerHTML = `<span>${username}（学号：2023666）</span><div class="avatar">${username.charAt(0)}</div>`;
+        })();
+
+        function yellowPageLogout() {
+            localStorage.removeItem('userRole');
+            localStorage.removeItem('username');
+            window.location.href = '../login.html';
+        }
+    </script>
+    <script src="../assets/user-yellow-pages.js"></script>
+</body>
+</html>
